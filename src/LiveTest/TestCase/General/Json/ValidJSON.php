@@ -1,10 +1,14 @@
 <?php
-namespace LiveTest\TestCase\General\JavaScript;
+namespace LiveTest\TestCase\General\Json;
+
 use LiveTest\TestCase\Exception;
 use Base\Http\Request\Request;
 use Base\Http\Response\Response;
 use LiveTest\TestCase\TestCase;
 
+/**
+ * @author Nicolas Lang
+ */
 class ValidJSON implements TestCase
 {  
     private $json_errors = array(
@@ -23,6 +27,5 @@ class ValidJSON implements TestCase
         if ($result === null) {
             throw new Exception("The given JSON Data is not well formed (last error: " . $this->json_errors[json_last_error()] . ").");
         }
-        
     }
 }
