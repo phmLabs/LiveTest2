@@ -107,7 +107,7 @@ class Properties
             $this->uriCount ++;
           }
 
-          $test = new Test($testCaseConfigName, $testCaseConfig->getClassName(), $testCaseConfig->getParameters());
+          $test = new Test($testCaseConfigName, $testCaseConfig->getClassName(), $testCaseConfig->getParameters(), $testCaseConfig->isFailOnError());
           $this->testSets[$sessionName][$aPageRequest->getIdentifier()]->addTest($test);
         }
       }

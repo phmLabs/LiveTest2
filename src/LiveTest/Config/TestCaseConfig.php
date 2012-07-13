@@ -1,43 +1,52 @@
 <?php
-
 namespace LiveTest\Config;
+
+use Base\Debug\DebugHelper;
 
 class TestCaseConfig
 {
-  private $className;
 
-  private $parameters;
+    private $className;
 
-  private $sessionNames = array ();
+    private $parameters;
 
-  public function __construct($className, array $parameters)
-  {
-    $this->className = $className;
-    $this->parameters = $parameters;
-  }
+    private $failOnError;
 
-  public function getClassName()
-  {
-    return $this->className;
-  }
+    private $sessionNames = array();
 
-  public function getParameters()
-  {
-    return $this->parameters;
-  }
+    public function __construct ($className, array $parameters, $failOnError = false)
+    {
+        $this->className = $className;
+        $this->parameters = $parameters;
+        $this->failOnError = $failOnError;
+    }
 
-  public function addSession($session)
-  {
-    $this->sessionNames[] = $session;
-  }
+    public function getClassName ()
+    {
+        return $this->className;
+    }
 
-  public function getSessionNames()
-  {
-    return $this->sessionNames;
-  }
+    public function getParameters ()
+    {
+        return $this->parameters;
+    }
 
-  public function isDefaultSessionUsed()
-  {
+    public function addSession ($session)
+    {
+        $this->sessionNames[] = $session;
+    }
 
-  }
+    public function getSessionNames ()
+    {
+        return $this->sessionNames;
+    }
+
+    public function isDefaultSessionUsed ()
+    {
+    }
+
+    public function isFailOnError()
+    {
+        return $this->failOnError;
+    }
 }

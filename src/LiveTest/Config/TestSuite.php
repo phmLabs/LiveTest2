@@ -223,9 +223,9 @@ class TestSuite implements Config
    * @param string $className
    * @param array $parameters
    */
-  public function createTestCase($name, $className, array $parameters)
+  public function createTestCase($name, $className, array $parameters, $failOnError = false)
   {
-    $testCaseConfig = new TestCaseConfig($className, $parameters);
+    $testCaseConfig = new TestCaseConfig($className, $parameters, $failOnError);
     $this->testCases[$name] = $testCaseConfig;
   }
 

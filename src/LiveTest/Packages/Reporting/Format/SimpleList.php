@@ -1,91 +1,87 @@
 <?php
 
 /*
- * This file is part of the LiveTest package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * This file is part of the LiveTest package. For the full copyright and license
+ * information, please view the LICENSE file that was distributed with this
+ * source code.
  */
-
 namespace LiveTest\Packages\Reporting\Format;
-
 use LiveTest\Config\TestSuite;
-
 use Base\Http\ConnectionStatus;
-
 use LiveTest\TestRun\Information;
-
 use LiveTest\TestRun\Result\ResultSet;
 use LiveTest\TestRun\Result\Result;
 
 /**
- * This format converts the results into a simple text list. It is used to print the
+ * This format converts the results into a simple text list.
+ * It is used to print the
  * when running on command line.
  *
  * @author Nils Langner
  */
 class SimpleList implements Format
 {
-  /**
-   * Formats the results into a simple list.
-   *
-   * @param ResultSet $set
-   * @param array $connectionStatuses
-   * @param Information $information
-   *
-   * @return string
-   */
-  public function formatSet(ResultSet $set, array $connectionStatuses, Information $information)
-  {
-    $text = '';
-    
-    // @todo create two new functions formatConnectionStatuses & formatResults
-    if (count($connectionStatuses) > 0)
+
+    /**
+     * Formats the results into a simple list.
+     *
+     * @param ResultSet $set
+     * @param array $connectionStatuses
+     * @param Information $information
+     *
+     * @return string
+     */
+    public function formatSet (ResultSet $set, array $connectionStatuses, Information $information)
     {
-      $text .= "     Connection Statuses:\n\n";
-      
-      foreach ($connectionStatuses as $connectionStatus)
-      {
-        if ($connectionStatus->getType() == ConnectionStatus::ERROR)
-        {
-          $text .= "       Url     : " . $connectionStatus->getRequest()->getUri() . "\n";
-          $text .= "       Message : " . $connectionStatus->getMessage() . "\n\n";
+        $text = '';
+
+        // @todo create two new functions formatConnectionStatuses &
+        // formatResults
+        if (count($connectionStatuses) > 0) {
+            $text .= "     Connection Statuses:\n\n";
+
+            foreach ($connectionStatuses as $connectionStatus) {
+                if ($connectionStatus->getType() == ConnectionStatus::ERROR) {
+                    $text .= "       Url     : " . $connectionStatus->getRequest()->getUri() . "\n";
+                    $text .= "       Message : " . $connectionStatus->getMessage() . "\n\n";
+                }
+            }
         }
-      }
+
+        if (count($set) > 0) {
+            $text .= "     Result Statuses:\n\n";
+
+            foreach ($set as $result) {
+                $test = $result->getTest();
+                /* @var $test Test */
+                $text .= '     Url         :  ' . $result->getRequest()->getUri() . "\n";
+                $text .= '     Test        :  ' . $test->getName() . "\n";
+                $text .= '     Test Class  :  ' . $test->getClassName() . "\n";
+                if ($result->getSessionName() != TestSuite::DEFAULT_SESSION) {
+                    $text .= '     Session     :  ' . $result->getSessionName() . "\n";
+                }
+                switch ($result->getStatus()) {
+                    case Result::STATUS_SUCCESS:
+                        $text .= '     Status     :  Success' . "\n";
+                        break;
+                    case Result::STATUS_FAILED:
+                        $text .= '     Status      :  Failed' . "\n";
+                        $text .= '     Message     :  ' . $result->getMessage() . "\n";
+                        if ($result->isFailOnError()) {
+                            $failOnError = "true";
+                        } else {
+                            $failOnError = "false";
+                        }
+                        $text .= '     FailOnError :  ' . $failOnError . "\n";
+                        break;
+                    case Result::STATUS_ERROR:
+                        $text .= '     Status      :  Error' . "\n";
+                        $text .= '     Message     :  ' . $result->getMessage() . "\n";
+                        break;
+                }
+                $text .= "\n";
+            }
+        }
+        return $text;
     }
-    
-    if (count($set) > 0)
-    {
-      $text .= "     Result Statuses:\n\n";
-      
-      foreach ($set as $result)
-      {
-        $test = $result->getTest();
-        /* @var $test Test*/
-        $text .= '     Url        :  ' . $result->getRequest()->getUri() . "\n";
-        $text .= '     Test       :  ' . $test->getName() . "\n";
-        $text .= '     Test Class :  ' . $test->getClassName() . "\n";
-        if ($result->getSessionName() != TestSuite::DEFAULT_SESSION)
-        {
-          $text .= '     Session    :  ' . $result->getSessionName() . "\n";
-        }
-        switch ($result->getStatus())
-        {
-          case Result::STATUS_SUCCESS:
-            $text .= '     Status     :  Success' . "\n";
-            break;
-          case Result::STATUS_FAILED:
-            $text .= '     Status     :  Failed' . "\n";
-            $text .= '     Message    :  ' . $result->getMessage() . "\n";
-            break;
-          case Result::STATUS_ERROR:
-            $text .= '     Status     :  Error' . "\n";
-            $text .= '     Message    :  ' . $result->getMessage() . "\n";
-            break;
-        }
-        $text .= "\n";
-      }
-    }
-    return $text;
-  }
 }

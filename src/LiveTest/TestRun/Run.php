@@ -104,9 +104,13 @@ class Run
         $runStatus = Result::STATUS_ERROR;
         $runMessage = $e->getMessage();
       }
-      $result = new Result($test, $runStatus, $runMessage, $testSet->getRequest(), $response, $sessionName);
+      $result = new Result($test, $runStatus, $runMessage, $testSet->getRequest(), $response, $sessionName, $test->isFailOnError());
       // @todo response is part of the result so it should not be handled separatly
       $this->eventDispatcher->simpleNotify('LiveTest.Run.HandleResult', array('result' => $result, 'response' => $response));
+
+      if( $test->isFailOnError()) {
+        return;
+      }
     }
   }
 
