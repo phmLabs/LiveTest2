@@ -1,3 +1,3 @@
 <?php
 
-define('LIVETEST_VERSION', '1.1.0.alpha');
+define('LIVETEST_VERSION', '2.0.0 Pre-Alpha');
