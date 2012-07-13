@@ -1,0 +1,20 @@
+DefaultDomain: http://www.phphatesme.com
+ 
+MemoryLimit: 512M
+
+Listener:
+
+ HtmlLogger:
+  class: LiveTest\Packages\Reporting\Listeners\HtmlDocumentLog
+  parameter:
+   logPath: /tmp/logs
+
+ Report_Html_File:
+  class: LiveTest\Packages\Reporting\Listeners\Report
+  parameter:
+   format:
+    class: LiveTest\Packages\Reporting\Format\Html
+   writer:
+    class: LiveTest\Packages\Reporting\Writer\File
+    parameter:
+     filename: logs/example.html

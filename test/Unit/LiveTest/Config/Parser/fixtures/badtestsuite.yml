@@ -1,0 +1,14 @@
+TestSuite:
+
+ TestCases:
+
+  CorrectHttpHeader_add:
+   TestCase: LiveTest\TestCase\General\Http\SuccessfulStatusCode
+ 
+ Sessions:
+  default:
+   Pages:
+    - http://www.example.com
+   
+ UnknownTag:
+  - pagelist.yml

@@ -1,0 +1,26 @@
+TestSuite:
+
+ TestCases:
+ 
+  UseResponseObject: 
+   TestCase: Unit\LiveTest\TestCases\Mockups\Html\ResponseObjectTest
+   UseSessions:
+    - default
+ 
+  TextPresentHtml_standard: 
+   TestCase: LiveTest\TestCase\General\Html\TextPresent
+   UseSessions:
+    - default
+   Parameter: 
+    Text: Stern
+    
+  CorrectHttpHeader_standard: 
+   TestCase: LiveTest\TestCase\General\Http\SuccessfulStatusCode
+   UseSessions:
+    - default
+   
+
+Sessions:
+ default:    
+  Pages:
+   - /

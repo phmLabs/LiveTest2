@@ -1,0 +1,36 @@
+TestSuite:
+
+ TestCases:
+
+  CorrectHttpHeader_add:
+   TestCase: LiveTest\TestCase\General\Http\SuccessfulStatusCode
+   UseSessions:
+    - default
+
+  CorrectHttpHeader_standard:
+   TestCase: LiveTest\TestCase\General\Http\SuccessfulStatusCode
+   UseSessions:
+    - default
+
+  TextPresent_pageFiles:
+   TestCase: LiveTest\TestCase\General\Html\TextPresent
+   UseSessions:
+    - default
+   Parameter:
+    text: "unpresent_text"
+
+  TextPresent_exclude:
+   TestCase: LiveTest\TestCase\General\Html\TextPresent
+   UseSessions:
+    - default
+   Parameter:
+    text: "unpresent_text"
+
+Sessions:
+ default:
+  Pages:
+   - http://www.stern.de
+   - http://www.phphatesme.com
+   
+  PageLists:
+   - pagelist.yml

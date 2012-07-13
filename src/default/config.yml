@@ -1,0 +1,44 @@
+DefaultDomain: http://www.example.com
+
+Listener:
+
+ CorePreconditions:
+  class: LiveTest\Packages\Core\Listeners\Preconditions
+
+ RunnerPreconditions:
+  class: LiveTest\Packages\Runner\Listeners\Preconditions
+
+ version:
+  class: LiveTest\Packages\Runner\Listeners\Version
+  
+ phmLabs_Statistics:
+  class: LiveTest\Packages\Website\Listener\Statistics
+  
+ Upgrade:
+  class: LiveTest\Packages\Upgrade\Listener\Upgrade
+
+ ProgressBar:
+  class: LiveTest\Packages\Runner\Listeners\ProgressBar
+  
+ Help:
+  class: LiveTest\Packages\Runner\Listeners\Help
+    
+ RunInfoHeader:
+  class: LiveTest\Packages\Runner\Listeners\InfoHeader
+
+ Verbose:
+  class: LiveTest\Packages\Debug\Listeners\Verbose
+
+ Report_Echo:
+  class: LiveTest\Packages\Reporting\Listeners\Report
+  parameter:
+   logStatuses:
+    - error
+    - failure
+   format:
+    class: LiveTest\Packages\Reporting\Format\SimpleList
+   writer:
+    class: LiveTest\Packages\Reporting\Writer\SimpleEcho
+     
+ StatusBar:
+  class: LiveTest\Packages\Runner\Listeners\StatusBar
