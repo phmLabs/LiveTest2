@@ -58,7 +58,7 @@ class JUnit implements Format
       {
         $xml_failure = $dom->createElement('failure');
         $xml_failure->setAttribute('type', $result->getStatus());
-        $xml_failure->setAttribute('message', $result->getMessage());
+        $xml_failure->setAttribute('message', $result->getMessage(). ' on '. $result->getRequest()->getUri());
         $xml_testcase->appendChild($xml_failure);
         $num_failed++;
       }

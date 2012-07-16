@@ -106,7 +106,6 @@ class Run
                     'response' => $response));
 
             if ($runStatus != Result::STATUS_SUCCESS && $test->isFailOnError()) {
-                \Base\Debug\DebugHelper::doVarDump('hier');
                 $this->eventDispatcher->simpleNotify('LiveTest.Run.FailOnError', array(
                         'test' => $test));
                 return;
