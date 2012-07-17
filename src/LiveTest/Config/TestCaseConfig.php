@@ -12,6 +12,8 @@ class TestCaseConfig
 
     private $failOnError;
 
+    private $sessionGroupNames = array();
+
     private $sessionNames = array();
 
     public function __construct ($className, array $parameters, $failOnError = false)
@@ -34,6 +36,16 @@ class TestCaseConfig
     public function addSession ($session)
     {
         $this->sessionNames[] = $session;
+    }
+
+    public function addSessionGroupName($sessionGroupName)
+    {
+        $this->sessionGroupNames[] = $sessionGroupName;
+    }
+
+    public function getSessionGroupNames()
+    {
+        return $this->sessionGroupNames;
     }
 
     public function getSessionNames ()

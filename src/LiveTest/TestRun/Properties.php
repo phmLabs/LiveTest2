@@ -196,6 +196,8 @@ class Properties
       throw new ConfigurationException('Error parsing testsuite configuration (' . $filename . '): ' . $e->getMessage(), null, $e);
     }
 
+    $testSuiteConfig->resolveSessionGroups();
+
     $eventDispatcher->simpleNotify('LiveTest.TestRun.Properties.PostTestSuiteInit', array ('config' => $testSuiteConfig));
 
     return new self($testSuiteConfig, $defaultUri);

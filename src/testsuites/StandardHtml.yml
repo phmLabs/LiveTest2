@@ -1,4 +1,0 @@
-TestCases: 
- 
- Standard_Html_Successful_StatusCode:
-  TestCase: LiveTest\TestCase\General\Http\SuccessfulStatusCode
