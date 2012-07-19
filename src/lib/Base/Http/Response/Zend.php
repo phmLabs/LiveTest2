@@ -2,6 +2,8 @@
 
 namespace Base\Http\Response;
 
+use Base\Http\Header\Header;
+
 use Zend\Http\Response as ZendResponse;
 
 /**
@@ -38,13 +40,8 @@ class Zend implements Response
     return $this->duration;
   }
 
-  public function getHeader($header)
+  public function getHeader()
   {
-  	return $this->zendResponse->getHeader($header);
-  }
-
-  public function getHeaders()
-  {
-		return $this->zendResponse->getHeaders();
+  	return new Header($this->zendResponse->getHeaders());
   }
 }

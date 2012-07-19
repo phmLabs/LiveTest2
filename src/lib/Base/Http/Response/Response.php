@@ -12,6 +12,8 @@ interface Response
    */
   public function getDuration();
 
-  public function getHeader($header);
-  public function getHeaders();
+  /**
+   * @returns \Base\Http\Header\Header
+   */
+  public function getHeader();
 }
