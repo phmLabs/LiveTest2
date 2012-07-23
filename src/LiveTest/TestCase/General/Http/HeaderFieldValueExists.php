@@ -16,20 +16,21 @@ use LiveTest\TestCase\TestCase;
 use LiveTest\TestCase\Exception;
 
 /**
- * This test case checks if the value of a specified http header field 
- * matches a given regular expression  
+ * This test case checks if the value of a specified http header field
+ * matches a given regular expression
  *
  * @author Timo Juers
  */
 class HeaderFieldValueExists implements TestCase
 {
   private $fieldName;
-  private $directives;
+  private $values;
 
   /**
    * Set the directes to look for
    *
-   * @param array $directives cache directives to look for
+   * @param string $fieldName the name of the header field to check values for
+   * @param string $values these values have to be set in the given field
    */
   public function init( $fieldName, $values )
   {
@@ -44,10 +45,10 @@ class HeaderFieldValueExists implements TestCase
    * @param Request  $request request we sent
    */
   public function test(Response $response, Request $request)
-  {    
+  {
     $headerAnalyser = new HeaderAnalyser($response);
     $missing = array();
-    
+
     foreach ($this->values as $value)
     {
       if(!$headerAnalyser->headerFieldValueExists($this->fieldName, $value))
@@ -55,12 +56,12 @@ class HeaderFieldValueExists implements TestCase
         $missing[] = $value;
       }
     }
-    
+
     if(!empty($missing))
     {
-        throw new Exception("Expected cach directives \"" . implode(', ', $missing) . "\" not found in response header field " . $this->fieldName);
+      throw new Exception("Expected cach directives \"" . implode(', ', $missing) . "\" not found in response header field " . $this->fieldName);
     }
-    
+
   }
 }
 

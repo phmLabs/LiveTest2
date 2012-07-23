@@ -17,7 +17,7 @@ use LiveTest\TestCase\Exception;
 
 /**
  * This test case checks the cache-control field for
- * the existence of given cache directives  
+ * the existence of given cache directives
  *
  * @author Timo Juers
  */
@@ -54,12 +54,12 @@ class HeaderFieldValueCacheControlExists implements TestCase
         $missing[] = $directive;
       }
     }
-    
+
     if(!empty($missing))
     {
-        throw new Exception("Expected cach directives \"" . implode(', ', $missing) . "\" not found in response header field " . self::FIELD_NAME);
+        throw new Exception("Expected cache directives \"" . implode(', ', $missing) . "\" not found in response header field " . self::FIELD_NAME);
     }
-    
+
   }
 }
 

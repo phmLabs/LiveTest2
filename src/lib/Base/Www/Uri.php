@@ -118,4 +118,14 @@ class Uri
     $urlregex = "/" . $urlregex . "/";
     return (bool)preg_match($urlregex, $uriString);
   }
+  
+  public function getDomain(  )
+  {
+    $pos = strpos( $this->uri, '/', 8 );
+    if ( $pos !== false )
+    {
+      return new self(substr( $this->uri, 0, $pos ));
+    }
+    return new self($this->uri);
+  }
 }
