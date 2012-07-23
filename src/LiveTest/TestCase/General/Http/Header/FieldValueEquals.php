@@ -24,7 +24,7 @@ class FieldValueEquals implements TestCase
 
     private $fieldName;
 
-    private $directives;
+    private $values;
 
     /**
      * Set the directes to look for
