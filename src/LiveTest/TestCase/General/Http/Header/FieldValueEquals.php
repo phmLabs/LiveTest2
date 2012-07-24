@@ -52,15 +52,13 @@ class FieldValueEquals implements TestCase
         $missing = array();
 
         foreach ($this->values as $value) {
-            if (! $header->hasField($this->fieldName) && !$header->getField($this->fieldName) == $value ) {
+            if (! $header->hasField($this->fieldName) && ! $header->getField($this->fieldName) == $value) {
                 $missing[] = $value;
             }
         }
 
         if (! empty($missing)) {
-            throw new Exception(
-                    "Expected header fields not set correct \"" . implode(', ', $missing) . ")");
+            throw new Exception("Expected header fields not set correct \"" . implode(', ', $missing) . ")");
         }
     }
 }
-
