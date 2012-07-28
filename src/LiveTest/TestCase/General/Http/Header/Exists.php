@@ -5,7 +5,7 @@
  * information, please view the LICENSE file that was distributed with this
  * source code.
  */
-namespace LiveTest\TestCase\General\Http;
+namespace LiveTest\TestCase\General\Http\Header;
 use Base\Http\Request\Request;
 use Base\Http\Response\Response;
 use LiveTest\TestCase\TestCase;
@@ -40,6 +40,7 @@ class Exists implements TestCase
     {
         $header = $response->getHeader();
 
+        
         if (! ($header->hasField($this->headerName))) {
             throw new Exception('The expected header "' . $this->headerName . '" was not found.');
         }

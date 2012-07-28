@@ -1,6 +1,8 @@
 <?php
 namespace Unit\LiveTest\TestRun\Mockups;
 
+use Base\Http\Header\Header;
+
 use Base\Http\Response\Response;
 
 class ResponseMockup implements Response
@@ -44,7 +46,8 @@ class ResponseMockup implements Response
   {
   }
 
-  public function getHeader($header)
+  public function getHeader()
   {
+      return new Header();
   }
 }
