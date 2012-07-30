@@ -24,16 +24,20 @@ class IncludesAvailable extends TestCase
 {
 
     private $urlsToIgnore;
+    private $urlsToIgnoreRegEx;
 
     /**
      * Set urls to ignore
      *
      * @param array $urlsToIgnore
      *            these url will be ignored
+     * @param array $urlsToIgnoreRegEx
+     *            urls matching these Regex-Patterns will be ignored
      */
-    public function init ($urlsToIgnore)
+    public function init ($urlsToIgnore = array(),$urlsToIgnoreRegEx = array())
     {
         $this->urlsToIgnore = is_array($urlsToIgnore) ? $urlsToIgnore : array();
+        $this->urlsToIgnoreRegEx = is_array($urlsToIgnoreRegEx) ? $urlsToIgnoreRegEx : array();
     }
 
     /**
@@ -59,6 +63,12 @@ class IncludesAvailable extends TestCase
 
             if (in_array($absoluteFile->toString(), $this->urlsToIgnore)) {
                 continue;
+            }
+            
+            foreach ($this->urlsToIgnoreRegEx as $pattern){
+                if (preg_match ( $pattern , $absoluteFile->toString())) {
+                    continue 2;
+                }
             }
 
             if (array_key_exists($absoluteFile->toString(), $requestedDependecies)) {
