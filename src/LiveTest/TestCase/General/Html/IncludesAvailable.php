@@ -88,7 +88,14 @@ class IncludesAvailable extends TestCase
             }
         }
         if ($failureCount > 0) {
-            throw new Exception("$failureCount uri availability check(s) failed. " . $failedUrls[0]);
+            $filesString = $failedUrls[0];
+            for ($i = 1; $i < min(5,count($failedUrls)); $i++) {
+                $filesString.= ', '.$failedUrls[$i];
+            }
+            if ( count($failedUrls) > 5 ) {
+              $filesString.= ', ...';
+            }
+            throw new Exception("$failureCount uri availability check(s) failed. " . $filesString);
         }
     }
 }
