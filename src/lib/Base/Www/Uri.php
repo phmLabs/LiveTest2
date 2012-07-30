@@ -46,7 +46,7 @@ class Uri
      */
     public function concatUri ($uriString)
     {
-        if (strpos($uriString, 'http://') === false) {
+        if ((strpos($uriString, 'http://') === false) && (strpos($uriString, 'https://') === false))  {
             if (strpos($uriString, '/') === 0) {
                 $url = $this->uri . substr($uriString, 1);
             } else {
