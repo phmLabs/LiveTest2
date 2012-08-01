@@ -55,7 +55,6 @@ class Parser
       }
       else
       {
-          var_dump( $configArray);
         throw new UnknownTagException('Unknown tag (' . $configTag . ')', $configTag);
       }
     }

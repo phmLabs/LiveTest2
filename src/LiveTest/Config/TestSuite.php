@@ -73,8 +73,9 @@ class TestSuite implements Config
         $this->parentConfig = $parentConfig;
     }
 
-    public function addSessionGroup ($sessionGroupName, array $sessionNames)
+    public function addSessionGroup ($sessionGroupName, $sessionNames)
     {
+        $sessionNames = is_array($sessionNames)? $sessionNames : array();
         $this->sessionsGroups[$sessionGroupName] = $sessionNames;
     }
 

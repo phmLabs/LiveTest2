@@ -8,7 +8,7 @@ class MockUp implements Response
 {
   private $body = '';
   private $duration = 0;
-  private $headers = array();
+  private $header;
   private $status = 200;
 
   public function setBody($body)
@@ -21,9 +21,9 @@ class MockUp implements Response
     $this->duration = $duration;
   }
 
-  public function setHeaders($headers)
+  public function setHeader($header)
   {
-    $this->headers = $headers;
+    $this->header = $header;
   }
 
   public function setStatus($status)
@@ -41,14 +41,9 @@ class MockUp implements Response
     return $this->duration;
   }
 
-  public function getHeader($header)
+  public function getHeader()
   {
-    return $this->headers[$header];
-  }
-
-  public function getHeaders()
-  {
-    return $this->headers;
+    return $this->header;
   }
 
   public function getStatus()
