@@ -54,7 +54,11 @@ class Html implements Format
   {
     if (!is_null($template))
     {
-      $this->template = $template;
+      if (file_exists ( __DIR__ . $template)) {
+        $this->template = __DIR__ . $template;
+      } else {
+        $this->template = $template;
+      }
     }
   }
 
