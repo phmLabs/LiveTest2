@@ -4,4 +4,4 @@ php:
   - 5.3
   - 5.4
 
-script: phpunit -c test/phpunit.xml	
+script: phpunit -c test/phpunit.xml
