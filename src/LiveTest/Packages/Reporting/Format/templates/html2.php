@@ -7,18 +7,18 @@
  * file that was distributed with this source code.
  */
   include_once 'html_functions.php';
-?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-       "http://www.w3.org/TR/html4/loose.dtd">
+?><!DOCTYPE html>
 <html>
 <head>
   <title>LiveTest | Html Report v2</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <style>
     <!--
       #compactToggleButton{display:table-cell;height:20px;width:150px;}
       #compactToggleButton,.colorLegend{text-align:center;}
       #copyright{padding:20px 0 0 10px;}
       #legend_table{padding-bottom:0;}
-      .legend{font-weight:700;padding-right:20px;text-align:right;}
+      .legend{font-weight:700;padding-right:20px;text-align:right;vertical-align:top;}
       .compact .test_label{padding:0 5px;}
       .result_failed,.result_error,.result_success,.url_column a{color:#fff;}
       .result_none,#compactToggleButton{background-color:#ccc;}
@@ -166,11 +166,13 @@
 <?php if( count( $connectionStatuses ) > 0 ): ?>
     <tr style="height: 10px"><td colspan="4"></td></tr>
     <tr>
-      <td class="legend" valign="top">Connection Errors</td>
+      <td class="legend">Connection Errors</td>
       <td colspan="3">
+        <ul>
 <?php foreach ($connectionStatuses as $status ):?>
-        <li><a href="<?php echo $status->getRequest()->getUri(); ?>"><?php echo $status->getRequest()->getUri(); ?></a></li>
+          <li><a href="<?php echo htmlspecialchars ( $status->getRequest()->getUri() ); ?>"><?php echo htmlentities( $status->getRequest()->getUri()); ?></a></li>
 <?php endforeach; ?>
+        </ul>
       </td>
     </tr>
 <?php endif; ?>
@@ -190,7 +192,7 @@
     <tbody>
 <?php foreach ($matrix as $url => $testInfo): $testList = $testInfo['tests']; ?>
       <tr>
-        <td class="url_column <?php echo getRowClass( $testInfo['status'] );?>"><a href="<?php echo $url ?>" target="_blank"><?php echo $url; ?></a></td>
+        <td class="url_column <?php echo getRowClass( $testInfo['status'] );?>"><a href="<?php echo htmlspecialchars ( $url ) ?>" target="_blank"><?php echo htmlentities($url); ?></a></td>
 <?php
 foreach ($tests as $test):
   if( array_key_exists($test->getName(), $testList) ) {
