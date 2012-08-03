@@ -32,12 +32,12 @@ class RegExMatch extends TestCase
    */
   public function init($regEx,$minOccur = null,$maxOccur = null)
   {
+    if (is_null($minOccur) && is_null($maxOccur)) {
+      throw new \LiveTest\ConfigurationException('neither minOccur nor maxOccur where set.');
+    }
     $this->regEx = $regEx;
     $this->minOccur = $minOccur;
     $this->maxOccur = $maxOccur;
-    if ($minOccur === null && $maxOccur===null) {
-      $this->minOccur = 1;
-    }
   }
   
   /**
@@ -54,9 +54,8 @@ class RegExMatch extends TestCase
     } else {
       $res = preg_match_all($this->regEx, $htmlCode, $matches);
     }
-    /*todo: create a 'blue' error*/
     if ($res === false) {
-      throw new Exception('The RegEx Match returned a Error.');
+      throw new \LiveTest\ConfigurationException('The RegEx Pattern created a Error.');
     }
     
     if ($this->minOccur !== null && $res < $this->minOccur)
