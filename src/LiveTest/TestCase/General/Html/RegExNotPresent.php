@@ -40,6 +40,7 @@ class RegExNotPresent extends TestCase
   {
     $htmlCode = $htmlDocument->getHtml();
 
+    // @todo use regExOccurance
     if (1 == preg_match($this->regEx, $htmlCode))
     {
       throw new Exception('The given RegEx "' . $this->regEx . '" was found.');

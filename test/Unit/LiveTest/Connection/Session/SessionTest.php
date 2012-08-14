@@ -1,17 +1,18 @@
 <?php
 namespace Test\Unit\LiveTest\Connection\Session;
-
 use LiveTest\Connection\Session\Session;
 use LiveTest\Connection\Request\Symfony as Request;
 // use LiveTest\Connection\Request\Request;
-
 class RequestMockUp implements \LiveTest\Connection\Request\Request
 {
+
     public function getUri ()
-    {}
+    {
+    }
 
     public function addParameter ($key, $value)
-    {}
+    {
+    }
 
     public function removeParameter ($key)
     {
@@ -19,13 +20,16 @@ class RequestMockUp implements \LiveTest\Connection\Request\Request
     }
 
     public function getMethod ()
-    {}
+    {
+    }
 
     public function getParameters ()
-    {}
+    {
+    }
 
     public function getIdentifier ()
-    {}
+    {
+    }
 }
 
 class SessionTest extends \PHPUnit_Framework_TestCase
@@ -38,15 +42,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $session->includePageRequest($request);
         $includedSessions = $session->getPageRequests();
         $this->assertEquals(array(
-                $request
-        ), $includedSessions);
+                $request), $includedSessions);
     }
 
     public function testIfIncludePageRequestsWorks ()
     {
         $requests = array(
-                new RequestMockUp()
-        );
+                new RequestMockUp());
         $session = new Session();
         $session->includePageRequests($requests);
         $includedSessions = $session->getPageRequests();
@@ -69,10 +71,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $cookiedSession = new Session(true);
         $this->assertTrue($cookiedSession->areCookiesAllowed());
-        
+
         $noCookiedSession = new Session(false);
         $this->assertFalse($noCookiedSession->areCookiesAllowed());
-        
+
         $sessionDefaultValue = new Session();
         $this->assertFalse($sessionDefaultValue->areCookiesAllowed());
     }

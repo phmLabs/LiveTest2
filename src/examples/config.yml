@@ -1,4 +1,4 @@
-DefaultDomain: http://www.phphatesme.com
+DefaultDomain: http://www.google.com
  
 MemoryLimit: 512M
 
@@ -14,6 +14,8 @@ Listener:
   parameter:
    format:
     class: LiveTest\Packages\Reporting\Format\Html
+    parameter:
+     template: html2.php
    writer:
     class: LiveTest\Packages\Reporting\Writer\File
     parameter:

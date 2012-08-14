@@ -9,6 +9,10 @@
 
 namespace LiveTest\Packages\Reporting\Format;
 
+use LiveTest\ConfigurationException;
+
+use Zend\Test\PHPUnit\Constraint\Exception\ConstraintException;
+
 use LiveTest\TestRun\Information;
 
 use LiveTest\TestRun\Result\ResultSet;
@@ -22,7 +26,8 @@ use LiveTest\TestRun\Result\Result;
 
 class Html implements Format
 {
-  private $standardTemplate = '/templates/html.php';
+  private $templateDir = "/templates/";
+  private $standardTemplate = 'html.php';
 
   /**
    * The html template used for rendering
@@ -42,7 +47,7 @@ class Html implements Format
   public function __construct()
   {
     $this->statuses = array (Result::STATUS_SUCCESS => 1, Result::STATUS_FAILED => 2, Result::STATUS_ERROR => 3 );
-    $this->template = __DIR__ . $this->standardTemplate;
+    $this->template = __DIR__ . $this->templateDir . $this->standardTemplate;
   }
 
   /**
@@ -54,7 +59,13 @@ class Html implements Format
   {
     if (!is_null($template))
     {
-      $this->template = $template;
+      if (file_exists ( __DIR__ . $this->templateDir .  $template)) {
+        $this->template = __DIR__ . $this->templateDir .  $template;
+      } else if (file_exists ( $template)) {
+        $this->template = $template;
+      } else {
+         throw new ConfigurationException('Template "'.$template.'" not found.');
+      }
     }
   }
 
@@ -87,7 +98,6 @@ class Html implements Format
       }
       $tests [$result->getTest()->getName()] = $result->getTest();
     }
-
     ob_start();
     require $this->template;
     $content = ob_get_contents();

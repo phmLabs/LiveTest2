@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+<?php
+
+/*
+ * This file is part of the LiveTest package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+  include_once 'html_functions.php';
+?><!DOCTYPE html>
 <html>
 <head>
   <title>LiveTest | Html Report v2</title>
@@ -133,19 +142,19 @@
     <tr style="height: 10px"><td colspan="4"></td></tr>
     <tr>
       <td class="legend">Run Information</td>
-      <td colspan="3">Date: 2012-08-14 15:36:08</td>
+      <td colspan="3">Date: <?php echo date( 'Y-m-d H:i:m'); ?></td>
     </tr>
     <tr>
       <td></td>
-      <td colspan="3">Default Domain: <b>http://www.google.com/</b></td>
+      <td colspan="3">Default Domain: <b><?php echo $information->getDefaultDomain(); ?></b></td>
     </tr>
     <tr>
       <td></td>
-      <td colspan="3">Duration: <b>0 second(s)</b></td>
+      <td colspan="3">Duration: <b><?php echo \Base\Date\Duration::format(floor($information->getDuration()/1000), '%d day(s) ', '%d hour(s), ', '%d minute(s) ', '%d second(s)'); ?></b></td>
     </tr>
     <tr>
       <td></td>
-      <td colspan="3">Number of Tests: <b>6</b></td>
+      <td colspan="3">Number of Tests: <b><?php echo $testCount; ?></b></td>
     </tr>
     <tr style="height: 10px"><td colspan="4"></td></tr>
     <tr>
@@ -154,30 +163,48 @@
       <td style="min-width:100px;" class="result_failed result_column colorLegend">Failure</td>
       <td style="min-width:100px;" class="result_error result_column colorLegend">Error</td>
     </tr>
+<?php if( count( $connectionStatuses ) > 0 ): ?>
+    <tr style="height: 10px"><td colspan="4"></td></tr>
+    <tr>
+      <td class="legend">Connection Errors</td>
+      <td colspan="3">
+        <ul>
+<?php foreach ($connectionStatuses as $status ):?>
+          <li><a href="<?php echo htmlspecialchars ( $status->getRequest()->getUri() ); ?>"><?php echo htmlentities( $status->getRequest()->getUri()); ?></a></li>
+<?php endforeach; ?>
+        </ul>
+      </td>
+    </tr>
+<?php endif; ?>
   </table>
   <table>
     <thead>
       <tr>
         <th></th>
+<?php foreach ( $tests as $test ): ?>
         <th class="test_label">
-          <span class="testLabelTitleVertical">TextPresent_body</span>
-          <span class="testLabelTitleExtended">TextPresent_body<br/>LiveTest\TestCase\General\Html\TextPresent</span>
+          <span class="testLabelTitleVertical"><?php echo $test->getName(); ?></span>
+          <span class="testLabelTitleExtended"><?php echo $test->getName(); ?><br/><?php echo $test->getClassName()?></span>
         </th>
+<?php endforeach;?>
       </tr>
     </thead>
     <tbody>
+<?php foreach ($matrix as $url => $testInfo): $testList = $testInfo['tests']; ?>
       <tr>
-        <td class="url_column url_failed"><a href="http://livetest.phmlabs.com/test/showRequest.php" target="_blank">http://livetest.phmlabs.com/test/showRequest.php</a></td>
-        <td class="result_column result_failed TextPresent_bodyClass">The given text &quot;cookie_number_1&quot; was not found.</td>
+        <td class="url_column <?php echo getRowClass( $testInfo['status'] );?>"><a href="<?php echo htmlspecialchars ( $url ) ?>" target="_blank"><?php echo htmlentities($url); ?></a></td>
+<?php
+foreach ($tests as $test):
+  if( array_key_exists($test->getName(), $testList) ) {
+    $content = getHtmlContent( $testList[$test->getName()] );
+  }else{
+    $content = array( 'css_class'=> 'result_none', 'message' => '');
+  }
+?>
+        <td class="result_column <?php echo $content['css_class'].' '.$test->getName().'Class'; ?>"><?php echo htmlentities($content['message']); ?></td>
+<?php endforeach; ?>
       </tr>
-      <tr>
-        <td class="url_column url_failed"><a href="http://livetest.phmlabs.com/test/setCookie.php" target="_blank">http://livetest.phmlabs.com/test/setCookie.php</a></td>
-        <td class="result_column result_failed TextPresent_bodyClass">The given text &quot;cookie_number_1&quot; was not found.</td>
-      </tr>
-      <tr>
-        <td class="url_column url_success"><a href="http://livetest.phmlabs.com/test/showRequest.php?test=test" target="_blank">http://livetest.phmlabs.com/test/showRequest.php?test=test</a></td>
-        <td class="result_column result_success TextPresent_bodyClass"></td>
-      </tr>
+<?php endforeach; ?>
     </tbody>
   </table>
 <br/>

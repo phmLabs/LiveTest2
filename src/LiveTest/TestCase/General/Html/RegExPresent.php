@@ -21,7 +21,7 @@ use LiveTest\TestCase\Exception;
 class RegExPresent extends TestCase
 {
   private $regEx;
-  
+
   /**
    * This function initializes the regular expression to check against.
 
@@ -31,15 +31,17 @@ class RegExPresent extends TestCase
   {
     $this->regEx = $regEx;
   }
-  
+
   /**
-   * This function checks if the regEx is found in the html document. 
-   * 
+   * This function checks if the regEx is found in the html document.
+   *
    * @see LiveTest\TestCase\General\Html.TestCase::runTest()
    */
   protected function runTest(Document $htmlDocument)
   {
+    // @todo use regExOccurance
     $htmlCode = $htmlDocument->getHtml();
+
     if (0 == preg_match($this->regEx, $htmlCode))
     {
       throw new Exception('The given RegEx "' . $this->regEx . '" was not found.');

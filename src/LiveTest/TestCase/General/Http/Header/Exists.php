@@ -40,7 +40,6 @@ class Exists implements TestCase
     {
         $header = $response->getHeader();
 
-        
         if (! ($header->hasField($this->headerName))) {
             throw new Exception('The expected header "' . $this->headerName . '" was not found.');
         }
