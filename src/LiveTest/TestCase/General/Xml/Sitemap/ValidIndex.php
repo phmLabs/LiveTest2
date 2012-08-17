@@ -9,7 +9,7 @@ use LiveTest\TestCase\TestCase;
 class ValidIndex implements TestCase
 {
 
-    const XSD_SCHEMA = 'Schema/sitemaIndex.xsd';
+    const XSD_SCHEMA = 'Schema/sitemapIndex.xsd';
 
     public function test (Response $response, Request $request)
     {
