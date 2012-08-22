@@ -105,12 +105,12 @@
       compact = !compact;
       if (compact == true)
       {
-        document.body.className = 'compact';
+        document.getElementById('wrapper').className =  'compact';
         document.getElementById('compactToggleButton').innerHTML = 'Compact View';
       }
       else
       {
-        document.body.className = 'standard';
+        document.getElementById('wrapper').className = 'standard';
         document.getElementById('compactToggleButton').innerHTML = 'Standard View';
       }
     }
@@ -128,86 +128,89 @@
         createHeadline('#' + text, text);
       });
       settings_compactToggle();
-      document.getElementById('compactToggleButton').addEventListener("click", settings_compactToggle, false);
+      //this crashes some versions of firefox if toggled manually. no clue why.
+      //document.getElementById('compactToggleButton').addEventListener("click", settings_compactToggle, false);
     });
   </script>
 </head>
-<body class="standard">
-  <table>
-    <tr>
-      <td class="legend">Display Settings:</td>
-      <td colspan="3">
-      <div id="compactToggleButton">Standard View</div>
-    </tr>
-    <tr style="height: 10px"><td colspan="4"></td></tr>
-    <tr>
-      <td class="legend">Run Information</td>
-      <td colspan="3">Date: <?php echo date( 'Y-m-d H:i:m'); ?></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td colspan="3">Default Domain: <b><?php echo $information->getDefaultDomain(); ?></b></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td colspan="3">Duration: <b><?php echo \Base\Date\Duration::format(floor($information->getDuration()/1000), '%d day(s) ', '%d hour(s), ', '%d minute(s) ', '%d second(s)'); ?></b></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td colspan="3">Number of Tests: <b><?php echo $testCount; ?></b></td>
-    </tr>
-    <tr style="height: 10px"><td colspan="4"></td></tr>
-    <tr>
-      <td class="legend">Legend</td>
-      <td style="min-width:100px;" class="result_success result_column colorLegend">Success</td>
-      <td style="min-width:100px;" class="result_failed result_column colorLegend">Failure</td>
-      <td style="min-width:100px;" class="result_error result_column colorLegend">Error</td>
-    </tr>
+<body >
+  <div id="wrapper" class="standard">
+    <table>
+      <tr>
+        <td class="legend">Display Style:</td>
+        <td colspan="3">
+        <div id="compactToggleButton">Standard View</div>
+      </tr>
+      <tr style="height: 10px"><td colspan="4"></td></tr>
+      <tr>
+        <td class="legend">Run Information</td>
+        <td colspan="3">Date: <?php echo date( 'Y-m-d H:i:m'); ?></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="3">Default Domain: <b><?php echo $information->getDefaultDomain(); ?></b></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="3">Duration: <b><?php echo \Base\Date\Duration::format(floor($information->getDuration()/1000), '%d day(s) ', '%d hour(s), ', '%d minute(s) ', '%d second(s)'); ?></b></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="3">Number of Tests: <b><?php echo $testCount; ?></b></td>
+      </tr>
+      <tr style="height: 10px"><td colspan="4"></td></tr>
+      <tr>
+        <td class="legend">Legend</td>
+        <td style="min-width:100px;" class="result_success result_column colorLegend">Success</td>
+        <td style="min-width:100px;" class="result_failed result_column colorLegend">Failure</td>
+        <td style="min-width:100px;" class="result_error result_column colorLegend">Error</td>
+      </tr>
 <?php if( count( $connectionStatuses ) > 0 ): ?>
-    <tr style="height: 10px"><td colspan="4"></td></tr>
-    <tr>
-      <td class="legend">Connection Errors</td>
-      <td colspan="3">
-        <ul>
+      <tr style="height: 10px"><td colspan="4"></td></tr>
+      <tr>
+        <td class="legend">Connection Errors</td>
+        <td colspan="3">
+          <ul>
 <?php foreach ($connectionStatuses as $status ):?>
-          <li><a href="<?php echo htmlspecialchars ( $status->getRequest()->getUri() ); ?>"><?php echo htmlentities( $status->getRequest()->getUri()); ?></a></li>
+            <li><a href="<?php echo htmlspecialchars ( $status->getRequest()->getUri() ); ?>"><?php echo htmlentities( $status->getRequest()->getUri()); ?></a></li>
 <?php endforeach; ?>
-        </ul>
-      </td>
-    </tr>
+          </ul>
+        </td>
+      </tr>
 <?php endif; ?>
-  </table>
-  <table>
-    <thead>
-      <tr>
-        <th></th>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
 <?php foreach ( $tests as $test ): ?>
-        <th class="test_label">
-          <span class="testLabelTitleVertical"><?php echo $test->getName(); ?></span>
-          <span class="testLabelTitleExtended"><?php echo $test->getName(); ?><br/><?php echo $test->getClassName()?></span>
-        </th>
+          <th class="test_label">
+            <span class="testLabelTitleVertical"><?php echo $test->getName(); ?></span>
+            <span class="testLabelTitleExtended"><?php echo $test->getName(); ?><br/><?php echo $test->getClassName()?></span>
+          </th>
 <?php endforeach;?>
-      </tr>
-    </thead>
-    <tbody>
+        </tr>
+      </thead>
+      <tbody>
 <?php foreach ($matrix as $url => $testInfo): $testList = $testInfo['tests']; ?>
-      <tr>
-        <td class="url_column <?php echo getRowClass( $testInfo['status'] );?>"><a href="<?php echo htmlspecialchars ( $url ) ?>" target="_blank"><?php echo htmlentities($url); ?></a></td>
+        <tr>
+          <td class="url_column <?php echo getRowClass( $testInfo['status'] );?>"><a href="<?php echo htmlspecialchars ( $url ) ?>" target="_blank"><?php echo htmlentities($url); ?></a></td>
 <?php
-foreach ($tests as $test):
-  if( array_key_exists($test->getName(), $testList) ) {
-    $content = getHtmlContent( $testList[$test->getName()] );
-  }else{
-    $content = array( 'css_class'=> 'result_none', 'message' => '');
-  }
+  foreach ($tests as $test):
+    if( array_key_exists($test->getName(), $testList) ) {
+      $content = getHtmlContent( $testList[$test->getName()] );
+    }else{
+      $content = array( 'css_class'=> 'result_none', 'message' => '');
+    }
 ?>
-        <td class="result_column <?php echo $content['css_class'].' '.$test->getName().'Class'; ?>"><?php echo htmlentities($content['message']); ?></td>
+          <td class="result_column <?php echo $content['css_class'].' '.$test->getName().'Class'; ?>"><?php echo htmlentities($content['message']); ?></td>
 <?php endforeach; ?>
-      </tr>
+        </tr>
 <?php endforeach; ?>
-    </tbody>
-  </table>
-<br/>
-<span id="copyright">Html Report by <b><a href="http://livetest.phmlabs.com">LiveTest</a></b></span>
+      </tbody>
+    </table>
+    <br/>
+    <span id="copyright">Html Report by <b><a href="http://livetest.phmlabs.com">LiveTest</a></b></span>
+  </div>
 </body>
 </html>
