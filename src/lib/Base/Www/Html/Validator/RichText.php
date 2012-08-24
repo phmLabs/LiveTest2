@@ -32,16 +32,28 @@ class RichText implements Validator
    *
    * @var string validator URI
    */
-  private $_validatorUri = 'http://www.google.com/webmasters/tools/richsnippets';
+  private $richTextValidatorUri = 'http://www.google.com/webmasters/tools/richsnippets';
+  /**
+   *
+   * @var string xpath to identify validation warnings
+   */
   private $resultWarningXpath = "/html/body//span[@class='warning']";
+  /**
+   *
+   * @var string xpath to identify validation errors
+   */
   private $resultErrorXpath = "/html/body//div[@id='richsnippets-errors']/ul[@class='warning']/li";
 
   /**
    *
    * @var Base\Http\Client\Client client used for validating
    */
-  private $_httpClient = null;
-  private $_ignoreWarnings;
+  private $httpClient = null;
+  /**
+   *
+   * @var bool switch to ignore validation warnings
+   */
+  private $ignoreValidationWarnings;
   /**
    * @var Symfony
    */
@@ -55,35 +67,33 @@ class RichText implements Validator
   public function __construct(Client $httpClient,$ignoreWarnings=false)
   {
     // prepare the injected http client
-    $this->_httpClient = $httpClient;
-    $this->_ignoreWarnings = $ignoreWarnings;
+    $this->httpClient = $httpClient;
+    $this->ignoreValidationWarnings = $ignoreWarnings;
   }
 
   /**
    *
-   * @see Base\Validator.Html::validateHtml()
-   *
    * @param string markup to validate
-   * @return bool Is valid markup?
+   * @return bool Is valid?
    */
   public function validate(Document $htmlDocument)
   {
     $rawDocument = $htmlDocument->getHtml();
     
     $postVars = array('htmlcontent' => $rawDocument);
-    $request = Symfony::create(new Uri($this->_validatorUri), \Base\Http\Request\Request::POST, $postVars );
+    $request = Symfony::create(new Uri($this->richTextValidatorUri), \Base\Http\Request\Request::POST, $postVars );
 
-    $response = $this->_httpClient->request($request);
+    $response = $this->httpClient->request($request);
 
-    return $this->_parseReponse($response->getBody());
+    return $this->parseValidationReponse($response->getBody());
   }
 
   /**
    *
    * @param string xml reponse from validator
-   * @return bool valid?
+   * @return (false|array) validation errors
    */
-  private function _parseReponse($soapReponse)
+  private function parseValidationReponse($soapReponse)
   {
     // parse reponse
     $doc = new \DOMDocument();
@@ -99,11 +109,11 @@ class RichText implements Validator
       throw new Exception('Can\'t query DOMDocument, xpath wrong ?');
     }
     
-    if ((0 === $warnings->length || $this->_ignoreWarnings )&& 0 === $errors->length)
+    if ((0 === $warnings->length || $this->ignoreValidationWarnings )&& 0 === $errors->length)
     {
       return false; // errors = false
     }
-    $result = array('Validation Failed, check '.$this->_validatorUri);
+    $result = array('Validation Failed, check '.$this->richTextValidatorUri);
     
     if (0 !== $warnings->length) {
       //@todo:  extract warnings

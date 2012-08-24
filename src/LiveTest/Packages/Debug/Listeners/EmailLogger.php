@@ -14,7 +14,8 @@ use Zend\Mail\Mail;
 
 class EmailLogger extends Base
 {
-  private $emailTemplate = 'templates/email_attachment.tpl';
+  private $template;
+  private $standardTemplate = 'templates/email_attachment.tpl';
   private $to;
   private $attachmentName = 'LiveTest Report';
   private $from;
@@ -26,11 +27,11 @@ class EmailLogger extends Base
     $this->subject = $subject;
     if (!is_null($emailTemplate))
     {
-      $this->emailTemplate = $emailTemplate;
+      $this->template = $emailTemplate;
     }
     else
     {
-      $this->emailTemplate = __DIR__ . '/' . $this->emailTemplate;
+      $this->template = __DIR__ . '/' . $this->standardTemplate;
     }
   }
 
@@ -41,7 +42,7 @@ class EmailLogger extends Base
    */
   public function handleConfigurationException (\Exception $exception, Event $event)
   {
-      write($exception->getMessage().'\n '.$exception->getTraceAsString());
+      $this->writeMail($exception->getMessage().'\n '.$exception->getTraceAsString());
   }
 
   /**
@@ -51,17 +52,17 @@ class EmailLogger extends Base
    */
   public function handleException (\Exception $exception, Event $event)
   {
-    write($exception->getMessage().'\n '.$exception->getTraceAsString());
+    $this->writeMail($exception->getMessage().'\n '.$exception->getTraceAsString());
   }
   
-  private function write($bodyText,$atText = null)
+  private function writeMail($bodyText,$atText = null)
   {
     $mail = new Mail();
 
     $mail->addTo($this->to);
     $mail->setFrom($this->from);
     $mail->setSubject($this->subject);
-    $mail->setBodyHtml(file_get_contents($this->emailTemplate).$bodyText);
+    $mail->setBodyHtml(file_get_contents($this->template).$bodyText);
     if ($at !== null) {
       $at = new Part($atText);
       $at->type = 'text/html';
@@ -75,3 +76,4 @@ class EmailLogger extends Base
   }
 
 }
+

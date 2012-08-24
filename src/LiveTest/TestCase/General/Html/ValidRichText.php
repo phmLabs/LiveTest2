@@ -28,7 +28,7 @@ class ValidRichText extends TestCase
    *
    * @var Base\Www\Html\Validator The used validator
    */
-  private $_validator = null;
+  private $richTextValidator = null;
 
   /**
    * Initialize the validation webservice
@@ -41,7 +41,7 @@ class ValidRichText extends TestCase
     $httpClient = new \Base\Http\Client\Zend();
 
     // create validator and inject http client
-    $this->_validator = new RichText($httpClient,$ignoreWarnings);
+    $this->richTextValidator = new RichText($httpClient,$ignoreWarnings);
   }
 
   /**
@@ -51,7 +51,7 @@ class ValidRichText extends TestCase
    */
   protected function runTest(Document $htmlDocument)
   {
-    $errors = $this->_validator->validate($htmlDocument);
+    $errors = $this->richTextValidator->validate($htmlDocument);
     if ( $errors !== false)
     {
       $resultString = $errors[0];
