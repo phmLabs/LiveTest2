@@ -41,7 +41,7 @@ class EmailLogger extends Base
    */
   public function handleConfigurationException (\Exception $exception, Event $event)
   {
-      write($exception);
+      write($exception->getMessage().'\n '.$exception->getTraceAsString());
   }
 
   /**
@@ -51,28 +51,27 @@ class EmailLogger extends Base
    */
   public function handleException (\Exception $exception, Event $event)
   {
-    write($exception);
+    write($exception->getMessage().'\n '.$exception->getTraceAsString());
   }
   
-  private function write($formatedText)
+  private function write($bodyText,$atText = null)
   {
     $mail = new Mail();
 
     $mail->addTo($this->to);
     $mail->setFrom($this->from);
     $mail->setSubject($this->subject);
-
-    $mail->setBodyHtml(file_get_contents($this->emailTemplate));
-
-    $at = new Part($formatedText);
-    $at->type = 'text/html';
-    $at->disposition = Mime::DISPOSITION_INLINE;
-    $at->encoding = Mime::ENCODING_BASE64;
-    $at->filename = $this->attachmentName;
-    $at->description = 'LiveTest Attachment';
-
-    $mail->addAttachment($at);
-
+    $mail->setBodyHtml(file_get_contents($this->emailTemplate).$bodyText);
+    if ($at !== null) {
+      $at = new Part($atText);
+      $at->type = 'text/html';
+      $at->disposition = Mime::DISPOSITION_INLINE;
+      $at->encoding = Mime::ENCODING_BASE64;
+      $at->filename = $this->attachmentName;
+      $at->description = 'LiveTest Attachment';
+      $mail->addAttachment($at);
+    }
     $mail->send();
   }
+
 }

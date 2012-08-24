@@ -1,3 +1,3 @@
-LiveTest Report
+LiveTest2 execution failed.
+Errors:
 
-Attachment
