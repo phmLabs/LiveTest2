@@ -65,38 +65,41 @@ class IncludesAvailable extends TestCase
      */
     public function runTest (Document $htmlDocument)
     {
-        static $requestedDependecies = array();
-        
-        $failedUrls = array();
-        
-        $files = $htmlDocument->getExternalDependencies();
-        
-        $requestUri = new Uri($this->getRequest()->getUri());
-        $domain = $requestUri->getDomain();
-        
-        foreach ($files as $file) {
-            $absoluteFile = $domain->concatUri($file);
-            
-            if (! $this->isIgnored($absoluteFile->toString())) {
-                if (array_key_exists($absoluteFile->toString(), $requestedDependecies)) {
-                    $status = $requestedDependecies[$absoluteFile->toString()];
-                } else {
-                    $request = Symfony::create($absoluteFile, Request::GET);
-                    
-                    $client = new Zend();
-                    $response = $client->request($request);
-                    $status = $response->getStatus();
-                    $requestedDependecies[$absoluteFile->toString()] = $response->getStatus();
-                }
-                
-                if ($status >= 400) {
-                    $failedUrls[] = $absoluteFile->toString();
-                }
+      static $requestedDependecies = array();
+
+      $failedUrls = array();
+      $files = $htmlDocument->getExternalDependencies();
+      $requestUri = new Uri($this->getRequest()->getUri());
+
+      foreach ($files as $file) {
+        try {
+
+          $absoluteFile = $requestUri->concatUri($file);
+
+          if (! $this->isIgnored($absoluteFile->toString())) {
+            if (array_key_exists($absoluteFile->toString(), $requestedDependecies)) {
+              $status = $requestedDependecies[$absoluteFile->toString()];
+            } else {
+              $request = Symfony::create($absoluteFile, Request::GET);
+
+              $client = new Zend();
+              $response = $client->request($request);
+              $status = $response->getStatus();
+              $requestedDependecies[$absoluteFile->toString()] = $response->getStatus();
             }
+
+            if ($status >= 400) {
+              $failedUrls[] = $absoluteFile->toString();
+            }
+          }
         }
-        if (count($failedUrls) > 0) {
-            $this->handleFailures($failedUrls);
+        catch(\Zend\Http\Client\Adapter\Exception\RuntimeException $ex) {
+          $failedUrls [] = $absoluteFile->toString ();
         }
+      }
+      if (count($failedUrls) > 0) {
+        $this->handleFailures($failedUrls);
+      }
     }
 
     /**
