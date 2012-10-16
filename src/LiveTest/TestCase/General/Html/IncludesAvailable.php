@@ -25,16 +25,19 @@ class IncludesAvailable extends TestCase
 
     private $urlsToIgnoreRegEx;
 
+    private $timeoutInSeconds;
+
     /**
      * Set urls to ignore
      *
      * @param array $urlsToIgnore these url will be ignored
      * @param array $urlsToIgnoreRegEx urls matching these Regex-Patterns will be ignored
      */
-    public function init ($urlsToIgnore = array(), $urlsToIgnoreRegEx = array())
+    public function init ($urlsToIgnore = array(), $urlsToIgnoreRegEx = array(), $timeoutInSeconds = 1)
     {
         $this->urlsToIgnore = is_array($urlsToIgnore) ? $urlsToIgnore : array();
         $this->urlsToIgnoreRegEx = is_array($urlsToIgnoreRegEx) ? $urlsToIgnoreRegEx : array();
+        $this->timeoutInSeconds = $timeoutInSeconds;
     }
 
     /**
@@ -83,6 +86,7 @@ class IncludesAvailable extends TestCase
               $request = Symfony::create($absoluteFile, Request::GET);
 
               $client = new Zend();
+              $client->setTimeout($this->timeoutInSeconds);
               $response = $client->request($request);
               $status = $response->getStatus();
               $requestedDependecies[$absoluteFile->toString()] = $response->getStatus();
