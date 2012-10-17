@@ -51,7 +51,9 @@ class JUnit implements Format
     {
       $xml_testcase = $dom->createElement('testcase');
 
-      $xml_testcase->setAttribute('name', $result->getTest()->getName() . ' on '. $result->getRequest()->getUri());
+      $xml_testcase->setAttribute('name', $result->getTest()->getName() . ' on '
+                                          . $result->getRequest()->getUri()
+                                          . '(Session '. $result->getSessionName() . ')');
       $xml_testcase->setAttribute('file', $result->getRequest()->getUri());
 
       if ($result->getStatus() == Result::STATUS_FAILED)
