@@ -26,8 +26,6 @@ class Zend extends ZendClient implements Client
       $this->setParameterPost($parameters);
     }
 
-    $this->setTimeout(1);
-
     $timer = new Timer();
     $response = parent::request($method);
     $duration = $timer->stop();
