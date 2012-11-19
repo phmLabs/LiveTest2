@@ -21,26 +21,30 @@ use Base\Http\Client\Client;
 class ClientConfiguration extends Base
 {
   private $timeout;
+  private $maxRedirects = 68; //strange curl default...
 
   /**
-   * This function sets the timeout of the http client.
+   * This function sets the timeout and optionally the max redirects count of the http client.
    *
    * @param int $timeout the http client time out in seconds
+   * @param int $maxRedirects follow this max redirects. defaults to CURLOPT_MAXREDIRS, use 0 for no redirects.
    */
-  public function init($timeout)
+  public function init($timeout, $maxRedirects = CURLOPT_MAXREDIRS)
   {
     $this->timeout = $timeout;
+    $this->maxRedirects = $maxRedirects;
   }
 
   /**
-   * This function sets the timeout for the http client.
+   * This function sets the timeout and redirect count for the http client.
    *
    * @Event("LiveTest.Runner.InitHttpClient")
    *
-   * @param ConnectionStatus $status
+   * @param Client $client the HTTP Client
    */
   public function initHttpClient(Client $client)
   {
     $client->setTimeout($this->timeout);
+    $client->setMaxRedirect($this->maxRedirects);
   }
 }

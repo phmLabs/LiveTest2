@@ -37,4 +37,9 @@ class Zend extends ZendClient implements Client
   {
     $this->setConfig(array ('timeout' => $timeInSeconds));
   }
+
+  public function setMaxRedirect($maxRedirects)
+  {
+    $this->setConfig(array('maxredirects' => $maxRedirects));
+  }
 }
