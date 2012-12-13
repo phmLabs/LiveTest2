@@ -9,8 +9,8 @@ use LiveTest\TestCase\TestCase;
 /**
  * @author Nicolas Lang
  */
-class Valid implements TestCase
-{  
+class WellFormed implements TestCase
+{
     private $json_errors = array(
         JSON_ERROR_NONE => 'No Error',
         JSON_ERROR_DEPTH => 'Maximum stack depth exceeded',
@@ -19,7 +19,7 @@ class Valid implements TestCase
         JSON_ERROR_SYNTAX => 'Syntax error, malformed JSON',
         JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded'
     );
-    
+
     public function test (Response $response, Request $request)
     {
         $result = json_decode ($response->getBody());
