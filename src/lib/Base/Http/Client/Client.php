@@ -15,4 +15,5 @@ interface Client
 {
   public function request(Request $request);
   public function setTimeout($timeInSeconds);
+  public function setMaxRedirect($maxRedirects);
 }

@@ -15,6 +15,7 @@ class HttpClientMockup implements Client
   private $uri;
   private $nextRequestFails = false;
   private $timeout;
+  private $maxRedirects;
   private $postParam = array();
   private $request;
 
@@ -86,4 +87,15 @@ class HttpClientMockup implements Client
   public function resetParameters( )
   {
   }
+
+  public function setMaxRedirect($maxRedirects)
+  {
+      $this->maxRedirects = $maxRedirects;
+  }
+
+  public function getMaxRedirect()
+  {
+      return $this->maxRedirects;
+  }
+
 }
