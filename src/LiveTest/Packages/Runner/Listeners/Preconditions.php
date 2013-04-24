@@ -3,7 +3,7 @@
 namespace LiveTest\Packages\Runner\Listeners;
 
 use LiveTest\ConfigurationException;
-
+use phmLabs\Components\Annovent\Event\Event;
 use LiveTest\Listener\Base;
 
 class Preconditions extends Base

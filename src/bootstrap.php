@@ -1,16 +1,12 @@
 <?php
 
-include_once __DIR__.'/lib/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+if (!$loader = @include __DIR__.'/../vendor/autoload.php') {
+    die('You must set up the project dependencies, run the following commands:'.PHP_EOL.
+        'curl -s http://getcomposer.org/installer | php'.PHP_EOL.
+        'php composer.phar install'.PHP_EOL);
+}
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
-$classLoader = new \Symfony\Component\ClassLoader\UniversalClassLoader();
+AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
-$classLoader->registerNamespace('Doctrine', __DIR__.DIRECTORY_SEPARATOR.'lib');
-$classLoader->registerNamespace('Symfony' , __DIR__.DIRECTORY_SEPARATOR.'lib');
-$classLoader->registerNamespace('Zend'    , __DIR__.DIRECTORY_SEPARATOR.'lib');
-$classLoader->registerNamespace('Base'    , __DIR__.DIRECTORY_SEPARATOR.'lib');
-$classLoader->registerNamespace('Annovent', __DIR__.DIRECTORY_SEPARATOR.'lib');
-$classLoader->registerNamespace('phmLabs' , __DIR__.DIRECTORY_SEPARATOR.'lib');
-
-$classLoader->registerNamespace('LiveTest', __DIR__);
-
-$classLoader->register();
+return $loader;

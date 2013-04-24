@@ -2,9 +2,7 @@
 
 namespace phmLabs\Components\Annovent\Annotation;
 
-use Doctrine\Common\Annotations\Annotation;
-
-class Event extends Annotation
+class Event
 {
   public $value;
 

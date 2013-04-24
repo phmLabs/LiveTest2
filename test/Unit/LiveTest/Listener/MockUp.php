@@ -4,6 +4,7 @@ namespace Unit\LiveTest\Listener;
 
 use LiveTest\Event\Dispatcher;
 use LiveTest\Listener\Listener;
+use phmLabs\Components\Annovent\Event\Event;
 
 class MockUp implements Listener
 {

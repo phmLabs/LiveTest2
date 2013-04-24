@@ -2,6 +2,9 @@
 
 namespace phmLabs\Components\Annovent\Event;
 
+/**
+ * @Annotation
+ */
 class Event implements EventInterface
 {
   protected $processed = false;
@@ -23,6 +26,13 @@ class Event implements EventInterface
       $this->set($key, $value);
     }
   }
+
+    public $value;
+
+    public function getNames()
+    {
+        return (array)$this->value;
+    }
 
   /**
    * Returns the event name.

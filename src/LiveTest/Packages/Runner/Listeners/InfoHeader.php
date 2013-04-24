@@ -11,6 +11,7 @@ namespace LiveTest\Packages\Runner\Listeners;
 
 use LiveTest\Listener\Base;
 use LiveTest\TestRun\Properties;
+use phmLabs\Components\Annovent\Event\Event;
 
 /**
  * This listener echoes the run information before the test start.

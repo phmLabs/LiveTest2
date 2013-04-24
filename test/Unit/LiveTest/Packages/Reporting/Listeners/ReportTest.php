@@ -109,7 +109,7 @@ class ReportTest extends \PHPUnit_Framework_TestCase
     $this->listener = new Report('', new Dispatcher());
 
     $writerConfig = array('class' => 'LiveTest\Packages\Reporting\Writer\File','parameter' => array('filename' => 'test.log'));
-    $formatConfig = array('class' => 'LiveTest\Packages\Reporting\Format\Html','parameter' => array('template' => 'test.tpl'));
+    $formatConfig = array('class' => 'LiveTest\Packages\Reporting\Format\Html','parameter' => array('template' => __DIR__.'/fixtures/test.tpl'));
 
     $this->listener->init($formatConfig, $writerConfig);
   }

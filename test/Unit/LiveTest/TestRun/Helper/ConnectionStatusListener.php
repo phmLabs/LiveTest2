@@ -8,6 +8,7 @@ use LiveTest\TestRun\Properties;
 use LiveTest\TestRun\Result\Result;
 use LiveTest\Event\Dispatcher;
 use LiveTest\Listener\Listener;
+use phmLabs\Components\Annovent\Event\Event;
 
 class ConnectionStatusListener implements Listener
 {

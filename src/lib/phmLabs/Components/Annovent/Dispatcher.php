@@ -2,8 +2,9 @@
 
 namespace phmLabs\Components\Annovent;
 
-use phmLabs\Components\NamedParameters\Functions;
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use phmLabs\Components\NamedParameters\Functions;
 
 use phmLabs\Components\Annovent\Event\EventInterface;
 
@@ -17,8 +18,8 @@ class Dispatcher implements DispatcherInterface
   public function __construct()
   {
     $this->annotationReader = new AnnotationReader();
-    $this->annotationReader->setDefaultAnnotationNamespace('phmLabs\Components\Annovent\Annotation\\');
-    $this->annotationReader->setAutoloadAnnotations(true);
+
+    AnnotationRegistry::registerAutoloadNamespace('phmLabs\\Components\\Annovent\\Event\\');
   }
   
   /**

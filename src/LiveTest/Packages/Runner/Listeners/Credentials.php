@@ -10,9 +10,9 @@
 namespace LiveTest\Packages\Runner\Listeners;
 
 use LiveTest\Event\Dispatcher;
-
 use LiveTest\Listener\Base;
 use LiveTest\TestRun\Properties;
+use phmLabs\Components\Annovent\Event\Event;
 
 /**
  * @author Nils Langner

@@ -6,6 +6,7 @@
  * source code.
  */
 namespace LiveTest\TestRun;
+
 use LiveTest\ConfigurationException;
 use LiveTest\Event\Dispatcher;
 use LiveTest\TestRun\Result\Result;

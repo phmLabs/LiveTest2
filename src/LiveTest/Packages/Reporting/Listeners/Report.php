@@ -17,6 +17,7 @@ use LiveTest\TestRun\Result\Result;
 
 use Base\Http\ConnectionStatus;
 use Base\Http\Response\Response;
+use phmLabs\Components\Annovent\Event\Event;
 
 /**
  * This listener is used to provide all kind of reporting mechanism. Creating a report

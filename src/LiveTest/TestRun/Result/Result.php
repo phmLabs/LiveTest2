@@ -55,7 +55,7 @@ class Result
 
     private $failOnError;
 
-    public function __construct (Test $test, $status, $message, Request $request, Response $response, $sessionName, $failOnError)
+    public function __construct (Test $test, $status, $message, Request $request, Response $response, $sessionName, $failOnError = false)
     {
         $this->test = $test;
         $this->status = $status;

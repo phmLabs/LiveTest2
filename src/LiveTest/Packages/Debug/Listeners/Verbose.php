@@ -15,6 +15,7 @@ use Base\Http\ConnectionStatus;
 use Base\Http\Response\Response;
 
 use LiveTest\TestRun\Result\Result;
+use phmLabs\Components\Annovent\Event\Event;
 
 /**
  * This listener echoes the connection status and the current url that is tested.

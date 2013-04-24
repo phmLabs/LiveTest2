@@ -6,6 +6,7 @@ use Base\Http\Response\Response;
 use LiveTest\TestRun\Result\Result;
 use LiveTest\Event\Dispatcher;
 use LiveTest\Listener\Listener;
+use phmLabs\Components\Annovent\Event\Event;
 
 class InfoListener implements Listener
 {

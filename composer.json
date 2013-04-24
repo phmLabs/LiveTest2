@@ -1,0 +1,24 @@
+{
+    "name" : "phmlabs/livetest2",
+
+    "require" : {
+        "doctrine/common" : "~2.3",
+        "doctrine/cache" : "~1.0",
+        "doctrine/annotations" : "~1.1",
+        "doctrine/collections" : "~1.1",
+
+        "symfony/http-foundation": "~2.2",
+        "symfony/yaml": "~2.2",
+
+        "zendframework/zend-config" : "~2.1",
+        "zendframework/zend-http" : "~2.1"
+    },
+
+    "autoload" : {
+        "psr-0" : {
+            "phmLabs" : "src/lib/",
+            "Base": "src/lib/",
+            "LiveTest": "src/"
+        }
+    }
+}

@@ -1,6 +1,5 @@
 <?php
 
-include_once __DIR__.'/../src/bootstrap.php';
+$loader = include_once __DIR__.'/../src/bootstrap.php';
 
-$classLoader->registerNamespace('Unit', __DIR__ );
-$classLoader->register();
+$loader->add('Unit', __DIR__ );

@@ -4,7 +4,6 @@ namespace Base\Config;
 
 use Zend\Config\Exception\InvalidArgumentException;
 use Zend\Config\Config as ZendConfig;
-
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
 class Yaml extends ZendConfig implements Config
@@ -13,21 +12,24 @@ class Yaml extends ZendConfig implements Config
 
   /**
    * @throws InvalidArgumentException from sfYaml::load
-   * @throws Zend_Config_Exception
    * @param string $filename
    * @param boolean $allowModifications
    */
   public function __construct($filename, $allowModifications = false)
   {
-    $this->filename = $filename;
+    if (!is_array($filename)) {
+        $this->filename = $filename;
 
-    $this->checkIfFilenameIsFile();
+        $this->checkIfFilenameIsFile();
 
-    $content = SymfonyYaml::load($this->filename);
+        $content = SymfonyYaml::parse($this->filename);
 
-    if (is_null($content))
-    {
-      $content = array();
+        if (is_null($content))
+        {
+            $content = array();
+        }
+    } else {
+        $content = $filename;
     }
 
     parent::__construct($content, $allowModifications);
@@ -47,7 +49,7 @@ class Yaml extends ZendConfig implements Config
    * This function will throws an exception if $this->filename does not point to
    * an existing file.
    *
-   * @throws Zend_Config_Exception
+   * @throws InvalidArgumentException
    */
   private function checkIfFilenameIsFile()
   {
