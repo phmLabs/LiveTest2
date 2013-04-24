@@ -5,10 +5,9 @@
  * information, please view the LICENSE file that was distributed with this
  * source code.
  */
-namespace LiveTest\TestCase\General\Http;
+namespace LiveTest\TestCase\General\Http\Header;
 use Base\Http\Request\Request;
 use Base\Http\Response\Response;
-use Base\HeaderAnalyser;
 use LiveTest\TestCase\TestCase;
 use LiveTest\TestCase\Exception;
 
