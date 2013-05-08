@@ -14,6 +14,17 @@
         "zendframework/zend-http" : "~2.0"
     },
 
+    "scripts": {
+        "post-update-cmd": [
+            "echo apply dirty patch hack until https://github.com/zendframework/zf2/issues/4039 is applied",
+            "cd vendor/zendframework/zend-http/Zend/Http/ && patch --forward --batch -p1 < ../../../../../set_cookie.patch"
+        ],
+        "post-install-cmd": [
+            "echo apply dirty patch hack until https://github.com/zendframework/zf2/issues/4039 is applied",
+            "cd vendor/zendframework/zend-http/Zend/Http/ && patch --forward --batch -p1 < ../../../../../set_cookie.patch"
+        ]
+    },
+
     "autoload" : {
         "psr-0" : {
             "phmLabs" : "src/lib/",
