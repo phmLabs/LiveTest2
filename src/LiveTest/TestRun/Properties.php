@@ -53,6 +53,8 @@ class Properties
 
     private $testCount = 0;
 
+    private $uriCount = 0;
+
     /**
      * @param Config $config
      * @param Uri $defaultDomain
