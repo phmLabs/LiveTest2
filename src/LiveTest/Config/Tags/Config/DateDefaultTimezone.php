@@ -41,7 +41,7 @@ class DateDefaultTimezone extends Base
 
         if (false === @date_default_timezone_set($timezone)) {
             $lastError = error_get_last();
-            throw new \InvalidArgumentException('Cannot set the timezone: ' . $lastError);
+            throw new \InvalidArgumentException('Cannot set the timezone: ' . print_r($lastError,1));
         }
     }
 }
