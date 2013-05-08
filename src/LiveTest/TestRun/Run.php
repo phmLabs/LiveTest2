@@ -142,7 +142,7 @@ class Run
             $zendRequest->setUri($request->getUri());
 
             $response = $client->request(new \Base\Http\Request\Zend($zendRequest));
-        } catch (\Zend\Http\Exception $e) {
+        } catch (\Zend\Http\Client\Exception\ExceptionInterface $e) {
             $connectionStatusValue = ConnectionStatus::ERROR;
             $connectionStatusMessage = $e->getMessage();
         }

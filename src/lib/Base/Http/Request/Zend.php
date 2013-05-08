@@ -21,7 +21,7 @@ class Zend implements Request
 
     public function getUri()
     {
-        return $this->request->getUri();
+        return $this->request->getUriString();
     }
 
     public function getMethod()

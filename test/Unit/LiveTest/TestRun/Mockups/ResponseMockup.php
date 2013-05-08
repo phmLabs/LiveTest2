@@ -48,6 +48,6 @@ class ResponseMockup implements Response
 
   public function getHeader()
   {
-      return new Header();
+      return new Header(array());
   }
 }

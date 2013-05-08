@@ -3,3 +3,5 @@
 .settings/
 .svn
 src/logs/
+vendor
+test-reports
