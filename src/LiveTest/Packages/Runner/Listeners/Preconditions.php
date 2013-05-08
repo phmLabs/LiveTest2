@@ -3,30 +3,29 @@
 namespace LiveTest\Packages\Runner\Listeners;
 
 use LiveTest\ConfigurationException;
-use phmLabs\Components\Annovent\Event\Event;
 use LiveTest\Listener\Base;
+use phmLabs\Components\Annovent\Annotation\Event;
 
 class Preconditions extends Base
 {
-  private $arguments = array();
+    private $arguments = array();
 
-  /**
-   * @Event("LiveTest.Runner.Init")
-   * @param array $arguments
-   */
-  public function runnerInit(array $arguments)
-  {
-    $this->arguments = $arguments;
-  }
-
-  /**
-   * @Event("LiveTest.Runner.InitTestRun")
-   */
-  public function checkPreconditions()
-  {
-    if (!array_key_exists('testsuite', $this->arguments) || $this->arguments['testsuite'] == '')
+    /**
+     * @Event("LiveTest.Runner.Init")
+     * @param array $arguments
+     */
+    public function runnerInit(array $arguments)
     {
-      throw new ConfigurationException('The mandatory --testsuite argument was not found. ' . 'Please use LiveTest --help for more information.');
+        $this->arguments = $arguments;
     }
-  }
+
+    /**
+     * @Event("LiveTest.Runner.InitTestRun")
+     */
+    public function checkPreconditions()
+    {
+        if (!array_key_exists('testsuite', $this->arguments) || $this->arguments['testsuite'] == '') {
+            throw new ConfigurationException('The mandatory --testsuite argument was not found. ' . 'Please use LiveTest --help for more information.');
+        }
+    }
 }

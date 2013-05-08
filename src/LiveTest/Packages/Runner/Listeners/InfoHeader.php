@@ -11,8 +11,7 @@ namespace LiveTest\Packages\Runner\Listeners;
 
 use LiveTest\Listener\Base;
 use LiveTest\TestRun\Properties;
-use phmLabs\Components\Annovent\Event\Event;
-
+use phmLabs\Components\Annovent\Annotation\Event;
 /**
  * This listener echoes the run information before the test start.
  *
@@ -20,45 +19,42 @@ use phmLabs\Components\Annovent\Event\Event;
  */
 class InfoHeader extends Base
 {
-  /**
-   * This function echoes the default domian, start time, number of uri and number of tests.
-   *
-   * @Event("LiveTest.Run.PreRun")
-   *
-   * @param Properties $properties
-   */
-  public function preRun(Properties $properties)
-  {
-    $sessions = $properties->getTestSets();
-    $uriCount = 0;
-    foreach ($sessions as $testSets)
+    /**
+     * This function echoes the default domian, start time, number of uri and number of tests.
+     *
+     * @Event("LiveTest.Run.PreRun")
+     *
+     * @param Properties $properties
+     */
+    public function preRun(Properties $properties)
     {
-      $uriCount += count($testSets);
-    }
-    
-    echo "  Default Domain  : " . $properties->getDefaultDomain()->toString() . "\n";
-    echo "  Start Time      : " . date('Y-m-d H:i:s') . "\n\n";
-    echo "  Number of URIs  : " . $uriCount . "\n";
-    echo "  Number of Tests : " . $this->getTotalTestCount($properties) . "\n\n";
-  }
-  
-  /**
-   * This function returns the total number of tests defined in a given properties object.
-   *
-   * @param Properties $properties
-   */
-  private function getTotalTestCount(Properties $properties)
-  {
-    $count = 0;
-    foreach ($properties->getTestSets() as $sessionName => $testSets)
-    {
-      foreach ($testSets as $testSet)
-      {
-        {
-          $count += $testSet->getTestCount();
+        $sessions = $properties->getTestSets();
+        $uriCount = 0;
+        foreach ($sessions as $testSets) {
+            $uriCount += count($testSets);
         }
-      }
+
+        echo "  Default Domain  : " . $properties->getDefaultDomain()->toString() . "\n";
+        echo "  Start Time      : " . date('Y-m-d H:i:s') . "\n\n";
+        echo "  Number of URIs  : " . $uriCount . "\n";
+        echo "  Number of Tests : " . $this->getTotalTestCount($properties) . "\n\n";
     }
-    return $count;
-  }
+
+    /**
+     * This function returns the total number of tests defined in a given properties object.
+     *
+     * @param Properties $properties
+     */
+    private function getTotalTestCount(Properties $properties)
+    {
+        $count = 0;
+        foreach ($properties->getTestSets() as $sessionName => $testSets) {
+            foreach ($testSets as $testSet) {
+                {
+                    $count += $testSet->getTestCount();
+                }
+            }
+        }
+        return $count;
+    }
 }

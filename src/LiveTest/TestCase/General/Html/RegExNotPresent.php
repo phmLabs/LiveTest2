@@ -19,31 +19,30 @@ use LiveTest\TestCase\Exception;
  */
 class RegExNotPresent extends TestCase
 {
-  private $regEx;
+    private $regEx;
 
-  /**
-   * This function initializes the regular expression to check against.
-   *
-   * @param string $regEx
-   */
-  public function init($regEx)
-  {
-    $this->regEx = $regEx;
-  }
-
-  /**
-   * This function checks if the regEx is not found in the html document.
-   *
-   * @see LiveTest\TestCase\General\Html.TestCase::runTest()
-   */
-  protected function runTest(Document $htmlDocument)
-  {
-    $htmlCode = $htmlDocument->getHtml();
-
-    // @todo use regExOccurance
-    if (1 == preg_match($this->regEx, $htmlCode))
+    /**
+     * This function initializes the regular expression to check against.
+     *
+     * @param string $regEx
+     */
+    public function init($regEx)
     {
-      throw new Exception('The given RegEx "' . $this->regEx . '" was found.');
+        $this->regEx = $regEx;
     }
-  }
+
+    /**
+     * This function checks if the regEx is not found in the html document.
+     *
+     * @see LiveTest\TestCase\General\Html.TestCase::runTest()
+     */
+    protected function runTest(Document $htmlDocument)
+    {
+        $htmlCode = $htmlDocument->getHtml();
+
+        // @todo use regExOccurance
+        if (1 == preg_match($this->regEx, $htmlCode)) {
+            throw new Exception('The given RegEx "' . $this->regEx . '" was found.');
+        }
+    }
 }

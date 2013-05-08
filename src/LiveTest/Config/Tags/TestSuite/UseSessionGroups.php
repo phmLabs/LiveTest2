@@ -8,7 +8,7 @@ namespace LiveTest\Config\Tags\TestSuite;
 class UseSessionGroups extends Base
 {
 
-    protected function doProcess (\LiveTest\Config\TestSuite $config, $sessionGroupNames)
+    protected function doProcess(\LiveTest\Config\TestSuite $config, $sessionGroupNames)
     {
         $testCaseConfig = $config->getCurrentTestCaseConfig();
         foreach ($sessionGroupNames as $sessionGroupName) {

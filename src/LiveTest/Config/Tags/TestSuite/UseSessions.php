@@ -7,12 +7,11 @@ namespace LiveTest\Config\Tags\TestSuite;
  */
 class UseSessions extends Base
 {
-  protected function doProcess(\LiveTest\Config\TestSuite $config, $sessionNames)
-  {
-    $testCaseConfig = $config->getCurrentTestCaseConfig();
-    foreach ($sessionNames as $sessionName)
+    protected function doProcess(\LiveTest\Config\TestSuite $config, $sessionNames)
     {
-      $testCaseConfig->addSession($sessionName);
+        $testCaseConfig = $config->getCurrentTestCaseConfig();
+        foreach ($sessionNames as $sessionName) {
+            $testCaseConfig->addSession($sessionName);
+        }
     }
-  }
 }

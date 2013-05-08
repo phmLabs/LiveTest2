@@ -11,5 +11,5 @@ namespace LiveTest;
 
 class MandatoryParameterException extends Exception
 {
-  
+
 }

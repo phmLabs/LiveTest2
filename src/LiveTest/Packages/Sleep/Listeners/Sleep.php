@@ -9,9 +9,8 @@
 
 namespace LiveTest\Packages\Sleep\Listeners;
 
-use LiveTest\Listener\Base;
-
 use Base\Http\ConnectionStatus;
+use LiveTest\Listener\Base;
 
 /**
  * This extension is used to let the application sleep after a test ran. This is used
@@ -22,27 +21,27 @@ use Base\Http\ConnectionStatus;
  */
 class Sleep extends Base
 {
-  private $sleepTime;
+    private $sleepTime;
 
-  /**
-   * This function sets the sleep time
-   *
-   * @param int $sleepTime Time to sleep in seconds
-   */
-  public function init($sleepTime = 1)
-  {
-    $this->sleepTime = $sleepTime;
-  }
+    /**
+     * This function sets the sleep time
+     *
+     * @param int $sleepTime Time to sleep in seconds
+     */
+    public function init($sleepTime = 1)
+    {
+        $this->sleepTime = $sleepTime;
+    }
 
-  /**
-   * Lets the application sleep for a defined time
-   *
-   * @Event("LiveTest.Run.HandleConnectionStatus")
-   *
-   * @param ConnectionStatus $status
-   */
-  public function handleConnectionStatus(ConnectionStatus $connectionStatus)
-  {
-    sleep($this->sleepTime);
-  }
+    /**
+     * Lets the application sleep for a defined time
+     *
+     * @Event("LiveTest.Run.HandleConnectionStatus")
+     *
+     * @param ConnectionStatus $status
+     */
+    public function handleConnectionStatus(ConnectionStatus $connectionStatus)
+    {
+        sleep($this->sleepTime);
+    }
 }

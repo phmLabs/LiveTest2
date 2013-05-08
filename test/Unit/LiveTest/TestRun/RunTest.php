@@ -49,8 +49,6 @@ class RunTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->markTestSkipped();
-
         $this->defaultUri = new Uri('http://www.example.com/index.html');
 
         $this->dispatcher = new Dispatcher();

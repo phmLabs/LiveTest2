@@ -24,60 +24,60 @@ use LiveTest\TestRun\Test;
  */
 class TestSet
 {
-  /**
-   * The request for this test set
-   * @var Request
-   */
-  private $request;
+    /**
+     * The request for this test set
+     * @var Request
+     */
+    private $request;
 
-  /**
-   * The tests
-   * @var Test[]
-   */
-  private $tests = array ();
+    /**
+     * The tests
+     * @var Test[]
+     */
+    private $tests = array();
 
-  public function __construct(Request $request)
-  {
-    $this->request = $request;
-  }
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
-  /**
-   * Returns the request of this test set.
-   *
-   * @return Request
-   */
-  public function getRequest()
-  {
-    return $this->request;
-  }
+    /**
+     * Returns the request of this test set.
+     *
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
 
-  /**
-   * Add a test to this set
-   *
-   * @param Test $test
-   */
-  public function addTest(Test $test)
-  {
-    $this->tests[] = $test;
-  }
+    /**
+     * Add a test to this set
+     *
+     * @param Test $test
+     */
+    public function addTest(Test $test)
+    {
+        $this->tests[] = $test;
+    }
 
-  /**
-   * Returns the number of tests
-   *
-   * @return int
-   */
-  public function getTestCount()
-  {
-    return count($this->tests);
-  }
+    /**
+     * Returns the number of tests
+     *
+     * @return int
+     */
+    public function getTestCount()
+    {
+        return count($this->tests);
+    }
 
-  /**
-   * Returns a set of tests
-   *
-   * @return Test[]
-   */
-  public function getTests()
-  {
-    return $this->tests;
-  }
+    /**
+     * Returns a set of tests
+     *
+     * @return Test[]
+     */
+    public function getTests()
+    {
+        return $this->tests;
+    }
 }

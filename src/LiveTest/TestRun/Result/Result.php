@@ -6,9 +6,9 @@
  * source code.
  */
 namespace LiveTest\TestRun\Result;
-use LiveTest\TestRun\Test;
-use Base\Http\Response\Response;
 use Base\Http\Request\Request;
+use Base\Http\Response\Response;
+use LiveTest\TestRun\Test;
 
 /**
  * This class contains all information about a test case run.
@@ -55,7 +55,7 @@ class Result
 
     private $failOnError;
 
-    public function __construct (Test $test, $status, $message, Request $request, Response $response, $sessionName, $failOnError = false)
+    public function __construct(Test $test, $status, $message, Request $request, Response $response, $sessionName, $failOnError = false)
     {
         $this->test = $test;
         $this->status = $status;
@@ -66,7 +66,7 @@ class Result
         $this->failOnError = $failOnError;
     }
 
-    public function getResponse ()
+    public function getResponse()
     {
         return $this->response;
     }
@@ -76,7 +76,7 @@ class Result
      *
      * @return Test
      */
-    public function getTest ()
+    public function getTest()
     {
         return $this->test;
     }
@@ -88,7 +88,7 @@ class Result
      *
      * @return string
      */
-    public function getStatus ()
+    public function getStatus()
     {
         return $this->status;
     }
@@ -99,12 +99,12 @@ class Result
      *
      * @return string
      */
-    public function getMessage ()
+    public function getMessage()
     {
         return $this->message;
     }
 
-    public function getSessionName ()
+    public function getSessionName()
     {
         return $this->sessionName;
     }
@@ -114,12 +114,12 @@ class Result
      *
      * @return Request
      */
-    public function getRequest ()
+    public function getRequest()
     {
         return $this->request;
     }
 
-    public function isFailOnError ()
+    public function isFailOnError()
     {
         return $this->failOnError;
     }

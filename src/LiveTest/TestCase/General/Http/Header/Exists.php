@@ -8,8 +8,8 @@
 namespace LiveTest\TestCase\General\Http\Header;
 use Base\Http\Request\Request;
 use Base\Http\Response\Response;
-use LiveTest\TestCase\TestCase;
 use LiveTest\TestCase\Exception;
+use LiveTest\TestCase\TestCase;
 
 /**
  * This test case checks if a specified http header is existing
@@ -26,7 +26,7 @@ class Exists implements TestCase
      *
      * @param string $headerName
      */
-    public function init ($headerName)
+    public function init($headerName)
     {
         $this->headerName = $headerName;
     }
@@ -36,11 +36,11 @@ class Exists implements TestCase
      *
      * @see LiveTest\TestCase.HttpTestCase::test()
      */
-    public function test (Response $response, Request $request)
+    public function test(Response $response, Request $request)
     {
         $header = $response->getHeader();
 
-        if (! ($header->hasField($this->headerName))) {
+        if (!($header->hasField($this->headerName))) {
             throw new Exception('The expected header "' . $this->headerName . '" was not found.');
         }
     }

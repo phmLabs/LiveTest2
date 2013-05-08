@@ -8,7 +8,6 @@
  */
 
 namespace LiveTest\Config\Tags\TestSuite;
-
 use LiveTest\Connection\Request\Symfony as Request;
 
 
@@ -24,11 +23,11 @@ use LiveTest\Connection\Request\Symfony as Request;
  */
 class ExcludePages extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
-   */
-  protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
-  {
-    $config->getCurrentSession()->excludePageRequests(Request::createRequestsFromParameters($parameters, $config->getDefaultDomain()));
-  }
+    /**
+     * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
+     */
+    protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
+    {
+        $config->getCurrentSession()->excludePageRequests(Request::createRequestsFromParameters($parameters, $config->getDefaultDomain()));
+    }
 }

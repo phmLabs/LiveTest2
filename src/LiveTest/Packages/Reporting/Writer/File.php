@@ -9,8 +9,6 @@
 
 namespace LiveTest\Packages\Reporting\Writer;
 
-use LiveTest\Exception;
-
 /**
  * This writer puts the formatted text into a file.
  *
@@ -18,31 +16,31 @@ use LiveTest\Exception;
  */
 class File implements Writer
 {
-  /**
-   * The file name
-   * @var Nils Langner
-   */
-  private $filename;
+    /**
+     * The file name
+     * @var Nils Langner
+     */
+    private $filename;
 
-  /**
-   * Set the filename.
-   *
-   * @param string $filename
-   */
-  public function init($filename)
-  {
-    $this->filename = $filename;
-  }
+    /**
+     * Set the filename.
+     *
+     * @param string $filename
+     */
+    public function init($filename)
+    {
+        $this->filename = $filename;
+    }
 
-  /**
-   * Writes the formatted text into the given file.
-   *
-   * @param string $formatedText
-   */
-  public function write($formatedText)
-  {
-    $file = new  \Base\File\File($this->filename);
-    $file->setContent($formatedText);
-    $file->save();
-  }
+    /**
+     * Writes the formatted text into the given file.
+     *
+     * @param string $formatedText
+     */
+    public function write($formatedText)
+    {
+        $file = new  \Base\File\File($this->filename);
+        $file->setContent($formatedText);
+        $file->save();
+    }
 }

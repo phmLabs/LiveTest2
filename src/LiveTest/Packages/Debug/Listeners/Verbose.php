@@ -9,14 +9,11 @@
 
 namespace LiveTest\Packages\Debug\Listeners;
 
-use LiveTest\Listener\Base;
-
 use Base\Http\ConnectionStatus;
 use Base\Http\Response\Response;
-
+use LiveTest\Listener\Base;
 use LiveTest\TestRun\Result\Result;
-use phmLabs\Components\Annovent\Event\Event;
-
+use phmLabs\Components\Annovent\Annotation\Event;
 /**
  * This listener echoes the connection status and the current url that is tested.
  * Can be switched on withe the command line parameter --verbose
@@ -25,57 +22,54 @@ use phmLabs\Components\Annovent\Event\Event;
  */
 class Verbose extends Base
 {
-  /**
-   * Indicates if the verbose mode is on.
-   *
-   * @var bool
-   */
-  private $verbose = false;
+    /**
+     * Indicates if the verbose mode is on.
+     *
+     * @var bool
+     */
+    private $verbose = false;
 
-  /**
-   * Checks if the --verbose argument is set.
-   *
-   * @Event("LiveTest.Runner.Init")
-   *
-   * @param array $arguments
-   */
-  public function runnerInit(array $arguments)
-  {
-    if (array_key_exists('verbose', $arguments))
+    /**
+     * Checks if the --verbose argument is set.
+     *
+     * @Event("LiveTest.Runner.Init")
+     *
+     * @param array $arguments
+     */
+    public function runnerInit(array $arguments)
     {
-      $this->verbose = true;
+        if (array_key_exists('verbose', $arguments)) {
+            $this->verbose = true;
+        }
+        return true;
     }
-    return true;
-  }
 
-  /**
-   * Echoes the connection status
-   *
-   * @Event("LiveTest.Run.HandleConnectionStatus")
-   *
-   * @param ConnectionStatus $status
-   */
-  public function handleConnectionStatus(ConnectionStatus $connectionStatus)
-  {
-    if ($this->verbose)
+    /**
+     * Echoes the connection status
+     *
+     * @Event("LiveTest.Run.HandleConnectionStatus")
+     *
+     * @param ConnectionStatus $status
+     */
+    public function handleConnectionStatus(ConnectionStatus $connectionStatus)
     {
-      echo "\n  - Connection: " . $connectionStatus->getRequest()->getUri() . " - " . $connectionStatus->getType();
+        if ($this->verbose) {
+            echo "\n  - Connection: " . $connectionStatus->getRequest()->getUri() . " - " . $connectionStatus->getType();
+        }
     }
-  }
 
-  /**
-   * Echoes the url that was tested.
-   *
-   * @Event("LiveTest.Run.HandleResult")
-   *
-   * @param Result $result
-   * @param Response $response
-   */
-  public function handleResult(Result $result, Response $response)
-  {
-    if ($this->verbose)
+    /**
+     * Echoes the url that was tested.
+     *
+     * @Event("LiveTest.Run.HandleResult")
+     *
+     * @param Result $result
+     * @param Response $response
+     */
+    public function handleResult(Result $result, Response $response)
     {
-      echo "\n  HandleResult: - " . $result->getRequest()->getUri();
+        if ($this->verbose) {
+            echo "\n  HandleResult: - " . $result->getRequest()->getUri();
+        }
     }
-  }
 }

@@ -5,28 +5,29 @@
  * file that was distributed with this source code.
  */
 namespace LiveTest\TestCase\General\Http;
+
 use Base\Http\Request\Request;
+use Base\Http\Response\Response;
 use LiveTest\TestCase\Exception;
 use LiveTest\TestCase\TestCase;
-use Base\Http\Response\Response;
 
 class LoadTime implements TestCase
 {
 
     private $maxLoadTime;
 
-    public function init ($maxLoadTime)
+    public function init($maxLoadTime)
     {
         $this->maxLoadTime = $maxLoadTime;
     }
 
-    public function test (Response $response, Request $request)
+    public function test(Response $response, Request $request)
     {
         $loadTime = $response->getDuration();
         if ($loadTime > $this->maxLoadTime) {
             throw new Exception(
-                    'The time to load the website is too long (current: ' . $loadTime . ', max: ' . $this->maxLoadTime .
-                             ')');
+                'The time to load the website is too long (current: ' . $loadTime . ', max: ' . $this->maxLoadTime .
+                    ')');
         }
     }
 }

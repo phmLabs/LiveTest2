@@ -8,8 +8,8 @@
 namespace LiveTest\TestCase\General\Http\Header;
 use Base\Http\Request\Request;
 use Base\Http\Response\Response;
-use LiveTest\TestCase\TestCase;
 use LiveTest\TestCase\Exception;
+use LiveTest\TestCase\TestCase;
 
 /**
  * This test case checks if the value of a specified http header field
@@ -31,7 +31,7 @@ class FieldValueEquals implements TestCase
      * @param array $directives
      *            cache directives to look for
      */
-    public function init ($fieldName, $values)
+    public function init($fieldName, $values)
     {
         $this->fieldName = $fieldName;
         $this->values = $values;
@@ -45,18 +45,18 @@ class FieldValueEquals implements TestCase
      * @param Request $request
      *            request we sent
      */
-    public function test (Response $response, Request $request)
+    public function test(Response $response, Request $request)
     {
         $header = $response->getHeader();
         $missing = array();
 
         foreach ($this->values as $value) {
-            if (! $header->hasField($this->fieldName) && ! $header->getField($this->fieldName) == $value) {
+            if (!$header->hasField($this->fieldName) && !$header->getField($this->fieldName) == $value) {
                 $missing[] = $value;
             }
         }
 
-        if (! empty($missing)) {
+        if (!empty($missing)) {
             throw new Exception("Expected header fields not set correct \"" . implode(', ', $missing) . ")");
         }
     }

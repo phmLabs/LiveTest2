@@ -33,173 +33,160 @@ use LiveTest\Connection\Request\LiveTest as Request;
  */
 class Properties
 {
-  /**
-   * The default domain
-   * @var Uri
-   */
-  private $defaultDomain;
+    /**
+     * The default domain
+     * @var Uri
+     */
+    private $defaultDomain;
 
-  /**
-   * The configuration with all needed data
-   * @var Config
-   */
-  private $config;
+    /**
+     * The configuration with all needed data
+     * @var Config
+     */
+    private $config;
 
-  /**
-   * Array of test sets
-   * @var TestSet[]
-   */
-  private $testSets = array ();
+    /**
+     * Array of test sets
+     * @var TestSet[]
+     */
+    private $testSets = array();
 
-  private $testCount = 0;
+    private $testCount = 0;
 
-  /**
-   * @param Config $config
-   * @param Uri $defaultDomain
-   */
-  public function __construct(TestSuite $config, Uri $defaultDomain)
-  {
-    $this->defaultDomain = $defaultDomain;
-    $this->config = $config;
-    $this->initTestSets();
-  }
-
-  /**
-   * Returns a list of sessions
-   *
-   * @return Session[]
-   */
-  public function getSessions()
-  {
-    return $this->config->getSessions();
-  }
-
-  public function hasSessions()
-  {
-    return $this->config->hasSessions();
-  }
-
-  /**
-   * This function converts the information given in a config file to a number of test sets.
-   */
-  private function initTestSets()
-  {
-    $testCases = $this->config->getTestCases();
-
-    foreach ($testCases as $testCaseConfigName => $testCaseConfig)
+    /**
+     * @param Config $config
+     * @param Uri $defaultDomain
+     */
+    public function __construct(TestSuite $config, Uri $defaultDomain)
     {
-      $sessionNames = $testCaseConfig->getSessionNames();
+        $this->defaultDomain = $defaultDomain;
+        $this->config = $config;
+        $this->initTestSets();
+    }
 
-      foreach ($sessionNames as $sessionName)
-      {
-        if (! $this->config->hasSession($sessionName))
-        {
-          throw new ConfigurationException('Unknown session ("'.$sessionName.'") referred by "'.$testCaseConfigName.'" testcase. Please check your configuration.');
+    /**
+     * Returns a list of sessions
+     *
+     * @return Session[]
+     */
+    public function getSessions()
+    {
+        return $this->config->getSessions();
+    }
+
+    public function hasSessions()
+    {
+        return $this->config->hasSessions();
+    }
+
+    /**
+     * This function converts the information given in a config file to a number of test sets.
+     */
+    private function initTestSets()
+    {
+        $testCases = $this->config->getTestCases();
+
+        foreach ($testCases as $testCaseConfigName => $testCaseConfig) {
+            $sessionNames = $testCaseConfig->getSessionNames();
+
+            foreach ($sessionNames as $sessionName) {
+                if (!$this->config->hasSession($sessionName)) {
+                    throw new ConfigurationException('Unknown session ("' . $sessionName . '") referred by "' . $testCaseConfigName . '" testcase. Please check your configuration.');
+                }
+
+                $session = $this->config->getSession($sessionName);
+
+                foreach ($session->getPageRequests() as $aPageRequest) {
+                    if (!array_key_exists($sessionName, $this->testSets) || !array_key_exists($aPageRequest->getIdentifier(), $this->testSets[$sessionName])) {
+                        $this->testSets[$sessionName][$aPageRequest->getIdentifier()] = new TestSet($aPageRequest);
+                        $this->uriCount++;
+                    }
+
+                    $test = new Test($testCaseConfigName, $testCaseConfig->getClassName(), $testCaseConfig->getParameters(), $testCaseConfig->isFailOnError());
+                    $this->testSets[$sessionName][$aPageRequest->getIdentifier()]->addTest($test);
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the default domain
+     *
+     * @return Uri
+     */
+    public function getDefaultDomain()
+    {
+        return $this->defaultDomain;
+    }
+
+    /**
+     * Returns the test sets
+     *
+     * @todo should be getTestSetsBySession
+     * @return TestSet[]
+     */
+    public function getTestSets()
+    {
+        return $this->testSets;
+    }
+
+    public function getUriCount()
+    {
+        return $this->uriCount;
+    }
+
+    /**
+     * Assembles all properties to a string.
+     *
+     * @return String Properties
+     */
+    public function __toString()
+    {
+        $testSets = $this->getTestSets();
+        $propertiesString = '';
+        foreach ($testSets as $testSet) {
+            $propertiesString .= 'Uri: ' . $testSet->getUri() . "\n";
+            $tests = $testSet->getTests();
+            foreach ($tests as $test) {
+                $propertiesString .= "  Test:\n";
+                $propertiesString .= '    Testname : ' . $test->getName() . "\n";
+                $propertiesString .= '    Classname: ' . $test->getClassName() . "\n\n";
+            }
+        }
+        return $propertiesString;
+    }
+
+    /**
+     * Creates a properties object that was created using a yaml file.
+     *
+     * @todo is this method neccessary? If yes: Where to put it? At the moment it is only used to make testing easier
+     *
+     * @param String $filename The file name of the yaml file
+     * @param Uri $defaultUri The default uri
+     */
+    public static function createByYamlFile($filename, Uri $defaultUri, Dispatcher $eventDispatcher)
+    {
+        try {
+            $yamlConfig = new Yaml($filename);
+        } catch (\Zend\Config\Exception $e) {
+            throw new ConfigurationException('Unable to load test suite yaml file (filename: ' . $filename . ')');
         }
 
-        $session = $this->config->getSession($sessionName);
+        $testSuiteConfig = new TestSuite();
+        $testSuiteConfig->setBaseDir(dirname($filename));
+        $testSuiteConfig->setDefaultDomain($defaultUri);
 
-        foreach ($session->getPageRequests() as $aPageRequest)
-        {
-          if (! array_key_exists($sessionName, $this->testSets) || ! array_key_exists($aPageRequest->getIdentifier(), $this->testSets[$sessionName]))
-          {
-            $this->testSets[$sessionName][$aPageRequest->getIdentifier()] = new TestSet($aPageRequest);
-            $this->uriCount ++;
-          }
-
-          $test = new Test($testCaseConfigName, $testCaseConfig->getClassName(), $testCaseConfig->getParameters(), $testCaseConfig->isFailOnError());
-          $this->testSets[$sessionName][$aPageRequest->getIdentifier()]->addTest($test);
+        $parser = new Parser('LiveTest\\Config\\Tags\\TestSuite\\');
+        try {
+            $testSuiteConfig = $parser->parse($yamlConfig->toArray(), $testSuiteConfig);
+        } catch (UnknownTagException $e) {
+            throw new ConfigurationException('Error parsing testsuite configuration (' . $filename . '): ' . $e->getMessage(), null, $e);
         }
-      }
+
+        $testSuiteConfig->resolveSessionGroups();
+
+        $eventDispatcher->simpleNotify('LiveTest.TestRun.Properties.PostTestSuiteInit', array('config' => $testSuiteConfig));
+
+        return new self($testSuiteConfig, $defaultUri);
     }
-  }
-
-  /**
-   * Returns the default domain
-   *
-   * @return Uri
-   */
-  public function getDefaultDomain()
-  {
-    return $this->defaultDomain;
-  }
-
-  /**
-   * Returns the test sets
-   *
-   * @todo should be getTestSetsBySession
-   * @return TestSet[]
-   */
-  public function getTestSets()
-  {
-    return $this->testSets;
-  }
-
-  public function getUriCount()
-  {
-    return $this->uriCount;
-  }
-
-  /**
-   * Assembles all properties to a string.
-   *
-   * @return String Properties
-   */
-  public function __toString()
-  {
-    $testSets = $this->getTestSets();
-    $propertiesString = '';
-    foreach ($testSets as $testSet)
-    {
-      $propertiesString .= 'Uri: ' . $testSet->getUri() . "\n";
-      $tests = $testSet->getTests();
-      foreach ($tests as $test)
-      {
-        $propertiesString .= "  Test:\n";
-        $propertiesString .= '    Testname : ' . $test->getName() . "\n";
-        $propertiesString .= '    Classname: ' . $test->getClassName() . "\n\n";
-      }
-    }
-    return $propertiesString;
-  }
-
-  /**
-   * Creates a properties object that was created using a yaml file.
-   *
-   * @todo is this method neccessary? If yes: Where to put it? At the moment it is only used to make testing easier
-   *
-   * @param String $filename The file name of the yaml file
-   * @param Uri $defaultUri The default uri
-   */
-  public static function createByYamlFile($filename, Uri $defaultUri, Dispatcher $eventDispatcher)
-  {
-    try
-    {
-      $yamlConfig = new Yaml($filename);
-    }
-    catch (\Zend\Config\Exception $e)
-    {
-      throw new ConfigurationException('Unable to load test suite yaml file (filename: ' . $filename . ')');
-    }
-
-    $testSuiteConfig = new TestSuite();
-    $testSuiteConfig->setBaseDir(dirname($filename));
-    $testSuiteConfig->setDefaultDomain($defaultUri);
-
-    $parser = new Parser('LiveTest\\Config\\Tags\\TestSuite\\');
-    try
-    {
-      $testSuiteConfig = $parser->parse($yamlConfig->toArray(), $testSuiteConfig);
-    }
-    catch (UnknownTagException $e)
-    {
-      throw new ConfigurationException('Error parsing testsuite configuration (' . $filename . '): ' . $e->getMessage(), null, $e);
-    }
-
-    $testSuiteConfig->resolveSessionGroups();
-
-    $eventDispatcher->simpleNotify('LiveTest.TestRun.Properties.PostTestSuiteInit', array ('config' => $testSuiteConfig));
-
-    return new self($testSuiteConfig, $defaultUri);
-  }
 }

@@ -24,11 +24,11 @@ use LiveTest\Connection\Request\Symfony as Request;
  */
 class IncludePages extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
-   */
-  protected function doProcess(TestSuiteConfig $config, $parameters)
-  {
-    $config->getCurrentSession()->includePageRequests(Request::createRequestsFromParameters($parameters, $config->getDefaultDomain()));
-  }
+    /**
+     * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
+     */
+    protected function doProcess(TestSuiteConfig $config, $parameters)
+    {
+        $config->getCurrentSession()->includePageRequests(Request::createRequestsFromParameters($parameters, $config->getDefaultDomain()));
+    }
 }

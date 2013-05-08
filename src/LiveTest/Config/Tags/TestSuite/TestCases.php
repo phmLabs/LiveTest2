@@ -7,7 +7,6 @@
  */
 namespace LiveTest\Config\Tags\TestSuite;
 use Base\Debug\DebugHelper;
-
 use LiveTest\ConfigurationException;
 
 /**
@@ -30,7 +29,7 @@ class TestCases extends Base
      *
      * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
      */
-    protected function doProcess (\LiveTest\Config\TestSuite $config, $parameters)
+    protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
     {
         foreach ($parameters as $testCaseName => $value) {
             if (array_key_exists('Parameter', $value)) {
@@ -48,7 +47,7 @@ class TestCases extends Base
                         $failOnError = false;
                     } else {
                         throw new ConfigurationException(
-                                'FailOnError must be true or false, ' . $value['FailOnError'] . "was given");
+                            'FailOnError must be true or false, ' . $value['FailOnError'] . "was given");
                     }
                 unset($value['FailOnError']);
             } else {

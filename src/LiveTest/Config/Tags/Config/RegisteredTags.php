@@ -16,15 +16,14 @@ use LiveTest\Config\ConfigConfig;
  */
 class RegisteredTags extends Base
 {
-  /**
-   * @todo check if the directory really exists
-   * @see LiveTest\Config\Tags\Config.Base::doProcess()
-   */
-  protected function doProcess(ConfigConfig $config, $tags)
-  {
-    foreach ($tags as $key => $classname)
+    /**
+     * @todo check if the directory really exists
+     * @see LiveTest\Config\Tags\Config.Base::doProcess()
+     */
+    protected function doProcess(ConfigConfig $config, $tags)
     {
-      $this->getParser()->registerTag($key, $classname);
+        foreach ($tags as $key => $classname) {
+            $this->getParser()->registerTag($key, $classname);
+        }
     }
-  }
 }

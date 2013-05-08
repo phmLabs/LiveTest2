@@ -6,11 +6,11 @@
  */
 namespace LiveTest\TestCase\General\Html;
 
-use Base\Http\Request\Request;
-use LiveTest\Connection\Request\Symfony;
 use Base\Http\Client\Zend;
-use Base\Www\Uri;
+use Base\Http\Request\Request;
 use Base\Www\Html\Document;
+use Base\Www\Uri;
+use LiveTest\Connection\Request\Symfony;
 use LiveTest\TestCase\Exception;
 
 /**
@@ -33,7 +33,7 @@ class IncludesAvailable extends TestCase
      * @param array $urlsToIgnore these url will be ignored
      * @param array $urlsToIgnoreRegEx urls matching these Regex-Patterns will be ignored
      */
-    public function init ($urlsToIgnore = array(), $urlsToIgnoreRegEx = array(), $timeoutInSeconds = 1)
+    public function init($urlsToIgnore = array(), $urlsToIgnoreRegEx = array(), $timeoutInSeconds = 1)
     {
         $this->urlsToIgnore = is_array($urlsToIgnore) ? $urlsToIgnore : array();
         $this->urlsToIgnoreRegEx = is_array($urlsToIgnoreRegEx) ? $urlsToIgnoreRegEx : array();
@@ -48,7 +48,7 @@ class IncludesAvailable extends TestCase
      * @param string $url
      * @return boolean
      */
-    private function isIgnored ($url)
+    private function isIgnored($url)
     {
         if (in_array($url, $this->urlsToIgnore)) {
             return true;
@@ -66,44 +66,43 @@ class IncludesAvailable extends TestCase
      *
      * @param Document $htmlDocument the HTML dokument to test
      */
-    public function runTest (Document $htmlDocument)
+    public function runTest(Document $htmlDocument)
     {
-      static $requestedDependecies = array();
+        static $requestedDependencies = array();
 
-      $failedUrls = array();
-      $files = $htmlDocument->getExternalDependencies();
-      $requestUri = new Uri($this->getRequest()->getUri());
+        $failedUrls = array();
+        $files = $htmlDocument->getExternalDependencies();
+        $requestUri = new Uri($this->getRequest()->getUri());
 
-      foreach ($files as $file) {
-        try {
+        foreach ($files as $file) {
+            try {
 
-          $absoluteFile = $requestUri->concatUri($file);
+                $absoluteFile = $requestUri->concatUri($file);
 
-          if (! $this->isIgnored($absoluteFile->toString())) {
-            if (array_key_exists($absoluteFile->toString(), $requestedDependecies)) {
-              $status = $requestedDependecies[$absoluteFile->toString()];
-            } else {
-              $request = Symfony::create($absoluteFile, Request::GET);
+                if (!$this->isIgnored($absoluteFile->toString())) {
+                    if (array_key_exists($absoluteFile->toString(), $requestedDependencies)) {
+                        $status = $requestedDependencies[$absoluteFile->toString()];
+                    } else {
+                        $request = Symfony::create($absoluteFile, Request::GET);
 
-              $client = new Zend();
-              $client->setTimeout($this->timeoutInSeconds);
-              $response = $client->request($request);
-              $status = $response->getStatus();
-              $requestedDependecies[$absoluteFile->toString()] = $response->getStatus();
+                        $client = new Zend();
+                        $client->setTimeout($this->timeoutInSeconds);
+                        $response = $client->request($request);
+                        $status = $response->getStatus();
+                        $requestedDependencies[$absoluteFile->toString()] = $response->getStatus();
+                    }
+
+                    if ($status >= 400) {
+                        $failedUrls[] = $absoluteFile->toString();
+                    }
+                }
+            } catch (\Zend\Http\Client\Adapter\Exception\RuntimeException $ex) {
+                $failedUrls [] = $absoluteFile->toString();
             }
-
-            if ($status >= 400) {
-              $failedUrls[] = $absoluteFile->toString();
-            }
-          }
         }
-        catch(\Zend\Http\Client\Adapter\Exception\RuntimeException $ex) {
-          $failedUrls [] = $absoluteFile->toString ();
+        if (count($failedUrls) > 0) {
+            $this->handleFailures($failedUrls);
         }
-      }
-      if (count($failedUrls) > 0) {
-        $this->handleFailures($failedUrls);
-      }
     }
 
     /**
@@ -112,10 +111,10 @@ class IncludesAvailable extends TestCase
      * @param string[] $failedUrls
      * @throws Exception
      */
-    private function handleFailures ($failedUrls)
+    private function handleFailures($failedUrls)
     {
         $filesString = $failedUrls[0];
-        for ($i = 1; $i < min(5, count($failedUrls)); $i ++) {
+        for ($i = 1; $i < min(5, count($failedUrls)); $i++) {
             $filesString .= ', ' . $failedUrls[$i];
         }
         if (count($failedUrls) > 5) {

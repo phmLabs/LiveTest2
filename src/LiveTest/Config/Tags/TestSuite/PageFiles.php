@@ -23,15 +23,14 @@ use LiveTest\Connection\Request\Symfony as Request;
  */
 class PageFiles extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
-   */
-  protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
-  {
-    $config->getCurrentSession()->doNotInherit();
-    foreach ($parameters as $file)
+    /**
+     * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
+     */
+    protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
     {
-      $config->getCurrentSession()->includePageRequests(Request::createRequestsFromParameters(file($config->getBaseDir() . '/' . $file), $config->getDefaultDomain()));
+        $config->getCurrentSession()->doNotInherit();
+        foreach ($parameters as $file) {
+            $config->getCurrentSession()->includePageRequests(Request::createRequestsFromParameters(file($config->getBaseDir() . '/' . $file), $config->getDefaultDomain()));
+        }
     }
-  }
 }

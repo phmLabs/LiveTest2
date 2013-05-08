@@ -9,7 +9,6 @@
 
 namespace LiveTest\Config\Tags\TestSuite;
 use Base\Config\Yaml;
-
 use LiveTest\Config\TestSuite as TestSuiteConfig;
 use LiveTest\Connection\Request\Symfony as Request;
 
@@ -25,15 +24,14 @@ use LiveTest\Connection\Request\Symfony as Request;
  */
 class IncludeSessions extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
-   */
-  protected function doProcess(TestSuiteConfig $config, $sessionFiles)
-  {
-    foreach ($sessionFiles as $sessionFile)
+    /**
+     * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
+     */
+    protected function doProcess(TestSuiteConfig $config, $sessionFiles)
     {
-      $yaml = new Yaml($config->getBaseDir() . '/' . $sessionFile);
-      $this->getParser()->parse($yaml->toArray(), $config);
+        foreach ($sessionFiles as $sessionFile) {
+            $yaml = new Yaml($config->getBaseDir() . '/' . $sessionFile);
+            $this->getParser()->parse($yaml->toArray(), $config);
+        }
     }
-  }
 }

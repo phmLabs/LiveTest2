@@ -6,17 +6,15 @@
  * source code.
  */
 namespace LiveTest\Config;
+use Base\Www\Uri;
 use LiveTest\ConfigurationException;
 use LiveTest\Connection\Session\Session;
-use Base\Www\Uri;
-use Base\Http\Request\Request;
 
 /**
  * This class contains all information about the tests and the depending pages.
  *
  * @author Nils Langner
  */
-use LiveTest\Config\PageManipulator\PageManipulator;
 
 class TestSuite implements Config
 {
@@ -68,23 +66,23 @@ class TestSuite implements Config
      *
      * @param TestSuite $parentConfig
      */
-    public function __construct (TestSuite $parentConfig = null)
+    public function __construct(TestSuite $parentConfig = null)
     {
         $this->parentConfig = $parentConfig;
     }
 
-    public function addSessionGroup ($sessionGroupName, $sessionNames)
+    public function addSessionGroup($sessionGroupName, $sessionNames)
     {
-        $sessionNames = is_array($sessionNames)? $sessionNames : array();
+        $sessionNames = is_array($sessionNames) ? $sessionNames : array();
         $this->sessionsGroups[$sessionGroupName] = $sessionNames;
     }
 
-    private function getSessionGroup ($sessionGroupName)
+    private function getSessionGroup($sessionGroupName)
     {
         return $this->sessionsGroups[$sessionGroupName];
     }
 
-    public function resolveSessionGroups ()
+    public function resolveSessionGroups()
     {
         foreach ($this->testCases as $testCase) {
             $sessionGroupNames = $testCase->getSessionGroupNames();
@@ -97,57 +95,57 @@ class TestSuite implements Config
         }
     }
 
-    function addSession ($sessionName, Session $session)
+    function addSession($sessionName, Session $session)
     {
         $this->sessions[$sessionName] = $session;
     }
 
-    public function getSession ($sessionName)
+    public function getSession($sessionName)
     {
         // @todo error handling (hasSession)
         return $this->sessions[$sessionName];
     }
 
-    public function hasSession ($sessionName)
+    public function hasSession($sessionName)
     {
         return array_key_exists($sessionName, $this->sessions);
     }
 
-    public function getSessions ()
+    public function getSessions()
     {
         return $this->sessions;
     }
 
-    public function hasSessions ()
+    public function hasSessions()
     {
         return count($this->sessions) > 0;
     }
 
-    public function setCurrentSession ($sessionName)
+    public function setCurrentSession($sessionName)
     {
         $this->currentSession = $this->sessions[$sessionName];
         $this->currentSessionName = $sessionName;
     }
 
-    public function getCurrentSession ()
+    public function getCurrentSession()
     {
-        if (! $this->hasCurrentSession()) {
+        if (!$this->hasCurrentSession()) {
             throw new \Exception('No session has been added.');
         }
         return $this->currentSession;
     }
 
-    public function getCurrentSessionName ()
+    public function getCurrentSessionName()
     {
         return $this->currentSessionName;
     }
 
-    public function hasCurrentSession ()
+    public function hasCurrentSession()
     {
-        return ! is_null($this->currentSession);
+        return !is_null($this->currentSession);
     }
 
-    public function _getNewSession ($sessionName, $isCurrentSession = true)
+    public function _getNewSession($sessionName, $isCurrentSession = true)
     {
         $session = new Session($this->getDefaultDomain());
         $this->sessions[$sessionName][] = $session;
@@ -158,9 +156,9 @@ class TestSuite implements Config
         return $session;
     }
 
-    public function _setCurrentSession ($sessionName)
+    public function _setCurrentSession($sessionName)
     {
-        if (! $this->hasSession($sessionName)) {
+        if (!$this->hasSession($sessionName)) {
             throw new ConfigurationException('The session you are trying to access is not available (' . $sessionName . ').');
         }
         $this->currentSession = $this->sessions[$sessionName];
@@ -172,20 +170,20 @@ class TestSuite implements Config
      * @todo ->getSessionContainer->getCurrentSession( )
      * @todo SessionContainer implements Iteratable
      */
-    public function _getCurrentSession ()
+    public function _getCurrentSession()
     {
         return $this->currentSession;
     }
 
-    public function _switchToDefaultSession ()
+    public function _switchToDefaultSession()
     {
         $this->currentSession = $this->defaultSession;
     }
 
-    public function _getSessions ()
+    public function _getSessions()
     {
         $parentSessions = array();
-        if (! is_null($this->parentConfig)) {
+        if (!is_null($this->parentConfig)) {
             $parentSessions = $this->parentConfig->getSessions();
         }
         return array_merge($this->sessions, $parentSessions);
@@ -198,7 +196,7 @@ class TestSuite implements Config
      *
      * @param string $baseDir
      */
-    public function setBaseDir ($baseDir)
+    public function setBaseDir($baseDir)
     {
         $this->baseDir = $baseDir;
     }
@@ -208,7 +206,7 @@ class TestSuite implements Config
      *
      * @param Uri $domain
      */
-    public function setDefaultDomain (Uri $domain)
+    public function setDefaultDomain(Uri $domain)
     {
         $this->defaultDomain = $domain;
     }
@@ -233,7 +231,7 @@ class TestSuite implements Config
      *
      * @return Uri $defaultDomain
      */
-    public function getDefaultDomain ()
+    public function getDefaultDomain()
     {
         return $this->defaultDomain;
     }
@@ -243,7 +241,7 @@ class TestSuite implements Config
      *
      * @return string
      */
-    public function getBaseDir ()
+    public function getBaseDir()
     {
         if (is_null($this->baseDir)) {
             return $this->parentConfig->getBaseDir();
@@ -262,27 +260,27 @@ class TestSuite implements Config
      * @param string $className
      * @param array $parameters
      */
-    public function createTestCase ($name, $className, array $parameters, $failOnError = false)
+    public function createTestCase($name, $className, array $parameters, $failOnError = false)
     {
         $testCaseConfig = new TestCaseConfig($className, $parameters, $failOnError);
         $this->testCases[$name] = $testCaseConfig;
     }
 
-    public function hasTestCaseConfig ()
+    public function hasTestCaseConfig()
     {
         return count($this->testCases) > 0;
     }
 
-    public function getCurrentTestCaseConfig ()
+    public function getCurrentTestCaseConfig()
     {
-        if (! $this->hasTestCaseConfig()) {
+        if (!$this->hasTestCaseConfig()) {
             // @todo use special exeption
             throw new \Exception('No test case was created. See createTestCase().');
         }
         return end($this->testCases);
     }
 
-    private function getReducedPageRequests (array $includedPageRequest, array $excludedPageRequests)
+    private function getReducedPageRequests(array $includedPageRequest, array $excludedPageRequests)
     {
         foreach ($excludedPageRequests as $identifier => $pageRequest) {
             if (array_key_exists($identifier, $includedPageRequest)) {
@@ -298,7 +296,7 @@ class TestSuite implements Config
      *
      * @return array
      */
-    public function getTestCases ()
+    public function getTestCases()
     {
         return $this->testCases;
     }

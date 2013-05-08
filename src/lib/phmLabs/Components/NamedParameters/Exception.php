@@ -11,29 +11,29 @@ namespace phmLabs\Components\NamedParameters;
  */
 class Exception extends \Exception
 {
-  /**
-   * The missing parameter name
-   * @var string
-   */
-  private $missingParameter;
+    /**
+     * The missing parameter name
+     * @var string
+     */
+    private $missingParameter;
 
-  /**
-   * Set the missing parameter
-   *
-   * @param string $paramName
-   */
-  public function setMissingParameter($paramName)
-  {
-    $this->missingParameter = $paramName;
-  }
+    /**
+     * Set the missing parameter
+     *
+     * @param string $paramName
+     */
+    public function setMissingParameter($paramName)
+    {
+        $this->missingParameter = $paramName;
+    }
 
-  /**
-   * Returns the missing parameter
-   *
-   * @return string
-   */
-  public function getMissingParameter()
-  {
-    return $this->missingParameter;
-  }
+    /**
+     * Returns the missing parameter
+     *
+     * @return string
+     */
+    public function getMissingParameter()
+    {
+        return $this->missingParameter;
+    }
 }

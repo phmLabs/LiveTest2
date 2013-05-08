@@ -9,10 +9,9 @@
 
 namespace LiveTest\Event;
 
-use phmLabs\Components\Annovent\Event\Event;
-use phmLabs\Components\Annovent\Dispatcher as AnnoventDispatcher;
-
 use LiveTest\Config\ConfigConfig;
+use phmLabs\Components\Annovent\Dispatcher as AnnoventDispatcher;
+use phmLabs\Components\Annovent\Event\Event;
 
 /**
  * This dispatcher is a standard Annovent dispatcher with the possibility to register
@@ -22,30 +21,28 @@ use LiveTest\Config\ConfigConfig;
  */
 class Dispatcher extends AnnoventDispatcher
 {
-  /**
-   * This function is used to register listeners using a global configuration file
-   *
-   * @param ConfigConfig $config
-   * @param string $runId
-   */
-  public function registerByConfig(ConfigConfig $config, $runId)
-  {
-    foreach ( $config->getListeners() as $listener )
+    /**
+     * This function is used to register listeners using a global configuration file
+     *
+     * @param ConfigConfig $config
+     * @param string $runId
+     */
+    public function registerByConfig(ConfigConfig $config, $runId)
     {
-      $className = $listener['className'];
-      if (!class_exists($className))
-      {
-        throw new \LiveTest\ConfigurationException('Listener not found (' . $className . ').');
-      }
-      $listenerObject = new $className($runId, $this);
-      \LiveTest\Functions::initializeObject($listenerObject, $listener['parameters']);
-      $this->connectListener($listenerObject, $listener['priority']);
+        foreach ($config->getListeners() as $listener) {
+            $className = $listener['className'];
+            if (!class_exists($className)) {
+                throw new \LiveTest\ConfigurationException('Listener not found (' . $className . ').');
+            }
+            $listenerObject = new $className($runId, $this);
+            \LiveTest\Functions::initializeObject($listenerObject, $listener['parameters']);
+            $this->connectListener($listenerObject, $listener['priority']);
+        }
     }
-  }
 
-  public function simpleNotify($name, array $namedParameters = array())
-  {
-    $event = new Event($name, $namedParameters);
-    return $this->notify($event, $namedParameters);
-  }
+    public function simpleNotify($name, array $namedParameters = array())
+    {
+        $event = new Event($name, $namedParameters);
+        return $this->notify($event, $namedParameters);
+    }
 }

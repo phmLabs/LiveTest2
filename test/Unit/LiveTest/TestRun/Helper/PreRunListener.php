@@ -6,7 +6,7 @@ use Base\Http\Response\Response;
 use LiveTest\TestRun\Result\Result;
 use LiveTest\Event\Dispatcher;
 use LiveTest\Listener\Listener;
-use phmLabs\Components\Annovent\Event\Event;
+use phmLabs\Components\Annovent\Annotation\Event;
 
 class PreRunListener implements Listener
 {

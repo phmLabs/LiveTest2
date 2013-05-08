@@ -9,21 +9,20 @@
 
 namespace LiveTest\Packages\Runner\Listeners;
 
-use LiveTest\Event\Dispatcher;
 use LiveTest\Listener\Base;
 use LiveTest\TestRun\Properties;
-use phmLabs\Components\Annovent\Event\Event;
+use phmLabs\Components\Annovent\Annotation\Event;
 
 /**
  * @author Nils Langner
  */
 class Credentials extends Base
 {
-  /**
-   * @Event("LiveTest.Runner.InitCore")
-   */
-  public function runnerInit()
-  {
-    echo "\nLiveTest " . LIVETEST_VERSION . " by Nils Langner\n\n";
-  }
+    /**
+     * @Event("LiveTest.Runner.InitCore")
+     */
+    public function runnerInit()
+    {
+        echo "\nLiveTest " . LIVETEST_VERSION . " by Nils Langner\n\n";
+    }
 }

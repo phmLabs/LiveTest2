@@ -25,8 +25,6 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
     {
         ob_start();
 
-        $this->markTestSkipped();
-
         include_once __DIR__ . '/../../../../src/version.php';
         $this->dispatcher = new Dispatcher();
         $this->dispatcher->connectListener(new CliListener(1, $this->dispatcher), 1);
@@ -44,7 +42,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $listener->getArgument('foo'));
 
         $listener = $this->getListenerForEvent('LiveTest.Runner.InitConfig');
-        $this->assertEquals('http://www.example.com/', $listener->getConfigDefaultDomain());
+        $this->assertEquals('http://www.example.com', $listener->getConfigDefaultDomain());
 
         $listener = $this->getListenerForEvent('LiveTest.Runner.InitCore');
         $this->assertEquals('bar', $listener->getCoreArgument('foo'));

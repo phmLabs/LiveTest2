@@ -21,11 +21,11 @@ use LiveTest\Event\Dispatcher;
  */
 interface Listener extends \phmLabs\Components\Annovent\Listener
 {
-  /**
-   * The standardized constructor.
-   *
-   * @param string $runId
-   * @param Dispatcher $eventDispatcher
-   */
-  public function __construct($runId, Dispatcher $eventDispatcher);
+    /**
+     * The standardized constructor.
+     *
+     * @param string $runId
+     * @param Dispatcher $eventDispatcher
+     */
+    public function __construct($runId, Dispatcher $eventDispatcher);
 }

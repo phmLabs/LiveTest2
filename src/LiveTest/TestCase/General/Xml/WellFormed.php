@@ -1,14 +1,15 @@
 <?php
 namespace LiveTest\TestCase\General\Xml;
-use LiveTest\TestCase\Exception;
+
 use Base\Http\Request\Request;
 use Base\Http\Response\Response;
+use LiveTest\TestCase\Exception;
 use LiveTest\TestCase\TestCase;
 
 class WellFormed implements TestCase
 {
 
-    public function test (Response $response, Request $request)
+    public function test(Response $response, Request $request)
     {
         libxml_clear_errors();
 

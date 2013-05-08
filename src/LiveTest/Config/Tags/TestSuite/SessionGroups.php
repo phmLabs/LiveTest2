@@ -7,12 +7,11 @@
  */
 namespace LiveTest\Config\Tags\TestSuite;
 
+use LiveTest\Connection\Session\WarmUp\NullWarmUp;
+
 /**
  * @author Nils Langner
  */
-use LiveTest\Connection\Session\WarmUp\NullWarmUp;
-use LiveTest\Connection\Session\Session;
-
 class SessionGroups extends Base
 {
 
@@ -20,7 +19,7 @@ class SessionGroups extends Base
      *
      * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
      */
-    protected function doProcess (\LiveTest\Config\TestSuite $config, $sessions)
+    protected function doProcess(\LiveTest\Config\TestSuite $config, $sessions)
     {
         foreach ($sessions as $sessionGroupName => $sessionNames) {
             $config->addSessionGroup($sessionGroupName, $sessionNames);

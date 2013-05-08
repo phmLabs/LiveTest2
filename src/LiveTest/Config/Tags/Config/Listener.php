@@ -26,26 +26,22 @@ use LiveTest\Config\ConfigConfig;
  */
 class Listener extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\Config.Base::doProcess()
-   */
-  protected function doProcess(ConfigConfig $config, $parameters)
-  {
-    foreach ( $parameters as $name => $listener )
+    /**
+     * @see LiveTest\Config\Tags\Config.Base::doProcess()
+     */
+    protected function doProcess(ConfigConfig $config, $parameters)
     {
-      if (!array_key_exists('class', $listener) || $listener['class'] == '')
-      {
-        throw new \Exception('The class name for the "' . $name . '" listener is missing. Please check your configuration.');
-      }
-      if (!array_key_exists('priority', $listener))
-      {
-        $listener['priority'] = 0;
-      }
-      if (!array_key_exists('parameter', $listener))
-      {
-        $listener['parameter'] = array ();
-      }
-      $config->addListener($name, $listener['class'], $listener['parameter'], $listener['priority']);
+        foreach ($parameters as $name => $listener) {
+            if (!array_key_exists('class', $listener) || $listener['class'] == '') {
+                throw new \Exception('The class name for the "' . $name . '" listener is missing. Please check your configuration.');
+            }
+            if (!array_key_exists('priority', $listener)) {
+                $listener['priority'] = 0;
+            }
+            if (!array_key_exists('parameter', $listener)) {
+                $listener['parameter'] = array();
+            }
+            $config->addListener($name, $listener['class'], $listener['parameter'], $listener['priority']);
+        }
     }
-  }
 }

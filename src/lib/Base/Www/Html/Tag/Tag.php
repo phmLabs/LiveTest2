@@ -4,5 +4,5 @@ namespace Base\Www\Html\Tag;
 
 interface Tag
 {
-  public function getTagName();
+    public function getTagName();
 }

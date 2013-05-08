@@ -2,69 +2,63 @@
 
 namespace LiveTest\Packages\Website\Listener;
 
-use Zend\Http\Client as ZendClient;
-
-use Base\Http\Request\Request;
 use Base\Http\Client\Zend;
+use Base\Http\Request\Request;
 use Base\Www\Uri;
-use phmLabs\Components\Annovent\Event\Event;
 use LiveTest\Connection\Request\Symfony;
 use LiveTest\Listener\Base;
 use LiveTest\TestRun\Information;
 use LiveTest\TestRun\Properties;
+use Zend\Http\Client as ZendClient;
+use phmLabs\Components\Annovent\Annotation\Event;
 
 class Statistics extends Base
 {
-  private $urls;
-  private $tests;
+    private $urls;
+    private $tests;
 
-  const PHM_API = 'http://livetest.phmlabs.com/api/statistics.php';
+    const PHM_API = 'http://livetest.phmlabs.com/api/statistics.php';
 
-  /**
-   * @Event("LiveTest.Run.PreRun")
-   * @param Properties $properties
-   */
-  public function preRun(Properties $properties)
-  {
-    $this->urls = $properties->getUriCount();
-    $this->tests = $this->getTotalTestCount($properties);
-  }
-
-  /**
-   * @param Properties $properties
-   */
-  private function getTotalTestCount(Properties $properties)
-  {
-    $count = 0;
-    foreach ($properties->getTestSets() as $sessionName => $testSets)
+    /**
+     * @Event("LiveTest.Run.PreRun")
+     * @param Properties $properties
+     */
+    public function preRun(Properties $properties)
     {
-      foreach ($testSets as $testSet)
-      {
-        {
-          $count += $testSet->getTestCount();
+        $this->urls = $properties->getUriCount();
+        $this->tests = $this->getTotalTestCount($properties);
+    }
+
+    /**
+     * @param Properties $properties
+     */
+    private function getTotalTestCount(Properties $properties)
+    {
+        $count = 0;
+        foreach ($properties->getTestSets() as $sessionName => $testSets) {
+            foreach ($testSets as $testSet) {
+                {
+                    $count += $testSet->getTestCount();
+                }
+            }
         }
-      }
+        return $count;
     }
-    return $count;
-  }
 
-  /**
-   * @Event("LiveTest.Run.PostRun")
-   *
-   * @param Information $information
-   */
-  public function postRun(Information $information)
-  {
-    try
+    /**
+     * @Event("LiveTest.Run.PostRun")
+     *
+     * @param Information $information
+     */
+    public function postRun(Information $information)
     {
-      $postData = array ('urls' => $this->urls, 'tests' => $this->tests);
-      $request = Symfony::create(new Uri(self::PHM_API), Request::GET, $postData);
+        try {
+            $postData = array('urls' => $this->urls, 'tests' => $this->tests);
+            $request = Symfony::create(new Uri(self::PHM_API), Request::GET, $postData);
 
-      $client = new Zend();
-      $response = $client->request($request);
+            $client = new Zend();
+            $response = $client->request($request);
+        } catch (\Exception $e) {
+        }
     }
-    catch (\Exception $e)
-    {
-    }
-  }
 }

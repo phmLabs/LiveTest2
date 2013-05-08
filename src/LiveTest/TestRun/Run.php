@@ -7,13 +7,14 @@
  */
 namespace LiveTest\TestRun;
 
-use LiveTest\ConfigurationException;
-use LiveTest\Event\Dispatcher;
-use LiveTest\TestRun\Result\Result;
 use Base\Http\Client\Client;
 use Base\Http\ConnectionStatus;
 use Base\Http\Response\Response;
+use Base\Http\Response\Zend;
 use Base\Timer\Timer;
+use LiveTest\Event\Dispatcher;
+use LiveTest\TestRun\Result\Result;
+use Zend\Http\Request;
 
 class Run
 {
@@ -46,7 +47,7 @@ class Run
      * @param Client $httpClient
      * @param Dispatcher $dispatcher
      */
-    public function __construct (Properties $properties, array $httpClients, Dispatcher $dispatcher)
+    public function __construct(Properties $properties, array $httpClients, Dispatcher $dispatcher)
     {
         $this->eventDispatcher = $dispatcher;
         $this->httpClients = $httpClients;
@@ -60,7 +61,7 @@ class Run
      * @param Test $test
      * @return TestCase
      */
-    private function getInitializedTestCase (Test $test)
+    private function getInitializedTestCase(Test $test)
     {
         $testCaseName = $test->getClassName();
 
@@ -83,7 +84,7 @@ class Run
      * @param TestSet $testSet
      * @param Response $response
      */
-    private function runTests (TestSet $testSet, Response $response, $sessionName)
+    private function runTests(TestSet $testSet, Response $response, $sessionName)
     {
         foreach ($testSet->getTests() as $test) {
             $runStatus = Result::STATUS_SUCCESS;
@@ -103,12 +104,12 @@ class Run
             // @todo response is part of the result so it should not be handled
             // separatly
             $this->eventDispatcher->simpleNotify('LiveTest.Run.HandleResult', array(
-                    'result' => $result,
-                    'response' => $response));
+                'result' => $result,
+                'response' => $response));
 
             if ($runStatus != Result::STATUS_SUCCESS && $test->isFailOnError()) {
                 $this->eventDispatcher->simpleNotify('LiveTest.Run.FailOnError', array(
-                        'test' => $test));
+                    'test' => $test));
                 return;
             }
         }
@@ -122,7 +123,7 @@ class Run
      *
      * @param TestSet $testSet
      */
-    private function runTestSet (TestSet $testSet, $sessionName)
+    private function runTestSet(TestSet $testSet, $sessionName)
     {
         $connectionStatusValue = ConnectionStatus::SUCCESS;
         $connectionStatusMessage = '';
@@ -130,14 +131,17 @@ class Run
         $request = $testSet->getRequest();
 
         $this->eventDispatcher->simpleNotify('LiveTest.Run.PrepareRequest', array(
-                'request' => $request));
+            'request' => $request));
 
         try {
             $client = $this->httpClients[$sessionName];
             // the client must be reset, otherwise curl dies
-            $client->resetParameters();
+            //$client->resetParameters();
+            $zendRequest = new Request();
+            $zendRequest->setMethod($request->getMethod());
+            $zendRequest->setUri($request->getUri());
 
-            $response = $client->request($request);
+            $response = $client->request(new \Base\Http\Request\Zend($zendRequest));
         } catch (\Zend\Http\Exception $e) {
             $connectionStatusValue = ConnectionStatus::ERROR;
             $connectionStatusMessage = $e->getMessage();
@@ -145,11 +149,14 @@ class Run
 
         $connectionStatus = new ConnectionStatus($connectionStatusValue, $request, $connectionStatusMessage);
         if (isset($response)) {
+            if ($response instanceof \Zend\Http\Response) {
+                $response = new Zend($response, 5);
+            }
             $connectionStatus->setResponse($response);
         }
 
         $this->eventDispatcher->simpleNotify('LiveTest.Run.HandleConnectionStatus', array(
-                'connectionStatus' => $connectionStatus));
+            'connectionStatus' => $connectionStatus));
 
         if ($connectionStatusValue === ConnectionStatus::SUCCESS) {
             $this->runTests($testSet, $response, $sessionName);
@@ -162,10 +169,10 @@ class Run
      * @notify LiveTest.Run.PostRun
      * @notify LiveTest.Run.PreRun
      */
-    public function run ()
+    public function run()
     {
         $this->eventDispatcher->simpleNotify('LiveTest.Run.PreRun', array(
-                'properties' => $this->properties));
+            'properties' => $this->properties));
 
         // @todo move timer to runner.php
         $timer = new Timer();
@@ -179,6 +186,6 @@ class Run
         $information = new Information($timer->stop(), $this->properties->getDefaultDomain());
 
         $this->eventDispatcher->simpleNotify('LiveTest.Run.PostRun', array(
-                'information' => $information));
+            'information' => $information));
     }
 }
