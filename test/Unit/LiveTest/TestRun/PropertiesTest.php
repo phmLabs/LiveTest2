@@ -1,14 +1,10 @@
 <?php
 namespace Unit\LiveTest\TestRun;
 
-use LiveTest\Event\Dispatcher;
-
-use LiveTest\Connection\Session\Session;
-
-use LiveTest\Config\TestSuite;
-
 use Base\Www\Uri;
+use LiveTest\Config\TestSuite;
 use LiveTest\Connection\Request\Symfony;
+use LiveTest\Event\Dispatcher;
 use LiveTest\TestRun\Properties;
 
 /**
@@ -28,14 +24,14 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-      $uri = new Uri('http://www.example.com');
-      $testSuiteConfig = new TestSuite();
-      $this->object = new Properties($testSuiteConfig, $uri);
+        $uri = new Uri('http://www.example.com/');
+        $testSuiteConfig = new TestSuite();
+        $this->object = new Properties($testSuiteConfig, $uri);
     }
 
     public function testGetDefaultDomain()
     {
-        $this->assertEquals("http://www.example.com/",  $this->object->getDefaultDomain()->toString());
+        $this->assertEquals("http://www.example.com/", $this->object->getDefaultDomain()->toString());
     }
 
     public function testGetTestSets()
@@ -45,22 +41,22 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
 
     public function test__toString()
     {
-      $this->assertEquals("",$this->object->__toString());
+        $this->assertEquals("", $this->object->__toString());
+    }
+
+    /**
+     * @expectedException Zend\Config\Exception\InvalidArgumentException
+     */
+    public function testCreateByYamlFileConfigException()
+    {
+        Properties::createByYamlFile('none', new Uri("http://www.example.com"), new Dispatcher());
     }
 
     /**
      * @expectedException \LiveTest\ConfigurationException
      */
-    public function testCreateByYamlFileConfigException()
-    {
-       Properties::createByYamlFile('none', new Uri("http://www.example.com"), new Dispatcher());
-    }
-
-	/**
-     * @expectedException LiveTest\ConfigurationException
-     */
     public function testCreateByYamlFileConfigurationException()
     {
-       Properties::createByYamlFile(__DIR__.'/Fixtures/testsuite_error.yml', new Uri("http://www.example.com"), new Dispatcher());
+        Properties::createByYamlFile(__DIR__ . '/Fixtures/testsuite_error.yml', new Uri("http://www.example.com"), new Dispatcher());
     }
 }

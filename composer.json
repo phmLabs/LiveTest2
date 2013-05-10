@@ -1,0 +1,35 @@
+{
+    "name" : "phmlabs/livetest2",
+
+    "require" : {
+        "doctrine/common" : "~2.3",
+        "doctrine/cache" : "~1.0",
+        "doctrine/annotations" : "~1.1",
+        "doctrine/collections" : "~1.1",
+
+        "symfony/http-foundation": "~2.2",
+        "symfony/yaml": "~2.2",
+
+        "zendframework/zend-config" : "~2.0",
+        "zendframework/zend-http" : "~2.0"
+    },
+
+    "scripts": {
+        "post-update-cmd": [
+            "echo apply dirty patch hack until https://github.com/zendframework/zf2/issues/4039 is applied",
+            "cd vendor/zendframework/zend-http/Zend/Http/ && patch --forward --batch -p1 < ../../../../../set_cookie.patch"
+        ],
+        "post-install-cmd": [
+            "echo apply dirty patch hack until https://github.com/zendframework/zf2/issues/4039 is applied",
+            "cd vendor/zendframework/zend-http/Zend/Http/ && patch --forward --batch -p1 < ../../../../../set_cookie.patch"
+        ]
+    },
+
+    "autoload" : {
+        "psr-0" : {
+            "phmLabs" : "src/lib/",
+            "Base": "src/lib/",
+            "LiveTest": "src/"
+        }
+    }
+}

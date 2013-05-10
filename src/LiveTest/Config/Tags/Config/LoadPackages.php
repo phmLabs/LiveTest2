@@ -24,33 +24,30 @@ use LiveTest\Config\ConfigConfig;
  */
 class LoadPackages extends Base
 {
-  private $includedPaths = array();
+    private $includedPaths = array();
 
-  /**
-   * @todo check if the directory really exists
-   * @see LiveTest\Config\Tags\Config.Base::doProcess()
-   */
-  protected function doProcess(ConfigConfig $config, $paths)
-  {
-    $this->includedPaths = $paths;
-
-    foreach ( $paths as $path )
+    /**
+     * @todo check if the directory really exists
+     * @see LiveTest\Config\Tags\Config.Base::doProcess()
+     */
+    protected function doProcess(ConfigConfig $config, $paths)
     {
-      set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+        $this->includedPaths = $paths;
+
+        foreach ($paths as $path) {
+            set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+        }
+
+        spl_autoload_register(array($this, 'autoload'));
     }
 
-    spl_autoload_register(array ($this, 'autoload' ));
-  }
-
-  public function autoload($classname)
-  {
-    foreach ( $this->includedPaths as $path )
+    public function autoload($classname)
     {
-      $classPath = $path . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $classname) . '.php';
-      if (file_exists($classPath))
-      {
-        include_once $classPath;
-      }
+        foreach ($this->includedPaths as $path) {
+            $classPath = $path . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $classname) . '.php';
+            if (file_exists($classPath)) {
+                include_once $classPath;
+            }
+        }
     }
-  }
 }

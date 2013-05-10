@@ -2,6 +2,7 @@
 
 <phpunit stopOnFailure="false"
          syntaxCheck="false"
+         colors="true"
          bootstrap="bootstrap.php"
 >
     <testsuites>

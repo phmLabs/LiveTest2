@@ -9,8 +9,8 @@
 
 namespace LiveTest\TestCase\General\Html;
 
-use Base\Www\Html\Validator\RichText;
 use Base\Www\Html\Document;
+use Base\Www\Html\Validator\RichText;
 use LiveTest\TestCase\Exception;
 
 /**
@@ -24,41 +24,40 @@ use LiveTest\TestCase\Exception;
  */
 class ValidRichText extends TestCase
 {
-  /**
-   *
-   * @var Base\Www\Html\Validator The used validator
-   */
-  private $richTextValidator = null;
+    /**
+     *
+     * @var Base\Www\Html\Validator The used validator
+     */
+    private $richTextValidator = null;
 
-  /**
-   * Initialize the validation webservice
-   *
-   * @todo check if Validator can be injected into init
-   */
-  public function init($ignoreWarnings=false)
-  {
-    // prepare http client
-    $httpClient = new \Base\Http\Client\Zend();
-
-    // create validator and inject http client
-    $this->richTextValidator = new RichText($httpClient,$ignoreWarnings);
-  }
-
-  /**
-   * Validate the markup using the given validator
-   *
-   * @see LiveTest\TestCase\General\Html.TestCase::runTest()
-   */
-  protected function runTest(Document $htmlDocument)
-  {
-    $errors = $this->richTextValidator->validate($htmlDocument);
-    if ( $errors !== false)
+    /**
+     * Initialize the validation webservice
+     *
+     * @todo check if Validator can be injected into init
+     */
+    public function init($ignoreWarnings = false)
     {
-      $resultString = $errors[0];
-      for ($i = 1; $i < min(5, count($errors)); $i ++) {
-            $resultString .= ', ' . $errors[$i];
-      }
-      throw new Exception( $resultString );
+        // prepare http client
+        $httpClient = new \Base\Http\Client\Zend();
+
+        // create validator and inject http client
+        $this->richTextValidator = new RichText($httpClient, $ignoreWarnings);
     }
-  }
+
+    /**
+     * Validate the markup using the given validator
+     *
+     * @see LiveTest\TestCase\General\Html.TestCase::runTest()
+     */
+    protected function runTest(Document $htmlDocument)
+    {
+        $errors = $this->richTextValidator->validate($htmlDocument);
+        if ($errors !== false) {
+            $resultString = $errors[0];
+            for ($i = 1; $i < min(5, count($errors)); $i++) {
+                $resultString .= ', ' . $errors[$i];
+            }
+            throw new Exception($resultString);
+        }
+    }
 }

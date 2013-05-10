@@ -14,20 +14,18 @@ use LiveTest\Config\TestSuite as TestSuiteConfig;
 /**
  * This tag is used to add a PageManupulator to a given config. This is needed
  * if a test case wants to manipulate the url of a pageRequest.
-
  * @author Nils Langner
  */
 class PageManipulators extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
-   */
-  protected function doProcess(TestSuiteConfig $config, $manipulators)
-  {
-    foreach ( $manipulators as $manipulator )
+    /**
+     * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
+     */
+    protected function doProcess(TestSuiteConfig $config, $manipulators)
     {
-      $manipulatorObject = new $manipulator();
-      $config->addPageManipulator($manipulatorObject);
+        foreach ($manipulators as $manipulator) {
+            $manipulatorObject = new $manipulator();
+            $config->addPageManipulator($manipulatorObject);
+        }
     }
-  }
 }

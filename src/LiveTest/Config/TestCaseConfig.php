@@ -16,24 +16,24 @@ class TestCaseConfig
 
     private $sessionNames = array();
 
-    public function __construct ($className, array $parameters, $failOnError = false)
+    public function __construct($className, array $parameters, $failOnError = false)
     {
         $this->className = $className;
         $this->parameters = $parameters;
         $this->failOnError = $failOnError;
     }
 
-    public function getClassName ()
+    public function getClassName()
     {
         return $this->className;
     }
 
-    public function getParameters ()
+    public function getParameters()
     {
         return $this->parameters;
     }
 
-    public function addSession ($session)
+    public function addSession($session)
     {
         $this->sessionNames[] = $session;
     }
@@ -48,12 +48,12 @@ class TestCaseConfig
         return $this->sessionGroupNames;
     }
 
-    public function getSessionNames ()
+    public function getSessionNames()
     {
         return $this->sessionNames;
     }
 
-    public function isDefaultSessionUsed ()
+    public function isDefaultSessionUsed()
     {
     }
 

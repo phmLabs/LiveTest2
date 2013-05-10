@@ -9,55 +9,55 @@
 
 namespace LiveTest\TestRun\Result;
 
+use Base\Collection\Set;
+
 /**
  * This class is a collection of test results.
  *
  * @author Nils Langner
  */
-use Base\Collection\Set;
-
 class ResultSet extends Set
 {
-  /**
-   * The status of the set. The status is the most severe status of the
-   * containing results.
-   */
-  private $status;
-  
-  /**
-   * The weight of the statuses. Used to calculate the set status.
-   * @var array
-   */
-  private $statusWeight = array( );
+    /**
+     * The status of the set. The status is the most severe status of the
+     * containing results.
+     */
+    private $status;
 
-  public function __construct()
-  {
-    $this->statusWeight = array( Result::STATUS_SUCCESS => 0,
-                                 Result::STATUS_FAILED => 1,
-                                 Result::STATUS_ERROR => 2 );
+    /**
+     * The weight of the statuses. Used to calculate the set status.
+     * @var array
+     */
+    private $statusWeight = array();
 
-    $this->status = $this->statusWeight[Result::STATUS_SUCCESS];
-  }
+    public function __construct()
+    {
+        $this->statusWeight = array(Result::STATUS_SUCCESS => 0,
+            Result::STATUS_FAILED => 1,
+            Result::STATUS_ERROR => 2);
 
-  /**
-   * Adds a result to the set
-   *
-   * @param Result $result
-   */
-  public function addResult(Result $result)
-  {
-  	$this->status = max($this->statusWeight[$result->getStatus()], $this->status);
-    $this->addElement($result);
-  }
+        $this->status = $this->statusWeight[Result::STATUS_SUCCESS];
+    }
 
-  /**
-   * Returns the calculated status of this set.
-   *
-   * @return string
-   */
-  public function getStatus()
-  {
-  	$flippedWeight = array_flip($this->statusWeight);
-    return $flippedWeight[$this->status];
-  }
+    /**
+     * Adds a result to the set
+     *
+     * @param Result $result
+     */
+    public function addResult(Result $result)
+    {
+        $this->status = max($this->statusWeight[$result->getStatus()], $this->status);
+        $this->addElement($result);
+    }
+
+    /**
+     * Returns the calculated status of this set.
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        $flippedWeight = array_flip($this->statusWeight);
+        return $flippedWeight[$this->status];
+    }
 }

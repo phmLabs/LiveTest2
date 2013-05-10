@@ -22,11 +22,11 @@ use LiveTest\Config\ConfigConfig;
  */
 class Http extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\Config.Base::doProcess()
-   */
-  protected function doProcess(ConfigConfig $config, $parameters)
-  {
-    $config->addListener('httpListener', 'LiveTest\Packages\Http\Listeners\ClientConfiguration', $parameters);
-  }
+    /**
+     * @see LiveTest\Config\Tags\Config.Base::doProcess()
+     */
+    protected function doProcess(ConfigConfig $config, $parameters)
+    {
+        $config->addListener('httpListener', 'LiveTest\Packages\Http\Listeners\ClientConfiguration', $parameters);
+    }
 }

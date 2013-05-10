@@ -9,12 +9,11 @@
 
 namespace LiveTest\Packages\Upgrade\Listener;
 
+use LiveTest\Listener\Base;
 use Zend\Http\Client\Adapter\Curl;
 use Zend\Http\Client;
-
-use phmLabs\Components\Annovent\Event\Event;
-
-use LiveTest\Listener\Base;
+use phmLabs\Components\Annovent\Annotation\Event;
+use phmLabs\Components\Annovent\Event\Event as BaseEvent;
 
 /**
  * This listener adds the --check-upgrade argument to check for a newer version
@@ -25,42 +24,38 @@ use LiveTest\Listener\Base;
  */
 class Upgrade extends Base
 {
-  /**
-   * The url where the latest stable version number can be found
-   * @var string
-   */
-  const PHM_API = 'http://livetest.phmlabs.com/api/version';
+    /**
+     * The url where the latest stable version number can be found
+     * @var string
+     */
+    const PHM_API = 'http://livetest.phmlabs.com/api/version';
 
-  /**
-   * This function checks if a newer version of livetest is avaiable.
-   *
-   * @Event("LiveTest.Runner.Init")
-   *
-   * @param array $arguments
-   * @param Event $event
-   */
-  public function doUpgradeCheck($arguments, Event $event)
-  {
-    if (array_key_exists('check-upgrade', $arguments))
+    /**
+     * This function checks if a newer version of livetest is avaiable.
+     *
+     * @Event("LiveTest.Runner.Init")
+     *
+     * @param array $arguments
+     * @param Event $event
+     */
+    public function doUpgradeCheck($arguments, BaseEvent $event)
     {
-      echo '  Checking for upgrade (current version ' . LIVETEST_VERSION . '): ';
+        if (array_key_exists('check-upgrade', $arguments)) {
+            echo '  Checking for upgrade (current version ' . LIVETEST_VERSION . '): ';
 
-      $zend = new Client(self::PHM_API);
-      $zend->setAdapter(new Curl());
+            $zend = new Client(self::PHM_API);
+            $zend->setAdapter(new Curl());
 
-      $latestStable = trim($zend->request()->getBody());
+            $latestStable = trim($zend->request()->getBody());
 
-      if( version_compare(LIVETEST_VERSION, $latestStable, '<' ))
-      {
-        echo 'Newer version found (latest stable: '.$latestStable.").\n".
-             '                                                Please visit livetest.www.phmlabs.com for more information.';
-      }
-      else
-      {
-        echo 'No newer version found (latest stable: '.$latestStable.')';
-      }
+            if (version_compare(LIVETEST_VERSION, $latestStable, '<')) {
+                echo 'Newer version found (latest stable: ' . $latestStable . ").\n" .
+                    '                                                Please visit livetest.www.phmlabs.com for more information.';
+            } else {
+                echo 'No newer version found (latest stable: ' . $latestStable . ')';
+            }
 
-      $event->setProcessed();
+            $event->setProcessed();
+        }
     }
-  }
 }

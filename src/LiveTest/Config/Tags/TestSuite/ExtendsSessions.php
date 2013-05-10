@@ -9,9 +9,8 @@
 
 namespace LiveTest\Config\Tags\TestSuite;
 
-use LiveTest\ConfigurationException;
-
 use LiveTest\Config\TestSuite as TestSuiteConfig;
+use LiveTest\ConfigurationException;
 use LiveTest\Connection\Request\Symfony as Request;
 
 /**
@@ -19,23 +18,19 @@ use LiveTest\Connection\Request\Symfony as Request;
  */
 class ExtendsSessions extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
-   */
-  protected function doProcess(TestSuiteConfig $config, $sessioNames)
-  {
-    $currentSession = $config->getCurrentSession();
-    foreach ($sessioNames as $sessionName)
+    /**
+     * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
+     */
+    protected function doProcess(TestSuiteConfig $config, $sessioNames)
     {
-      if ($config->hasSession($sessionName))
-      {
-        $currentSession->extendSession($config->getSession($sessionName));
-      }
-      else
-      {
-        throw new ConfigurationException(
-            "Can't extend an undefined session (" . $sessionName . "). Sessions must be defined before they can be used.");
-      }
+        $currentSession = $config->getCurrentSession();
+        foreach ($sessioNames as $sessionName) {
+            if ($config->hasSession($sessionName)) {
+                $currentSession->extendSession($config->getSession($sessionName));
+            } else {
+                throw new ConfigurationException(
+                    "Can't extend an undefined session (" . $sessionName . "). Sessions must be defined before they can be used.");
+            }
+        }
     }
-  }
 }

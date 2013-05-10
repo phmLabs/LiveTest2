@@ -6,8 +6,8 @@
  * source code.
  */
 namespace LiveTest\Config\Tags\TestSuite;
-use LiveTest\ConfigurationException;
 use Base\Config\Yaml;
+use LiveTest\ConfigurationException;
 use Zend\Config\Exception\InvalidArgumentException;
 
 /**
@@ -21,7 +21,7 @@ use Zend\Config\Exception\InvalidArgumentException;
 class IncludedTestSuites extends Base
 {
 
-    protected function doProcess (\LiveTest\Config\TestSuite $config, $parameters)
+    protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
     {
         foreach ($parameters as $file) {
             // @todo base dir must be set. Would be a conflict if the standard

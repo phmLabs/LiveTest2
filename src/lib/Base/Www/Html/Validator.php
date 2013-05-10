@@ -18,11 +18,11 @@ use Base\Www\Html\Document;
  */
 interface Validator
 {
-  /**
-   * @param Document A document we want to validate
-   * @return bool valid: true | invalid: false
-   */
-  public function validate(Document $htmlDocument);
+    /**
+     * @param Document A document we want to validate
+     * @return bool valid: true | invalid: false
+     */
+    public function validate(Document $htmlDocument);
 }
 
 ?>

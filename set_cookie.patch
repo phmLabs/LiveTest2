@@ -1,0 +1,15 @@
+diff --git a/Header/SetCookie.php b/Header/SetCookie.php
+old mode 100644
+new mode 100755
+index 4c24fdc..2b0b7a3
+--- a/Header/SetCookie.php
++++ b/Header/SetCookie.php
+@@ -143,7 +143,7 @@ class SetCookie implements MultipleHeaderInterface
+             throw new Exception\InvalidArgumentException('Invalid header line for Set-Cookie string: "' . $name . '"');
+         }
+ 
+-        $multipleHeaders = preg_split('#(?<!Sun|Mon|Tue|Wed|Thu|Fri|Sat),\s*#', $value);
++        $multipleHeaders = preg_split('#(?<!Sun|Sunday|Mon|Monday|Tue|Tuesday|Wed|Wednesday|Thu|Thursday|Fri|Friday|Sat|Saturday),\s*#', $value);
+ 
+         if (count($multipleHeaders) <= 1) {
+             return $setCookieProcessor(array_pop($multipleHeaders));

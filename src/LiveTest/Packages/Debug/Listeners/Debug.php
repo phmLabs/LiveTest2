@@ -10,9 +10,8 @@
 namespace LiveTest\Packages\Debug\Listeners;
 
 use Base\String\Manipulator;
-
-use phmLabs\Components\Annovent\Event\Event;
-
+use phmLabs\Components\Annovent\Annotation\Event;
+use phmLabs\Components\Annovent\Event\Event as BaseEvent;
 use LiveTest\Listener\Base;
 
 /**
@@ -23,73 +22,66 @@ use LiveTest\Listener\Base;
  */
 class Debug extends Base
 {
-  private $debug = false;
+    private $debug = false;
 
-  /**
-   * @Event("LiveTest.Runner.InitCore")
-   *
-   * @param array $arguments
-   */
-  public function runnerInitCore(array $arguments)
-  {
-    if (array_key_exists('debug', $arguments))
+    /**
+     * @Event("LiveTest.Runner.InitCore")
+     *
+     * @param array $arguments
+     */
+    public function runnerInitCore(array $arguments)
     {
-      ini_set('display_errors', 1);
-      error_reporting(E_ALL);
-      $this->debug = true;
+        if (array_key_exists('debug', $arguments)) {
+            ini_set('display_errors', 1);
+            error_reporting(E_ALL);
+            $this->debug = true;
+        }
+        return true;
     }
-    return true;
-  }
 
-  /**
-   * @Event("LiveTest.Configuration.Exception")
-   *
-   * @param \Exception $e
-   */
-  public function handleConfigurationException(\Exception $exception, Event $event)
-  {
-    $event->setProcessed();
-    if ($this->debug)
+    /**
+     * @Event("LiveTest.Configuration.Exception")
+     *
+     * @param \Exception $e
+     */
+    public function handleConfigurationException(\Exception $exception, BaseEvent $event)
     {
-      echo "  Configuration Warning (debug modus):\n\n";
-      echo "  Class  : " . get_class($exception) . "\n";
-      echo "  Message: " . $exception->getMessage() . "\n";
-      echo "  File   : " . $exception->getFile() . "\n";
-      echo "  Line   : " . $exception->getLine() . "\n\n";
-      $trace = str_replace('#', '           #', $exception->getTraceAsString());
-      $trace = str_replace('           #0', '#0', $trace);
-      echo "  Trace  : " . $trace;
+        $event->setProcessed();
+        if ($this->debug) {
+            echo "  Configuration Warning (debug modus):\n\n";
+            echo "  Class  : " . get_class($exception) . "\n";
+            echo "  Message: " . $exception->getMessage() . "\n";
+            echo "  File   : " . $exception->getFile() . "\n";
+            echo "  Line   : " . $exception->getLine() . "\n\n";
+            $trace = str_replace('#', '           #', $exception->getTraceAsString());
+            $trace = str_replace('           #0', '#0', $trace);
+            echo "  Trace  : " . $trace;
+        } else {
+            echo "  Configuration Warning: " . Manipulator::addCharsOnWhitespace($exception->getMessage(),
+                "\n                        ",
+                78);
+        }
     }
-    else
-    {
-      echo "  Configuration Warning: " . Manipulator::addCharsOnWhitespace($exception->getMessage(),
-                                                                           "\n                        ",
-                                                                           78);
-    }
-  }
 
-  /**
-   * @Event("LiveTest.Runner.Error")
-   *
-   * @param \Exception $e
-   */
-  public function handleException(\Exception $exception, Event $event)
-  {
-    $event->setProcessed();
-    if ($this->debug)
+    /**
+     * @Event("LiveTest.Runner.Error")
+     *
+     * @param \Exception $e
+     */
+    public function handleException(\Exception $exception, BaseEvent $event)
     {
-      echo "  An error occured (debug modus):\n\n";
-      echo "  Class  : " . get_class($exception) . "\n";
-      echo "  Message: " . $exception->getMessage() . "\n";
-      echo "  File   : " . $exception->getFile() . "\n";
-      echo "  Line   : " . $exception->getLine() . "\n\n";
-      $trace = str_replace('#', '           #', $exception->getTraceAsString());
-      $trace = str_replace('           #0', '#0', $trace);
-      echo "  Trace  : " . $trace;
+        $event->setProcessed();
+        if ($this->debug) {
+            echo "  An error occured (debug modus):\n\n";
+            echo "  Class  : " . get_class($exception) . "\n";
+            echo "  Message: " . $exception->getMessage() . "\n";
+            echo "  File   : " . $exception->getFile() . "\n";
+            echo "  Line   : " . $exception->getLine() . "\n\n";
+            $trace = str_replace('#', '           #', $exception->getTraceAsString());
+            $trace = str_replace('           #0', '#0', $trace);
+            echo "  Trace  : " . $trace;
+        } else {
+            echo "  An error occured: " . $exception->getMessage();
+        }
     }
-    else
-    {
-      echo "  An error occured: " . $exception->getMessage();
-    }
-  }
 }

@@ -4,16 +4,17 @@ namespace Base\Http\Response;
 
 interface Response
 {
-  public function getStatus();
-  public function getBody();
+    public function getStatus();
 
-  /**
-   * Returns the duration in milliseconds
-   */
-  public function getDuration();
+    public function getBody();
 
-  /**
-   * @returns \Base\Http\Header\Header
-   */
-  public function getHeader();
+    /**
+     * Returns the duration in milliseconds
+     */
+    public function getDuration();
+
+    /**
+     * @returns \Base\Http\Header\Header
+     */
+    public function getHeader();
 }

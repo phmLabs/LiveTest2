@@ -2,12 +2,14 @@
 
 namespace LiveTest\Connection\Request;
 
-use Base\Www\Uri;
 use Base\Http\Request\Request as BaseRequest;
+use Base\Www\Uri;
 
 interface Request extends BaseRequest
 {
-  public function getIdentifier();
-  public function removeParameter($key);
-  public function addParameter($key, $value);
+    public function getIdentifier();
+
+    public function removeParameter($key);
+
+    public function addParameter($key, $value);
 }

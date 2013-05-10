@@ -4,5 +4,5 @@ namespace Base\Cli;
 
 interface Runner
 {
-  public function run();
+    public function run();
 }

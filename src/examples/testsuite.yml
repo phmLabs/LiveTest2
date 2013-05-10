@@ -29,6 +29,6 @@ Sessions:
  sessionname1:
   AllowCookies: true
   Pages:
-   - { url: http://livetest.phmlabs.com/test/showRequest.php } }
+   - { url: http://livetest.phmlabs.com/test/showRequest.php }
    - { url: http://livetest.phmlabs.com/test/setCookie.php, post: {key: cookie_number_1, value: kekseeee } }
    - { url: http://livetest.phmlabs.com/test/showRequest.php?test=test }

@@ -23,15 +23,14 @@ use Base\Config\Yaml;
  */
 class PageLists extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
-   */
-  protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
-  {
-    foreach ($parameters as $file)
+    /**
+     * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
+     */
+    protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
     {
-      $yaml = new Yaml($config->getBaseDir() . '/' . $file);
-      $this->getParser()->parse( $yaml->toArray( ), $config );
+        foreach ($parameters as $file) {
+            $yaml = new Yaml($config->getBaseDir() . '/' . $file);
+            $this->getParser()->parse($yaml->toArray(), $config);
+        }
     }
-  }
 }

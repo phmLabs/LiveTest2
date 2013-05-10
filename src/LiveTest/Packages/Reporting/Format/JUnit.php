@@ -23,68 +23,65 @@ use LiveTest\TestRun\Result\ResultSet;
  */
 class JUnit implements Format
 {
-  private $dom;
+    private $dom;
 
-  /**
-   * Formats the results into the jUnit xml format.
-   *
-   * @param ResultSet $set
-   * @param array $connectionStatuses
-   * @param Information $information
-   *
-   * @return string
-   */
-  public function formatSet(ResultSet $set, array $connectionStatuses, Information $information)
-  {
-    $dom = new \DOMDocument('1.0', 'utf-8');
-
-    $xml_testsuites = $dom->createElement('testsuites');
-    $dom->appendChild($xml_testsuites);
-    $xml_testsuite = $dom->createElement('testsuite');
-    $xml_properties = $dom->createElement('properties');
-    $xml_testsuite->appendChild($xml_properties);
-
-    $num_failed = 0;
-    $num_errors = 0;
-
-    foreach ( $set as $result )
+    /**
+     * Formats the results into the jUnit xml format.
+     *
+     * @param ResultSet $set
+     * @param array $connectionStatuses
+     * @param Information $information
+     *
+     * @return string
+     */
+    public function formatSet(ResultSet $set, array $connectionStatuses, Information $information)
     {
-      $xml_testcase = $dom->createElement('testcase');
+        $dom = new \DOMDocument('1.0', 'utf-8');
 
-      $xml_testcase->setAttribute('name', $result->getTest()->getName() . ' on '
-                                          . $result->getRequest()->getUri()
-                                          . ' (Session: '. $result->getSessionName() . ')');
-      $xml_testcase->setAttribute('file', $result->getRequest()->getUri());
+        $xml_testsuites = $dom->createElement('testsuites');
+        $dom->appendChild($xml_testsuites);
+        $xml_testsuite = $dom->createElement('testsuite');
+        $xml_properties = $dom->createElement('properties');
+        $xml_testsuite->appendChild($xml_properties);
 
-      if ($result->getStatus() == Result::STATUS_FAILED)
-      {
-        $xml_failure = $dom->createElement('failure');
-        $xml_failure->setAttribute('type', $result->getStatus());
-        $xml_failure->setAttribute('message', $result->getMessage(). ' on '. $result->getRequest()->getUri());
-        $xml_testcase->appendChild($xml_failure);
-        $num_failed++;
-      }
+        $num_failed = 0;
+        $num_errors = 0;
 
-      if ($result->getStatus() == Result::STATUS_ERROR)
-      {
-        $xml_failure = $dom->createElement('error');
-        $xml_failure->setAttribute('type', $result->getStatus());
-        $xml_failure->setAttribute('message', $result->getMessage());
-        $xml_testcase->appendChild($xml_failure);
-        $num_errors++;
-      }
+        foreach ($set as $result) {
+            $xml_testcase = $dom->createElement('testcase');
 
-      $xml_testsuite->appendChild($xml_testcase);
+            $xml_testcase->setAttribute('name', $result->getTest()->getName() . ' on '
+                . $result->getRequest()->getUri()
+                . ' (Session: ' . $result->getSessionName() . ')');
+            $xml_testcase->setAttribute('file', $result->getRequest()->getUri());
+
+            if ($result->getStatus() == Result::STATUS_FAILED) {
+                $xml_failure = $dom->createElement('failure');
+                $xml_failure->setAttribute('type', $result->getStatus());
+                $xml_failure->setAttribute('message', $result->getMessage() . ' on ' . $result->getRequest()->getUri());
+                $xml_testcase->appendChild($xml_failure);
+                $num_failed++;
+            }
+
+            if ($result->getStatus() == Result::STATUS_ERROR) {
+                $xml_failure = $dom->createElement('error');
+                $xml_failure->setAttribute('type', $result->getStatus());
+                $xml_failure->setAttribute('message', $result->getMessage());
+                $xml_testcase->appendChild($xml_failure);
+                $num_errors++;
+            }
+
+            $xml_testsuite->appendChild($xml_testcase);
+        }
+
+        $xml_testsuite->setAttribute('name', 'LiveTest');
+        $xml_testsuite->setAttribute('errors', $num_errors);
+        $xml_testsuite->setAttribute('failures', $num_failed);
+        $xml_testsuite->setAttribute('tests', count($set));
+        $xml_testsuite->setAttribute('timestamp', strftime("%Y-%m-%dT%H:%M:%S"));
+        $xml_testsuites->appendChild($xml_testsuite);
+
+        $dom->formatOutput = true;
+        return $dom->saveXML();
     }
-
-    $xml_testsuite->setAttribute('name', 'LiveTest');
-    $xml_testsuite->setAttribute('errors', $num_errors);
-    $xml_testsuite->setAttribute('failures', $num_failed);
-    $xml_testsuite->setAttribute('tests', count($set));
-    $xml_testsuite->setAttribute('timestamp', strftime("%Y-%m-%dT%H:%M:%S"));
-    $xml_testsuites->appendChild($xml_testsuite);
-
-    $dom->formatOutput = true;
-    return $dom->saveXML();
-  }
 }

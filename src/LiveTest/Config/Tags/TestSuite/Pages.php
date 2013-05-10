@@ -9,9 +9,8 @@
 
 namespace LiveTest\Config\Tags\TestSuite;
 
-use LiveTest\ConfigurationException;
-
 use LiveTest\Config\Parser;
+use LiveTest\ConfigurationException;
 use LiveTest\Connection\Request\Symfony as SymfonyRequest;
 
 /**
@@ -27,20 +26,17 @@ use LiveTest\Connection\Request\Symfony as SymfonyRequest;
  */
 class Pages extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
-   */
-  protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
-  {
-    $requests = SymfonyRequest::createRequestsFromParameters($parameters, $config->getDefaultDomain());
+    /**
+     * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
+     */
+    protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
+    {
+        $requests = SymfonyRequest::createRequestsFromParameters($parameters, $config->getDefaultDomain());
 
-    if ($config->hasSessions())
-    {
-      $config->getCurrentSession()->includePageRequests($requests);
+        if ($config->hasSessions()) {
+            $config->getCurrentSession()->includePageRequests($requests);
+        } else {
+            throw new ConfigurationException('You can not use the Page tag outside a session tag.');
+        }
     }
-    else
-    {
-      throw new ConfigurationException('You can not use the Page tag outside a session tag.');
-    }
-  }
 }

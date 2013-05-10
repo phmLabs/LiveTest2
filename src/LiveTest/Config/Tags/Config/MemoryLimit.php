@@ -18,30 +18,29 @@ use LiveTest\Config\ConfigConfig;
  */
 class MemoryLimit extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\Config.Base::doProcess()
-   * @param ConfigConfig $config
-   * @param array $pathes
-   */
-  
-  protected function doProcess(ConfigConfig $config, $limit)
-  {
-  	$this->setMemoryLimit($limit);
-  }
-  
-  
-  /**
-   * 
-   * Sets the maximum limit
-   * @param string $limit
-   * @throws Exception
-   */
-  private function setMemoryLimit($limit)
-  {
-  	 if(false === @ini_set('memory_limit',$limit))
-     {
-       $lastError = error_get_last();
-       throw new \InvalidArgumentException('Cannot set the memory limit: ' . $lastError ); 
-     }
-  }
+    /**
+     * @see LiveTest\Config\Tags\Config.Base::doProcess()
+     * @param ConfigConfig $config
+     * @param array $pathes
+     */
+
+    protected function doProcess(ConfigConfig $config, $limit)
+    {
+        $this->setMemoryLimit($limit);
+    }
+
+
+    /**
+     *
+     * Sets the maximum limit
+     * @param string $limit
+     * @throws Exception
+     */
+    private function setMemoryLimit($limit)
+    {
+        if (false === @ini_set('memory_limit', $limit)) {
+            $lastError = error_get_last();
+            throw new \InvalidArgumentException('Cannot set the memory limit: ' . $lastError);
+        }
+    }
 }

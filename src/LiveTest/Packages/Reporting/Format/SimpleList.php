@@ -6,11 +6,11 @@
  * source code.
  */
 namespace LiveTest\Packages\Reporting\Format;
-use LiveTest\Config\TestSuite;
 use Base\Http\ConnectionStatus;
+use LiveTest\Config\TestSuite;
 use LiveTest\TestRun\Information;
-use LiveTest\TestRun\Result\ResultSet;
 use LiveTest\TestRun\Result\Result;
+use LiveTest\TestRun\Result\ResultSet;
 
 /**
  * This format converts the results into a simple text list.
@@ -31,7 +31,7 @@ class SimpleList implements Format
      *
      * @return string
      */
-    public function formatSet (ResultSet $set, array $connectionStatuses, Information $information)
+    public function formatSet(ResultSet $set, array $connectionStatuses, Information $information)
     {
         $text = '';
 

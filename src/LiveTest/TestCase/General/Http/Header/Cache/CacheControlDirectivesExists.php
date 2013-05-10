@@ -6,11 +6,11 @@
  * source code.
  */
 namespace LiveTest\TestCase\General\Http\Header\Cache;
+use Base\HeaderAnalyser;
 use Base\Http\Request\Request;
 use Base\Http\Response\Response;
-use Base\HeaderAnalyser;
-use LiveTest\TestCase\TestCase;
 use LiveTest\TestCase\Exception;
+use LiveTest\TestCase\TestCase;
 
 /**
  * This test case checks the cache-control field for
@@ -21,7 +21,7 @@ use LiveTest\TestCase\Exception;
  */
 class CacheControlDirectivesExists implements TestCase
 {
-    const FIELD_NAME = "Cache-control";
+    const FIELD_NAME = "Cache-Control";
 
     private $directives;
 
@@ -31,7 +31,7 @@ class CacheControlDirectivesExists implements TestCase
      * @param array $directives
      *            cache directives to look for
      */
-    public function init ($directives)
+    public function init($directives)
     {
         $this->directives = $directives;
     }
@@ -44,20 +44,21 @@ class CacheControlDirectivesExists implements TestCase
      * @param Request $request
      *            request we sent
      */
-    public function test (Response $response, Request $request)
+    public function test(Response $response, Request $request)
     {
         $header = $response->getHeader();
+
         $missing = array();
 
         foreach ($this->directives as $directive) {
-            if (! $header->directiveExists(self::FIELD_NAME, $directive)) {
+            if (!$header->directiveExists(self::FIELD_NAME, $directive)) {
                 $missing[] = $directive;
             }
         }
 
-        if (! empty($missing)) {
+        if (!empty($missing)) {
             throw new Exception(
-                    "Expected cache directives \"" . implode(', ', $missing) . "\" not found in response header field " . self::FIELD_NAME);
+                "Expected cache directives \"" . implode(', ', $missing) . "\" not found in response header field " . self::FIELD_NAME);
         }
     }
 }

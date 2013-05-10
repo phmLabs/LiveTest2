@@ -48,16 +48,16 @@ class Test
      * @param String $className
      * @param array $parameter
      */
-    public function __construct ($name, $className, array $parameter = array(), $failOnError = false)
+    public function __construct($name, $className, array $parameter = array(), $failOnError = false)
     {
         $this->failOnError = $failOnError;
 
-        if (! is_string($name)) {
+        if (!is_string($name)) {
             // @fixme this is a CLI exception
             throw new WrongTypeException('Parameter name has to be a string');
         }
 
-        if (! is_string($className)) {
+        if (!is_string($className)) {
             // @fixme this is a CLI exception
             throw new WrongTypeException('Parameter className has to be a string');
         }
@@ -72,7 +72,7 @@ class Test
      *
      * @return string
      */
-    public function getClassName ()
+    public function getClassName()
     {
         return $this->className;
     }
@@ -82,7 +82,7 @@ class Test
      *
      * @return string
      */
-    public function getName ()
+    public function getName()
     {
         return $this->name;
     }
@@ -92,12 +92,12 @@ class Test
      *
      * @return array
      */
-    public function getParameter ()
+    public function getParameter()
     {
         return $this->parameter;
     }
 
-    public function isFailOnError( )
+    public function isFailOnError()
     {
         return $this->failOnError;
     }

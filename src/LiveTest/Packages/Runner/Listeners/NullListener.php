@@ -19,11 +19,11 @@ use LiveTest\Listener\Base;
  */
 class NullListener extends Base
 {
-  /**
-   * @Event( "No.Event" )
-   */
-  public function doNothingNow()
-  {
+    /**
+     * @Event( "No.Event" )
+     */
+    public function doNothingNow()
+    {
 
-  }
+    }
 }

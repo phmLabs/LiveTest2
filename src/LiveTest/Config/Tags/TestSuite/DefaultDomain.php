@@ -9,8 +9,8 @@
 
 namespace LiveTest\Config\Tags\TestSuite;
 
-use LiveTest\Config\TestSuite;
 use Base\Www\Uri;
+use LiveTest\Config\TestSuite;
 
 /**
  * This tag is used to set the default domain.
@@ -22,12 +22,12 @@ use Base\Www\Uri;
  */
 class DefaultDomain extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\Config.Base::doProcess()
-   */
-  protected function doProcess(TestSuite $config, $parameters)
-  {
-  	var_dump( $parameters);
+    /**
+     * @see LiveTest\Config\Tags\Config.Base::doProcess()
+     */
+    protected function doProcess(TestSuite $config, $parameters)
+    {
+        var_dump($parameters);
 //    $config->setDefaultDomain(new Uri($parameters));
-  }
+    }
 }

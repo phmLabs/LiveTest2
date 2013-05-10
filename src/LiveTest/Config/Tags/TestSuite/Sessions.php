@@ -9,6 +9,9 @@
 
 namespace LiveTest\Config\Tags\TestSuite;
 
+use LiveTest\Connection\Session\Session;
+use LiveTest\Connection\Session\WarmUp\NullWarmUp;
+
 /**
  * This tag adds the test cases to the configuration. All tags that are not known withing this class are
  * handed to parser.
@@ -26,37 +29,29 @@ namespace LiveTest\Config\Tags\TestSuite;
  *
  * @author Mike Lohmann & Nils Langner
  */
-use LiveTest\Connection\Session\WarmUp\NullWarmUp;
-
-use LiveTest\Connection\Session\Session;
-
 class Sessions extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
-   */
-  protected function doProcess(\LiveTest\Config\TestSuite $config, $sessions)
-  {
-    // @todo $hasDefaultSession = false;
-    foreach ($sessions as $sessionName => $sessionParameter)
+    /**
+     * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
+     */
+    protected function doProcess(\LiveTest\Config\TestSuite $config, $sessions)
     {
-      if (array_key_exists('AllowCookies', $sessionParameter))
-      {
-        $allowCookies = $sessionParameter['AllowCookies'];
-      }
-      else
-      {
-        $allowCookies = false;
-      }
+        // @todo $hasDefaultSession = false;
+        foreach ($sessions as $sessionName => $sessionParameter) {
+            if (array_key_exists('AllowCookies', $sessionParameter)) {
+                $allowCookies = $sessionParameter['AllowCookies'];
+            } else {
+                $allowCookies = false;
+            }
 
-      $session = new Session($allowCookies);
+            $session = new Session($allowCookies);
 
-      $config->addSession($sessionName, $session);
-      $config->setCurrentSession($sessionName);
+            $config->addSession($sessionName, $session);
+            $config->setCurrentSession($sessionName);
 
-      unset($sessionParameter['AllowCookies']);
+            unset($sessionParameter['AllowCookies']);
 
-      $parser = $this->getParser()->parse($sessionParameter, $config);
+            $parser = $this->getParser()->parse($sessionParameter, $config);
+        }
     }
-  }
 }

@@ -19,29 +19,28 @@ use LiveTest\TestCase\Exception;
  */
 class TextNotPresent extends TestCase
 {
-  private $text;
+    private $text;
 
-  /**
-   * This function initializes the text to search for.
-   *
-   * @param string $text
-   */
-  public function init($text)
-  {
-    $this->text = $text;
-  }
-
-  /**
-   * Checks if a givent string is not found.
-   *
-   * @see LiveTest\TestCase.HtmlTestCase::runTest()
-   */
-  protected function runTest(Document $htmlDocument)
-  {
-    $htmlCode = $htmlDocument->getHtml();
-    if (strpos($htmlCode, $this->text) !== false)
+    /**
+     * This function initializes the text to search for.
+     *
+     * @param string $text
+     */
+    public function init($text)
     {
-      throw new Exception('The given text "' . $this->text . '" was found.');
+        $this->text = $text;
     }
-  }
+
+    /**
+     * Checks if a givent string is not found.
+     *
+     * @see LiveTest\TestCase.HtmlTestCase::runTest()
+     */
+    protected function runTest(Document $htmlDocument)
+    {
+        $htmlCode = $htmlDocument->getHtml();
+        if (strpos($htmlCode, $this->text) !== false) {
+            throw new Exception('The given text "' . $this->text . '" was found.');
+        }
+    }
 }

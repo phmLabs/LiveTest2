@@ -9,9 +9,8 @@
 
 namespace LiveTest\Config\Tags\Config;
 
-use LiveTest\Config\ConfigConfig;
-
 use Base\Www\Uri;
+use LiveTest\Config\ConfigConfig;
 
 /**
  * This tag is used to set the default domain.
@@ -23,11 +22,11 @@ use Base\Www\Uri;
  */
 class DefaultDomain extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\Config.Base::doProcess()
-   */
-  protected function doProcess(ConfigConfig $config, $parameters)
-  {
-    $config->setDefaultDomain(new Uri($parameters));
-  }
+    /**
+     * @see LiveTest\Config\Tags\Config.Base::doProcess()
+     */
+    protected function doProcess(ConfigConfig $config, $parameters)
+    {
+        $config->setDefaultDomain(new Uri($parameters));
+    }
 }

@@ -19,62 +19,62 @@ use Base\Www;
  */
 class ConfigConfig implements Config
 {
-  /**
-   * The default domain.
-   * @var Uri
-   */
-  private $defaultDomain;
+    /**
+     * The default domain.
+     * @var Uri
+     */
+    private $defaultDomain;
 
-  /**
-   * The listeners.
-   * @var array
-   */
-  private $listeners = array ();
+    /**
+     * The listeners.
+     * @var array
+     */
+    private $listeners = array();
 
-  /**
-   * Sets the default domain
-   *
-   * @param Www\Uri $uri
-   */
-  public function setDefaultDomain(Www\Uri $uri)
-  {
-    $this->defaultDomain = $uri;
-  }
+    /**
+     * Sets the default domain
+     *
+     * @param Www\Uri $uri
+     */
+    public function setDefaultDomain(Www\Uri $uri)
+    {
+        $this->defaultDomain = $uri;
+    }
 
-  /**
-   * Adds a listener to this configuration.
-   *
-   * @param string $name
-   * @param string $className
-   * @param array $parameters
-   */
-  public function addListener($name, $className, array $parameters, $priority = 0)
-  {
-    $this->listeners[$name] = array ('className' => $className, 'parameters' => $parameters, 'priority' => $priority);
-  }
+    /**
+     * Adds a listener to this configuration.
+     *
+     * @param string $name
+     * @param string $className
+     * @param array $parameters
+     */
+    public function addListener($name, $className, array $parameters, $priority = 0)
+    {
+        $this->listeners[$name] = array('className' => $className, 'parameters' => $parameters, 'priority' => $priority);
+    }
 
-  /**
-   * Returns the default domain.
-   *
-   * @return Uri
-   */
-  public function getDefaultDomain( )
-  {
-    return $this->defaultDomain;
-  }
+    /**
+     * Returns the default domain.
+     *
+     * @return Uri
+     */
+    public function getDefaultDomain()
+    {
+        return $this->defaultDomain;
+    }
 
-  /**
-   * Return a list of listerns.
-   *
-   * @return array
-   */
-  public function getListeners( )
-  {
-    return $this->listeners;
-  }
+    /**
+     * Return a list of listerns.
+     *
+     * @return array
+     */
+    public function getListeners()
+    {
+        return $this->listeners;
+    }
 
-  public function __toString()
-  {
-    return 'config';
-  }
+    public function __toString()
+    {
+        return 'config';
+    }
 }

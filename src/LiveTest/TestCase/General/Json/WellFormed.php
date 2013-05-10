@@ -1,9 +1,9 @@
 <?php
 namespace LiveTest\TestCase\General\Json;
 
-use LiveTest\TestCase\Exception;
 use Base\Http\Request\Request;
 use Base\Http\Response\Response;
+use LiveTest\TestCase\Exception;
 use LiveTest\TestCase\TestCase;
 
 /**
@@ -20,9 +20,9 @@ class WellFormed implements TestCase
         JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded'
     );
 
-    public function test (Response $response, Request $request)
+    public function test(Response $response, Request $request)
     {
-        $result = json_decode ($response->getBody());
+        $result = json_decode($response->getBody());
 
         if ($result === null) {
             throw new Exception("The given JSON Data is not well formed (last error: " . $this->json_errors[json_last_error()] . ").");

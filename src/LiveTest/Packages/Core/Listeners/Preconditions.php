@@ -10,24 +10,23 @@
 namespace LiveTest\Packages\Core\Listeners;
 
 use LiveTest\Listener\Base;
-
-use phmLabs\Components\Annovent\Event\Event;
+use phmLabs\Components\Annovent\Annotation\Event;
+use phmLabs\Components\Annovent\Event\Event as BaseEvent;
 
 /**
  * @author Nils Langner
  */
 class Preconditions extends Base
 {
-  /**
-   * @Event("LiveTest.Runner.Init")
-   */
-  public function runnerInit(Event $event)
-  {
-    if (!function_exists('curl_version'))
+    /**
+     * @Event("LiveTest.Runner.Init")
+     */
+    public function runnerInit(BaseEvent $event)
     {
-      echo "  The mandatory cURL library (http://php.net/manual/de/book.curl.php) was not found.\n";
-      echo "  LiveTest will not work without cURL support.";
-			$event->setProcessed();  
-    } 
-  }
+        if (!function_exists('curl_version')) {
+            echo "  The mandatory cURL library (http://php.net/manual/de/book.curl.php) was not found.\n";
+            echo "  LiveTest will not work without cURL support.";
+            $event->setProcessed();
+        }
+    }
 }

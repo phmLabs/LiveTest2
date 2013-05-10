@@ -18,31 +18,30 @@ use LiveTest\Config\ConfigConfig;
  */
 class DateDefaultTimezone extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\Config.Base::doProcess()
-   * @param ConfigConfig $config
-   * @param String $timezone
-   */
-  
-  protected function doProcess(ConfigConfig $config, $timezone)
-  {
-  	$this->setTimezone($timezone);
-  }
-  
-  
-  /**
-   * 
-   * Sets or overrides the date.timezone value.
-   * @param String $timezone
-   * @throws Exception
-   */
-  private function setTimezone( $timezone )
-  {
-  	
-     if(false === @date_default_timezone_set( $timezone ))
-     {
-       $lastError = error_get_last();
-       throw new \InvalidArgumentException('Cannot set the timezone: ' . $lastError ); 
-     }
-  }
+    /**
+     * @see LiveTest\Config\Tags\Config.Base::doProcess()
+     * @param ConfigConfig $config
+     * @param String $timezone
+     */
+
+    protected function doProcess(ConfigConfig $config, $timezone)
+    {
+        $this->setTimezone($timezone);
+    }
+
+
+    /**
+     *
+     * Sets or overrides the date.timezone value.
+     * @param String $timezone
+     * @throws Exception
+     */
+    private function setTimezone($timezone)
+    {
+
+        if (false === @date_default_timezone_set($timezone)) {
+            $lastError = error_get_last();
+            throw new \InvalidArgumentException('Cannot set the timezone: ' . print_r($lastError,1));
+        }
+    }
 }

@@ -18,11 +18,11 @@ use LiveTest\Config\Parser;
  */
 class TestSuite extends Base
 {
-  /**
-   * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
-   */
-  protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
-  {
-    $this->getParser()->parse($parameters, $config);
-  }
+    /**
+     * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
+     */
+    protected function doProcess(\LiveTest\Config\TestSuite $config, $parameters)
+    {
+        $this->getParser()->parse($parameters, $config);
+    }
 }

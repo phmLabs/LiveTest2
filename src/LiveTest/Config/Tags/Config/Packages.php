@@ -9,7 +9,6 @@
 
 namespace LiveTest\Config\Tags\Config;
 use Base\Config\Yaml;
-
 use LiveTest\Config\ConfigConfig;
 
 /**
@@ -25,38 +24,34 @@ use LiveTest\Config\ConfigConfig;
  */
 class Packages extends Base
 {
-  private $namespaceRoots = array();
+    private $namespaceRoots = array();
 
-  /**
-   * @todo check if the directory really exists
-   * @see LiveTest\Config\Tags\Config.Base::doProcess()
-   */
-  protected function doProcess(ConfigConfig $config, $packages)
-  {
-    foreach ($packages as $key => $package)
+    /**
+     * @todo check if the directory really exists
+     * @see LiveTest\Config\Tags\Config.Base::doProcess()
+     */
+    protected function doProcess(ConfigConfig $config, $packages)
     {
-      $packageName = $package . '/package.yml';
-      $yaml = new Yaml($packageName);
-      $packageArray = $yaml->toArray();
-      if (array_key_exists('NamespaceRoot', $packageArray))
-      {
-        $this->namespaceRoots[] = $package . DIRECTORY_SEPARATOR. $packageArray['NamespaceRoot'];
-        unset($packageArray['NamespaceRoot']);
-      }
-      $this->getParser()->parse($packageArray, $config);
+        foreach ($packages as $key => $package) {
+            $packageName = $package . '/package.yml';
+            $yaml = new Yaml($packageName);
+            $packageArray = $yaml->toArray();
+            if (array_key_exists('NamespaceRoot', $packageArray)) {
+                $this->namespaceRoots[] = $package . DIRECTORY_SEPARATOR . $packageArray['NamespaceRoot'];
+                unset($packageArray['NamespaceRoot']);
+            }
+            $this->getParser()->parse($packageArray, $config);
+        }
+        spl_autoload_register(array($this, 'autoload'));
     }
-    spl_autoload_register(array($this, 'autoload'));
-  }
 
-  public function autoload($classname)
-  {
-    foreach ($this->namespaceRoots as $path)
+    public function autoload($classname)
     {
-      $classPath = $path . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $classname) . '.php';
-      if (file_exists($classPath))
-      {
-        include_once $classPath;
-      }
+        foreach ($this->namespaceRoots as $path) {
+            $classPath = $path . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $classname) . '.php';
+            if (file_exists($classPath)) {
+                include_once $classPath;
+            }
+        }
     }
-  }
 }

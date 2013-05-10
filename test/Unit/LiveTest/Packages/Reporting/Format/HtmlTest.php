@@ -32,9 +32,6 @@ class HtmlTest extends FormatTest
     $expected = preg_replace( "^<td>Date: (.*)</td>^", "<td>Date: removed for unit test</td>", $expected);
     $formattedText = preg_replace( "^<td>Date: (.*)</td>^", "<td>Date: removed for unit test</td>", $formattedText);
 
-    $expected = preg_replace( "^<td>Duration: (.*)</td>^", "<td>Duration: removed for unit test</td>", $expected);
-    $formattedText = preg_replace( "^<td>Duration: (.*)</td>^", "<td>Duration: removed for unit test</td>", $formattedText);
-
-    $this->assertEquals($expected, $formattedText);
+    $this->assertXmlStringEqualsXmlString($expected, $formattedText);
   }
 }

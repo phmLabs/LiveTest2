@@ -7,7 +7,7 @@ class Uri
 
     private $uri;
 
-    public function __construct ($uriString)
+    public function __construct($uriString)
     {
         //$uriString = $this->checkCorrectUrl($uriString);
         // @todo: http://www.example.com fails on validation with ParserTest.php
@@ -21,12 +21,12 @@ class Uri
         $this->uri = $uriString;
     }
 
-    public function __toString ()
+    public function __toString()
     {
         return $this->toString();
     }
 
-    public function toString ()
+    public function toString()
     {
         return $this->uri;
     }
@@ -38,7 +38,7 @@ class Uri
      *
      * @param string $uriString
      */
-    public static function isValid ($uriString)
+    public static function isValid($uriString)
     {
         /**
          *
@@ -77,7 +77,7 @@ class Uri
         $urlregex .= "(#[a-z_.-][a-z0-9+\$_.-]*)?\$";
 
         $urlregex = "/" . $urlregex . "/";
-        return (bool) preg_match($urlregex, $uriString);
+        return (bool)preg_match($urlregex, $uriString);
     }
 
     /**
@@ -87,25 +87,20 @@ class Uri
      *                          or an uri relative to the current domain e.g. /myrubric/test.html
      *                          or an uri relative to the current uri e.g. myrubric/test.html
      */
-    public function concatUri ($uriString)
+    public function concatUri($uriString)
     {
-      $uri = $this->uri;
+        $uri = $this->uri;
 
-      // uri string is absolute
-      if ((strpos($uriString, 'http://') !== FALSE) || (strpos($uriString, 'https://') !== FALSE))
-      {
-        $uri = $uriString;
-      }
-      elseif (strpos($uriString, '/') === 0)
-      {
-        // uri string is relative to base uri
-        $uri = $this->concatUriTerms($this->getDomain(), $uriString);
-      }
-      else
-      {
-        // uri string is relative to current path
-        $uri = $this->concatUriTerms($this->concatUriTerms($this->getDomain(), $this->getPath()), $uriString);
-      }
+        // uri string is absolute
+        if ((strpos($uriString, 'http://') !== FALSE) || (strpos($uriString, 'https://') !== FALSE)) {
+            $uri = $uriString;
+        } elseif (strpos($uriString, '/') === 0) {
+            // uri string is relative to base uri
+            $uri = $this->concatUriTerms($this->getDomain(), $uriString);
+        } else {
+            // uri string is relative to current path
+            $uri = $this->concatUriTerms($this->concatUriTerms($this->getDomain(), $this->getPath()), $uriString);
+        }
 
         return new self($uri);
     }
@@ -113,7 +108,7 @@ class Uri
     /**
      * @param unknown_type $uriString
      */
-    private function checkCorrectUrl ($uriString)
+    private function checkCorrectUrl($uriString)
     {
         $uriString = trim($uriString);
         $uriParts = parse_url($uriString);
@@ -137,32 +132,27 @@ class Uri
      * @param string $secondTerm the secondTerm concatenate rightmost to the left term
      *
      */
-    private function concatUriTerms ($firstTerm, $secondTerm)
+    private function concatUriTerms($firstTerm, $secondTerm)
     {
 
-      // two slahes (leading and trailing)
-      if((substr($firstTerm, strlen($firstTerm) - 1) == "/") && (strpos($secondTerm, "/") === 0))
-      {
-        $result = $firstTerm . substr($secondTerm, 1);
-      } // one slash
-      elseif ((substr($firstTerm, strlen($firstTerm) - 1) == "/") || (strpos($secondTerm, "/") === 0))
-      {
-        $result = $firstTerm . $secondTerm;
-      } // no slashes at all
-      elseif(!empty($secondTerm))
-      {
-        $result = $firstTerm . "/" . $secondTerm;
-      }
-      else
-      {
-        $result = $firstTerm;
-      }
+        // two slahes (leading and trailing)
+        if ((substr($firstTerm, strlen($firstTerm) - 1) == "/") && (strpos($secondTerm, "/") === 0)) {
+            $result = $firstTerm . substr($secondTerm, 1);
+        } // one slash
+        elseif ((substr($firstTerm, strlen($firstTerm) - 1) == "/") || (strpos($secondTerm, "/") === 0)) {
+            $result = $firstTerm . $secondTerm;
+        } // no slashes at all
+        elseif (!empty($secondTerm)) {
+            $result = $firstTerm . "/" . $secondTerm;
+        } else {
+            $result = $firstTerm;
+        }
 
-      return $result;
+        return $result;
 
     }
 
-    public function getDomain ()
+    public function getDomain()
     {
         // @todo look for the third /, not after position 8
         $pos = strpos($this->uri, '/', 8);
@@ -175,19 +165,18 @@ class Uri
     /**
      * Extracts the path from the curent uri (without the rightmost term)
      */
-    public function getPath ()
+    public function getPath()
     {
-      $parsedUri = parse_url($this->uri);
+        $parsedUri = parse_url($this->uri);
 
-      if(array_key_exists('path', $parsedUri))
-      {
-        $path  = $parsedUri['path'];
-        $rPath = strrev( $path);
-        $pathLength = strlen( $rPath ) - strpos( $rPath, '/' ) - 1;
-        return substr( $path, 0, $pathLength );
+        if (array_key_exists('path', $parsedUri)) {
+            $path = $parsedUri['path'];
+            $rPath = strrev($path);
+            $pathLength = strlen($rPath) - strpos($rPath, '/') - 1;
+            return substr($path, 0, $pathLength);
 
-      }
+        }
 
-      return $this->uri;
+        return $this->uri;
     }
 }
