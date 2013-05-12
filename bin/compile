@@ -13,17 +13,7 @@ if(file_exists($box)){
     system(sprintf('curl %s | php -d=phar.readonly=Off -d=phar.require_hash=Off', 'http://box-project.org/installer.php'), $composerable);
 }
 
-ob_start();
-passthru('git rev-parse HEAD');
-$version = ob_get_clean();
-
-//update if composer can be run
+//build
 if (isset($composerable) && $composerable == 0) {
-    $version = substr($version, 0, 7);
-    $boxFile = $rootDir.'/box.json';
-    file_put_contents($boxFile, str_replace('@git-version@', $version, file_get_contents($boxFile)));
-
     system(sprintf('php %s', $box.' build'));
-
-    passthru('git checkout -- '.$boxFile);
 }

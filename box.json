@@ -6,11 +6,16 @@
         "Herrera\\Box\\Compactor\\Php"
     ],
     "directories": [
-        "src",
         "vendor"
+    ],
+    "directories-bin": [
+        "src"
     ],
     "files": [
         "bin/livetest"
+    ],
+    "files-bin": [
+        "res/config/default.yml"
     ],
     "finder": [
         {
@@ -22,11 +27,8 @@
             "in": "vendor"
         }
     ],
-    "git-version": "git_tag",
+    "git-version": "package_version",
     "main": "bin/livetest",
     "output": "livetest.phar",
-    "replacements": {
-        "package_version": "@git-version@"
-    },
     "stub": true
 }
