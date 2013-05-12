@@ -5,3 +5,5 @@
 src/logs/
 vendor
 test-reports
+*.phar
+composer.lock
