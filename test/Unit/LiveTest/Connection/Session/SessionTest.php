@@ -1,43 +1,13 @@
 <?php
 namespace Test\Unit\LiveTest\Connection\Session;
 use LiveTest\Connection\Session\Session;
-use LiveTest\Connection\Request\Symfony as Request;
-// use LiveTest\Connection\Request\Request;
-class RequestMockUp implements \LiveTest\Connection\Request\Request
-{
-
-    public function getUri ()
-    {
-    }
-
-    public function addParameter ($key, $value)
-    {
-    }
-
-    public function removeParameter ($key)
-    {
-        // TODO Auto-generated method stub
-    }
-
-    public function getMethod ()
-    {
-    }
-
-    public function getParameters ()
-    {
-    }
-
-    public function getIdentifier ()
-    {
-    }
-}
 
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testIfIncludePageRequestWorks ()
     {
-        $request = new RequestMockUp();
+        $request = $this->getMock('LiveTest\Connection\Request\Request');
         $session = new Session();
         $session->includePageRequest($request);
         $includedSessions = $session->getPageRequests();
@@ -47,8 +17,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     public function testIfIncludePageRequestsWorks ()
     {
-        $requests = array(
-                new RequestMockUp());
+        $requests = array($this->getMock('LiveTest\Connection\Request\Request'));
         $session = new Session();
         $session->includePageRequests($requests);
         $includedSessions = $session->getPageRequests();

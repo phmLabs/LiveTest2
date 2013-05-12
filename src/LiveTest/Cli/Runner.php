@@ -141,7 +141,7 @@ class Runner extends ArgumentRunner
      */
     private function initConfig()
     {
-        $config = new Yaml(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'config.yml', true);
+        $config = new Yaml(__DIR__ . '/../../../res/config/default.yml', true);
 
         if ($this->hasArgument('config')) {
             $currentConfig = new Yaml($this->getArgument('config'), true);

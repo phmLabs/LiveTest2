@@ -7,4 +7,4 @@ php:
 before_script:
   - composer update
 
-script: phpunit -c test/phpunit.xml
+script: phpunit -c test

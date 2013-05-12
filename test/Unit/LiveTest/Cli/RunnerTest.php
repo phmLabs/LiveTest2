@@ -55,10 +55,10 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
     public function testRunnerRun()
     {
-        $runner = new Runner(array('testsuite' => __DIR__ . '/../../../../src/examples/testsuite.yml'), $this->dispatcher);
+        $runner = new Runner(array('testsuite' => __DIR__ . '/../../../../res/examples/testsuite.yml'), $this->dispatcher);
         $runner->run();
 
-        $runner = new Runner(array('testsuite' => '../../../../src/examples/testsuite.yml'), $this->dispatcher);
+        $runner = new Runner(array('testsuite' => '../../../../res/examples/testsuite.yml'), $this->dispatcher);
         $this->setExpectedException('LiveTest\ConfigurationException');
         $runner->run();
 

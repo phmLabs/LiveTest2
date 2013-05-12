@@ -3,6 +3,7 @@
 .settings/
 .svn
 src/logs/
+logs
 vendor
 test-reports
 *.phar
