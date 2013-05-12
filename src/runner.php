@@ -7,7 +7,7 @@ use LiveTest\Event\Dispatcher;
 use LiveTest\Packages\Runner\Listeners\Help;
 
 include_once __DIR__.'/version.php';
-include_once __DIR__.'/bootstrap.php';
+include_once __DIR__.'/autoload.php';
 
 $exitStatusCode = 1;
 

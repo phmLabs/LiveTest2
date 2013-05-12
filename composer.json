@@ -9,6 +9,7 @@
 
         "symfony/http-foundation": "~2.2",
         "symfony/yaml": "~2.2",
+        "symfony/console" : "~2.2",
 
         "zendframework/zend-config" : "~2.0",
         "zendframework/zend-http" : "~2.0"
@@ -31,5 +32,7 @@
             "Base": "src/lib/",
             "LiveTest": "src/"
         }
-    }
+    },
+
+    "bin": ["bin/livetest"]
 }

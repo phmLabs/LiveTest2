@@ -25,7 +25,10 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
     {
         ob_start();
 
-        include_once __DIR__ . '/../../../../src/version.php';
+        if (!defined('LIVETEST_VERSION')) {
+            define('LIVETEST_VERSION', '@package_version@');
+        }
+
         $this->dispatcher = new Dispatcher();
         $this->dispatcher->connectListener(new CliListener(1, $this->dispatcher), 1);
         $this->runner = new Runner(array('foo' => 'bar'), $this->dispatcher);

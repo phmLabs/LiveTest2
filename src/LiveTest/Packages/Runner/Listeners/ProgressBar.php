@@ -48,13 +48,13 @@ class ProgressBar extends Base
     {
         switch ($result->getStatus()) {
             case Result::STATUS_SUCCESS :
-                $this->echoChar('*');
+                $this->writeChar('*');
                 break;
             case Result::STATUS_FAILED :
-                $this->echoChar('f');
+                $this->getEventDispatcher()->getOutput() ? $this->writeChar('<failure>f</failure>') :  $this->echoChar('f');
                 break;
             case Result::STATUS_ERROR :
-                $this->echoChar('e');
+                $this->getEventDispatcher()->getOutput() ? $this->writeChar('<error>e</error>') :  $this->echoChar('e');
                 break;
         }
     }
@@ -86,10 +86,12 @@ class ProgressBar extends Base
     /**
      * Prints a character a the right position. Creates new lines a the "Running: " prefix.
      *
-     * @param char $char
+     * @param string $char
      */
     private function echoChar($char)
     {
+        //TODO remove once everything is handled by output
+
         if ($this->counter == 0) {
             echo '  Running: ';
         }
@@ -97,7 +99,28 @@ class ProgressBar extends Base
         if ($this->counter % $this->lineBreakAt == 0 && $this->counter != 0) {
             echo "\n           ";
         }
+
         echo $char;
+        $this->counter++;
+    }
+
+    private function writeChar($char)
+    {
+        $output = $this->getEventDispatcher()->getOutput();
+
+        if (!$output) {
+            return $this->echoChar($char);
+        }
+
+        if ($this->counter == 0) {
+            $output->write('  <info>Running</info>: ');
+        }
+
+        if ($this->counter % $this->lineBreakAt == 0 && $this->counter != 0) {
+            $output->write("\n           ");
+        }
+
+        $output->write($char);
         $this->counter++;
     }
 }

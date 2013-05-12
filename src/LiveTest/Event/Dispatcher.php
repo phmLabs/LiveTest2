@@ -10,6 +10,7 @@
 namespace LiveTest\Event;
 
 use LiveTest\Config\ConfigConfig;
+use Symfony\Component\Console\Output\OutputInterface;
 use phmLabs\Components\Annovent\Dispatcher as AnnoventDispatcher;
 use phmLabs\Components\Annovent\Event\Event;
 
@@ -21,6 +22,26 @@ use phmLabs\Components\Annovent\Event\Event;
  */
 class Dispatcher extends AnnoventDispatcher
 {
+    /**
+     * @var OutputInterface
+     */
+    private $output;
+
+    public function __construct(OutputInterface $output = null)
+    {
+        $this->output = $output;
+
+        parent::__construct();
+    }
+
+    /**
+     * @return OutputInterface
+     */
+    public function getOutput()
+    {
+        return $this->output;
+    }
+
     /**
      * This function is used to register listeners using a global configuration file
      *
