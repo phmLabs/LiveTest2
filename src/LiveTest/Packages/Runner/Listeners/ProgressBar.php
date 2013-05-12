@@ -51,10 +51,10 @@ class ProgressBar extends Base
                 $this->writeChar('*');
                 break;
             case Result::STATUS_FAILED :
-                $this->getEventDispatcher()->getOutput() ? $this->writeChar('<failure>f</failure>') :  $this->echoChar('f');
+                $this->writeChar('<failure>f</failure>');
                 break;
             case Result::STATUS_ERROR :
-                $this->getEventDispatcher()->getOutput() ? $this->writeChar('<error>e</error>') :  $this->echoChar('e');
+                $this->writeChar('<error>e</error>');
                 break;
         }
     }
@@ -79,38 +79,13 @@ class ProgressBar extends Base
     public function handleConnectionStatus(ConnectionStatus $connectionStatus)
     {
         if ($connectionStatus->getType() == ConnectionStatus::ERROR) {
-            $this->echoChar('E');
+            $this->writeChar('<error>E</error>');
         }
-    }
-
-    /**
-     * Prints a character a the right position. Creates new lines a the "Running: " prefix.
-     *
-     * @param string $char
-     */
-    private function echoChar($char)
-    {
-        //TODO remove once everything is handled by output
-
-        if ($this->counter == 0) {
-            echo '  Running: ';
-        }
-
-        if ($this->counter % $this->lineBreakAt == 0 && $this->counter != 0) {
-            echo "\n           ";
-        }
-
-        echo $char;
-        $this->counter++;
     }
 
     private function writeChar($char)
     {
         $output = $this->getEventDispatcher()->getOutput();
-
-        if (!$output) {
-            return $this->echoChar($char);
-        }
 
         if ($this->counter == 0) {
             $output->write('  <info>Running</info>: ');

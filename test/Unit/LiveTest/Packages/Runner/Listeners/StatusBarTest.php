@@ -2,8 +2,11 @@
 
 namespace Unit\LiveTest\Packages\Runner\Listeners;
 
+use LiveTest\Cli\EchoOutput;
 use LiveTest\Connection\Request\Symfony as Request;
 
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\StreamOutput;
 use Unit\Base\Http\Response\MockUp;
 
 use Base\Www\Uri;
@@ -19,7 +22,7 @@ class StatusBarTest extends \PHPUnit_Framework_TestCase
 {
   public function testOutput()
   {
-    $listener = new StatusBar('', new Dispatcher());
+    $listener = new StatusBar('', new Dispatcher(new EchoOutput()));
 
     $test = new Test('', '');
 
@@ -42,6 +45,6 @@ class StatusBarTest extends \PHPUnit_Framework_TestCase
 
     $expected = "  Tests: 3 (failed: 1, error: 1) - Duration: 1 hour(s) 23 minute(s) 20 second(s)";
 
-    $this->assertEquals($expected, $actual);
+    $this->assertContains($expected, $actual);
   }
 }

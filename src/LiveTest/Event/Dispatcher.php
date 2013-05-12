@@ -9,6 +9,7 @@
 
 namespace LiveTest\Event;
 
+use LiveTest\Cli\EchoOutput;
 use LiveTest\Config\ConfigConfig;
 use Symfony\Component\Console\Output\OutputInterface;
 use phmLabs\Components\Annovent\Dispatcher as AnnoventDispatcher;
@@ -39,6 +40,10 @@ class Dispatcher extends AnnoventDispatcher
      */
     public function getOutput()
     {
+        if (!$this->output) {
+            return new EchoOutput();
+        }
+
         return $this->output;
     }
 

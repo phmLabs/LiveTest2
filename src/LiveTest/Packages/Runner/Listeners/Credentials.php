@@ -25,14 +25,6 @@ class Credentials extends Base
     {
         $output = $this->getEventDispatcher()->getOutput();
 
-        //TODO remove once everything is handled by output
-        if (!$output) {
-
-            echo "\nLiveTest " . LIVETEST_VERSION . "\n\n";
-
-            return;
-        }
-
         $output->writeln('');
         $output->writeln('LiveTest <comment>' . LIVETEST_VERSION .'</comment>');
         $output->writeln('');

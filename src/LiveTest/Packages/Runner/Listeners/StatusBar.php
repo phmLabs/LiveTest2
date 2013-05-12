@@ -83,6 +83,13 @@ class StatusBar extends Base
     public function postRun(Information $information)
     {
         $formattedDuration = Duration::format(floor($information->getDuration() / 1000), '%d day(s) ', '%d hour(s) ', '%d minute(s) ', '%d second(s)');
-        echo "  Tests: " . $this->testCount . ' (failed: ' . $this->failureCount . ', error: ' . $this->errorCount . ') - Duration: ' . $formattedDuration;
+
+        $output = $this->getEventDispatcher()->getOutput();
+
+        if ($this->failureCount || $this->errorCount) {
+            $output->writeln('<error>  Tests: ' . $this->testCount . ' (failed: ' . $this->failureCount . ', error: ' . $this->errorCount . ') - Duration: ' . $formattedDuration.'</error>');
+        } else {
+            $output->writeln('<info>  Tests: ' . $this->testCount . ' (failed: ' . $this->failureCount . ', error: ' . $this->errorCount . ') - Duration: ' . $formattedDuration.'</info>');
+        }
     }
 }

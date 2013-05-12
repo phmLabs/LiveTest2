@@ -3,17 +3,17 @@ TestCases:
  TextPresent_body:
   TestCase: LiveTest\TestCase\General\Html\TextPresent
   Parameter:
-   text: "unpresent_text"
+   text: "<title>Google</title>"
   UseSessions:
-   - sessionname1
+#   - sessionname1
    - default
 
- TextPresent_body:
-  TestCase: LiveTest\TestCase\General\Html\TextPresent
+ http_status_code_correct:
+  TestCase: LiveTest\TestCase\General\Http\ExpectedStatusCode
   Parameter:
-   text: "cookie_number_1"
+   statusCode: 204
   UseSessions:
-   - sessionname1
+#   - sessionname1
    - default
 
 Sessions:
@@ -22,13 +22,13 @@ Sessions:
   #DefaultSession: true
   AllowCookies: false
   Pages:
-   - http://livetest.phmlabs.com/test/showRequest.php
-   - { url: http://livetest.phmlabs.com/test/setCookie.php, post: {key: cookie_number_1, value: kekseeee } }
-   - { url: http://livetest.phmlabs.com/test/showRequest.php, get: {test: test } }
+   #- http://livetest.phmlabs.com/test/showRequest.php
+   #- { url: http://livetest.phmlabs.com/test/setCookie.php, post: {key: cookie_number_1, value: kekseeee } }
+   - { url: /, get: {q: test, noj: 1 } }
 
- sessionname1:
-  AllowCookies: true
-  Pages:
-   - { url: http://livetest.phmlabs.com/test/showRequest.php }
-   - { url: http://livetest.phmlabs.com/test/setCookie.php, post: {key: cookie_number_1, value: kekseeee } }
-   - { url: http://livetest.phmlabs.com/test/showRequest.php?test=test }
+# sessionname1:
+#  AllowCookies: true
+#  Pages:
+#   - { url: http://livetest.phmlabs.com/test/showRequest.php }
+#   - { url: http://livetest.phmlabs.com/test/setCookie.php, post: {key: cookie_number_1, value: kekseeee } }
+#   - { url: http://livetest.phmlabs.com/test/showRequest.php?test=test }
