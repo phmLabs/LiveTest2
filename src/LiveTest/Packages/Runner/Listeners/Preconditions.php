@@ -24,8 +24,5 @@ class Preconditions extends Base
      */
     public function checkPreconditions()
     {
-        if (!array_key_exists('testsuite', $this->arguments) || $this->arguments['testsuite'] == '') {
-            throw new ConfigurationException('The mandatory --testsuite argument was not found. ' . 'Please use LiveTest --help for more information.');
-        }
     }
 }

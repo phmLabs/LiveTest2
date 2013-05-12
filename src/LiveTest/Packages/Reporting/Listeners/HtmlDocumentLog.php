@@ -15,6 +15,7 @@ use Base\Http\Response\Response;
 use LiveTest\Listener\Base;
 use LiveTest\TestRun\Result\Result;
 use LiveTest\ConfigurationException;
+use phmLabs\Components\Annovent\Annotation\Event;
 
 /**
  * This listener writes all specified html documents in to a defined directory. The
