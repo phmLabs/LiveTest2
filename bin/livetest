@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+define('LIVETEST_VERSION', '@package_version@');
+
+$loader = include __DIR__.'/../src/autoload.php';
+
+use LiveTest\Cli\Application;
+
+// run the command application
+$application = new Application();
+$application->run();
