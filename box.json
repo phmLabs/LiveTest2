@@ -1,0 +1,32 @@
+{
+    "alias": "livetest.phar",
+    "chmod": "0755",
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Json",
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "directories": [
+        "src",
+        "vendor"
+    ],
+    "files": [
+        "bin/livetest"
+    ],
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": [
+                "Tests",
+                "tests"
+            ],
+            "in": "vendor"
+        }
+    ],
+    "git-version": "git_tag",
+    "main": "bin/livetest",
+    "output": "livetest.phar",
+    "replacements": {
+        "package_version": "@git-version@"
+    },
+    "stub": true
+}
