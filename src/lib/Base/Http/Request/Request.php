@@ -6,6 +6,7 @@ interface Request
 {
     const POST = 'post';
     const GET = 'get';
+    const PUT = 'put';
 
     public function getUri();
 
