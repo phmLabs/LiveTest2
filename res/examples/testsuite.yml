@@ -11,20 +11,32 @@ TestCases:
  http_status_code_correct:
   TestCase: LiveTest\TestCase\General\Http\ExpectedStatusCode
   Parameter:
-   statusCode: 204
+   statusCode: 200
   UseSessions:
 #   - sessionname1
    - default
+#   - authentication
 
 Sessions:
 
  default:
   #DefaultSession: true
+  HttpBaseAuthentication:
+   Username: Nils
+   Password: Langner
   AllowCookies: false
   Pages:
    #- http://livetest.phmlabs.com/test/showRequest.php
    #- { url: http://livetest.phmlabs.com/test/setCookie.php, post: {key: cookie_number_1, value: kekseeee } }
    - { url: /, get: {q: test, noj: 1 } }
+   
+# authentication:
+#  HttpBaseAuthentication:
+#   Username: Nils
+#   Password: "Langner"
+#  AllowCookies: true
+#  Pages:
+#   - https://basic.auth.de/
 
 # sessionname1:
 #  AllowCookies: true

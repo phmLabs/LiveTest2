@@ -2,6 +2,8 @@
 
 namespace Base\Http\Request;
 
+use Base\Security\Credentials;
+
 interface Request
 {
     const POST = 'post';
@@ -13,4 +15,6 @@ interface Request
     public function getMethod();
 
     public function getParameters();
+
+    public function setHttpBasicAuthenticationCredentials(Credentials $credentials);
 }

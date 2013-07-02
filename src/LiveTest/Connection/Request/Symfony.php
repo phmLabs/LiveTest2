@@ -5,6 +5,7 @@ namespace LiveTest\Connection\Request;
 use Base\Http\Request\Request as BaseRequest;
 use Base\Www\Uri;
 use Base\ArrayLists\Recursive;
+use Base\Security\Credentials;
 
 use LiveTest\Exception;
 
@@ -29,6 +30,8 @@ class Symfony implements Request
      * @var array $parameters
      */
     private $parameters;
+
+    private $httpBasicAuthenticationCredentials;
 
     /**
      * Constructor for new Requests.
@@ -194,5 +197,25 @@ class Symfony implements Request
     public function addParameter($key, $value)
     {
         $this->parameters[$key] = $value;
+    }
+
+    public function setHttpBasicAuthenticationCredentials(Credentials $credentials)
+    {
+        $this->httpBasicAuthenticationCredentials = $credentials;
+    }
+
+    public function hasHttpBasicAuthenticationCredentials()
+    {
+        return !is_null($this->httpBasicAuthenticationCredentials);
+    }
+
+    public function getHttpBasicAuthenticationCredentials()
+    {
+        if( $this->hasHttpBasicAuthenticationCredentials() ) {
+            return $this->httpBasicAuthenticationCredentials;
+        }else{
+            // @todo should be a specialized exception
+            throw new \Exception("Http basic authentication credentials not set.");
+        }
     }
 }

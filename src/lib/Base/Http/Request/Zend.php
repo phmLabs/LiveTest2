@@ -8,8 +8,6 @@ namespace Base\Http\Request;
 use Zend\Http\Request as ZendRequest;
 
 /**
- *
- *
  * @author Robert Schönthal <schoenthal.robert_FR@guj.de>
  */
 class Zend implements Request

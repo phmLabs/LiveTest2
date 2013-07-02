@@ -135,13 +135,7 @@ class Run
 
         try {
             $client = $this->httpClients[$sessionName];
-            // the client must be reset, otherwise curl dies
-            //$client->resetParameters();
-            $zendRequest = new Request();
-            $zendRequest->setMethod($request->getMethod());
-            $zendRequest->setUri($request->getUri());
-
-            $response = $client->request(new \Base\Http\Request\Zend($zendRequest));
+            $response = $client->request($request);
         } catch (\Zend\Http\Client\Exception\ExceptionInterface $e) {
             $connectionStatusValue = ConnectionStatus::ERROR;
             $connectionStatusMessage = $e->getMessage();

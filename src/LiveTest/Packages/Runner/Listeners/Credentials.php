@@ -26,7 +26,7 @@ class Credentials extends Base
         $output = $this->getEventDispatcher()->getOutput();
 
         $output->writeln('');
-        $output->writeln('LiveTest <comment>' . LIVETEST_VERSION .'</comment>');
+        $output->writeln('LiveTest2 <comment>(' . LIVETEST_VERSION .')</comment>');
         $output->writeln('');
     }
 }

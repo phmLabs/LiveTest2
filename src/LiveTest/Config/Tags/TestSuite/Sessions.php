@@ -9,6 +9,10 @@
 
 namespace LiveTest\Config\Tags\TestSuite;
 
+use LiveTest\ConfigurationException;
+
+use Base\Security\Credentials;
+
 use LiveTest\Connection\Session\Session;
 use LiveTest\Connection\Session\WarmUp\NullWarmUp;
 
@@ -27,10 +31,27 @@ use LiveTest\Connection\Session\WarmUp\NullWarmUp;
  * - /index.php
  *
  *
- * @author Mike Lohmann & Nils Langner
+ * @author Nils Langner
  */
 class Sessions extends Base
 {
+    /**
+     * This functions add the base authentication credentials to the session.
+     *
+     * @param Session $session
+     * @param array $sessionCredentials
+     * @throws ConfigurationException
+     */
+    private function setHttpBaseAutehtication(Session $session, $sessionCredentials)
+    {
+        $username = $sessionCredentials['Username'];
+        $password = $sessionCredentials['Password'];
+        if( $username == "" || $password == "" ) {
+            throw new ConfigurationException("Username and Password must be set when using http base authentication");
+        }
+        $session->setHttpBasicAuthenticationCredentials(new Credentials($username, $password));
+    }
+
     /**
      * @see LiveTest\Config\Tags\TestSuite.Base::doProcess()
      */
@@ -46,10 +67,15 @@ class Sessions extends Base
 
             $session = new Session($allowCookies);
 
+            if( array_key_exists('HttpBaseAuthentication', $sessionParameter)) {
+                $this->setHttpBaseAutehtication($session, $sessionParameter["HttpBaseAuthentication"]);
+            }
+
             $config->addSession($sessionName, $session);
             $config->setCurrentSession($sessionName);
 
             unset($sessionParameter['AllowCookies']);
+            unset($sessionParameter['HttpBaseAuthentication']);
 
             $parser = $this->getParser()->parse($sessionParameter, $config);
         }

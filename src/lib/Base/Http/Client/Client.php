@@ -9,6 +9,8 @@
 
 namespace Base\Http\Client;
 
+use Base\Security\Credentials;
+
 use Base\Http\Request\Request;
 
 interface Client

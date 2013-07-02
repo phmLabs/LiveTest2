@@ -100,6 +100,7 @@ class Properties
 
                 foreach ($session->getPageRequests() as $aPageRequest) {
                     if (!array_key_exists($sessionName, $this->testSets) || !array_key_exists($aPageRequest->getIdentifier(), $this->testSets[$sessionName])) {
+
                         $this->testSets[$sessionName][$aPageRequest->getIdentifier()] = new TestSet($aPageRequest);
                         $this->uriCount++;
                     }
