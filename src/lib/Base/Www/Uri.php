@@ -46,7 +46,7 @@ class Uri
          *       Used from:
          *       http://phpcentral.com/208-url-validation-in-php.html#post576
          */
-        $urlregex = "^((https?|ftp)\:\/\/)?";
+        $urlregex = "^(((https?|ftp)\:)?\/\/)?";
 
         // USER AND PASS (optional)
         $urlregex .= "([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?";
@@ -94,6 +94,9 @@ class Uri
         // uri string is absolute
         if ((strpos($uriString, 'http://') !== FALSE) || (strpos($uriString, 'https://') !== FALSE)) {
             $uri = $uriString;
+        } elseif (strpos($uriString, '//') === 0) {
+            // url string gives no protocol, which means the same protocol as current page should be used
+            $uri = $this->getProtocol().":".$uriString;
         } elseif (strpos($uriString, '/') === 0) {
             // uri string is relative to base uri
             $uri = $this->concatUriTerms($this->getDomain(), $uriString);
@@ -178,5 +181,22 @@ class Uri
         }
 
         return $this->uri;
+    }
+    
+    /**
+     * retrieve appropriate protocol or scheme (e.g. http:)
+     * Note: Colon has to be added on receiving end to construct a valid url
+     * 
+     * @return String $scheme
+     */
+    public function getProtocol() 
+    {
+      $parsedUri = parse_url($this->uri);
+      $scheme = "";
+      if (array_key_exists('scheme', $parsedUri)) {
+        $scheme = $parsedUri['scheme'];
+      }
+      
+      return $scheme;
     }
 }
