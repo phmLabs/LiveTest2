@@ -10,8 +10,10 @@ class UseSessions extends Base
     protected function doProcess(\LiveTest\Config\TestSuite $config, $sessionNames)
     {
         $testCaseConfig = $config->getCurrentTestCaseConfig();
-        foreach ($sessionNames as $sessionName) {
-            $testCaseConfig->addSession($sessionName);
+        if (is_array($sessionsNames) ) {
+            foreach ($sessionNames as $sessionName) {
+                $testCaseConfig->addSession($sessionName);
+            }
         }
     }
 }
