@@ -67,7 +67,7 @@ class Document
 
     public function getExternalDependencies($uri = null)
     {
-        $pattern = '/[^\'](<link|<script).*(href|src)=["\']([\S]+)[\'"][^\']/i';
+        $pattern = '/[^\'](<link|<script).*(href|src)=["\']([\S]+\.[css|js]+[?\S]*)[\'"][^\']/i';
         $result = array();
 
         $matches = array();
