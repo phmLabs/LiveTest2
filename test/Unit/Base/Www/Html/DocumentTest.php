@@ -14,30 +14,17 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
   protected $doc;
   protected $docEmpty;
   
-  private $docSource = <<<EODOC
-<!DOCTYPE html>
-<html>
-  <head>    
-    <title>Some title</title>    	
-    <meta property="og:site_name" content="Doma.in" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="canonical" href="http://some.doma.in" />
-    <link rel="alternate" href="http://m.doma.in" media="only screen and (max-width: 640px)" />
-    <link rel="image_src" href="http://some.doma.in/images/picture.jpg" /> 
-    <link rel="alternate" type="application/rss+xml" title="Doma.in Feed" href="http://some.doma.in/feed.rss" />            
-    <link rel="stylesheet" type="text/css" media="all" href="http://some.doma.in/style/resource.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="http://some.doma.in/style/another_resource.css" />
-    <script type="text/javascript" src="http://some.doma.in/scripts/script.js"></script>
-    <script src="http://some.doma.in/scripts/more_script.js"></script>
-  </head>
-  <body>
-    Some content.
-  </body>
-</html>
-EODOC;
+  private $docSource;
   
   protected function setUp()
   {
+    $fixtureDir = __DIR__ . '/fixtures';
+
+    if (file_exists($fixtureDir . '/document.html')) {
+      $this->docSource = file_get_contents(
+          $fixtureDir . '/document.html'
+      );
+    }
     $this->docEmpty = new Document('');
 
     $this->doc = new Document( $this->docSource );
@@ -79,9 +66,9 @@ EODOC;
   public function testGetExternalDependencies()
   {
     $expectedValues = array(
-        'http://some.doma.in/style/resource.css',
+        'http://some.doma.in/style/resource.css?cacheBuster=9',
         'http://some.doma.in/style/another_resource.css',
-        'http://some.doma.in/scripts/script.js',
+        'http://some.doma.in/scripts/script.js?cache=Xkllo908',
         'http://some.doma.in/scripts/more_script.js'
         );
     
