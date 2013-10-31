@@ -65,14 +65,16 @@ class Document
         return $this->content;
     }
 
-    public function getExternalDependencies($uri = null)
+    public function getExternalDependencies($fileExtensions = array('css','js'), $uri = null)
     {
-        $pattern = '/[^\'](<link|<script).*(href|src)=["\']([\S]+)[\'"][^\']/i';
-        $result = array();
+        if (!is_array($fileExtensions)) return false;
+        $extensions = implode('|', $fileExtensions);
+        $pattern = '/[^\'](?:<link|<script).*(?:href|src)=["\']([\S]+\.(?:'.$extensions.')+[?\S]*)[\'"][^\']/i';
 
         $matches = array();
         preg_match_all($pattern, $this->content, $matches);
-        $files = $matches[3];
+
+        $files = $matches[1];
 
         if (!is_null($uri)) {
             $uri = new Uri($uri);
