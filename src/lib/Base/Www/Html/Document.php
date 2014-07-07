@@ -77,6 +77,7 @@ class Document
         $files = $matches[1];
 
         if (!is_null($uri)) {
+            $uri = htmlspecialchars_decode($uri);
             $uri = new Uri($uri);
             $cleanFiles = array();
             foreach ($files as $file) {
