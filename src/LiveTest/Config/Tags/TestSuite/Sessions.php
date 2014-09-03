@@ -81,3 +81,4 @@ class Sessions extends Base
         }
     }
 }
+
