@@ -69,7 +69,7 @@ class Document
     {
         if (!is_array($fileExtensions)) return false;
         $extensions = implode('|', $fileExtensions);
-        $pattern = '/[^\'](?:<link|<script).*(?:href|src)=["\']([\S]+\.(?:'.$extensions.')+[?\S]*)[\'"][^\']/i';
+        $pattern = '/[^\'](?:<link|<script).*(?:href|src)=["\']([\S]+\.(?:'.$extensions.')+[?\S]*)[\'"][^\']/iU';
 
         $matches = array();
         preg_match_all($pattern, $this->content, $matches);
