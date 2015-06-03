@@ -18,11 +18,11 @@
     "scripts": {
         "post-update-cmd": [
             "echo apply dirty patch hack until https://github.com/zendframework/zf2/issues/4039 is applied",
-            "cd vendor/zendframework/zend-http/Zend/Http/ && patch --forward --batch -p1 < ../../../../../set_cookie.patch"
+            "cd vendor/zendframework/zend-http/src/Header/ && patch -u SetCookie.php < ../../../../../set_cookie.patch"
         ],
         "post-install-cmd": [
             "echo apply dirty patch hack until https://github.com/zendframework/zf2/issues/4039 is applied",
-            "cd vendor/zendframework/zend-http/Zend/Http/ && patch --forward --batch -p1 < ../../../../../set_cookie.patch"
+            "cd vendor/zendframework/zend-http/src/Header/ && patch -u SetCookie.php < ../../../../../set_cookie.patch"
         ]
     },
 
