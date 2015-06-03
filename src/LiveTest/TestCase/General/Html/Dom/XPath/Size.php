@@ -36,7 +36,7 @@ class Size extends TestCase
     public function init($xpath, $minSize = null, $maxSize = null)
     {
         if (is_null($minSize) && is_null($maxSize)) {
-            throw new ConfigurationException('Neither minSoize nor maxSize is set.');
+            throw new ConfigurationException('Neither minSize nor maxSize is set.');
         }
 
         $this->minSize = $minSize;
