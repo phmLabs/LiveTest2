@@ -22,7 +22,7 @@ class Yaml extends ZendConfig implements Config
 
             $this->checkIfFilenameIsFile();
 
-            $content = SymfonyYaml::parse($this->filename);
+            $content = SymfonyYaml::parse(file_get_contents($this->filename));
 
             if (is_null($content)) {
                 $content = array();
