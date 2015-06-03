@@ -37,6 +37,8 @@ class MinCount extends TestCase
 {
     private $xpath;
 
+    private $count;
+
     /**
      * Sets the xpaths to be checked
      *
@@ -49,20 +51,7 @@ class MinCount extends TestCase
     public function init($xpath, $count)
     {
         $this->xpath = $xpath;
-
-        if (!is_null($xpath)) {
-            if (is_array($xpath)) {
-                throw new InvalidArgumentException('The xpath parameter must be a string.', 'xpath', null, null);
-            }
-            $this->xpaths = array($xpath);
-        } elseif (!is_null($xpaths)) {
-            if (!is_array($xpaths)) {
-                throw new InvalidArgumentException('The xpaths parameter must be an array', 'xpaths', null, null);
-            }
-            $this->xpaths = $xpaths;
-        } else {
-            throw new ConfigurationException('Neither xpath nor xpaths parameter is set.');
-        }
+        $this->count = $count;
     }
 
     /**
@@ -75,11 +64,9 @@ class MinCount extends TestCase
      */
     protected function doXPathTest(DOMXPath $domXPath)
     {
-        foreach ($this->xpaths as $xpath) {
-            $elements = $domXPath->query($xpath);
-            if ($elements->length == 0) {
-                throw new Exception('The given xpath ("' . $xpath . '") was not found.', $xpath);
-            }
+        $elements = $domXPath->query($this->xpath);
+        if ($elements->length < $this->count) {
+            throw new Exception('The given xpath ("' . $this->xpath . '") was not found ' . $this->count . ' times (' . $elements->length . ' elements found).', $this->xpath);
         }
     }
 }
